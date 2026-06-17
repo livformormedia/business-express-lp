@@ -196,7 +196,7 @@ const Hero = () => {
       <div className="container mx-auto px-5 md:px-12 relative pt-7 md:pt-12 pb-12 md:pb-16 max-w-6xl">
         {/* header: copy + illustration */}
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          <div className="text-center lg:text-right order-1">
+          <div className="text-center lg:text-right order-2 lg:order-1">
             <Reveal>
               <div className="inline-flex items-center gap-2 rounded-full bg-brand-orangeSoft text-brand-orangeDark px-4 py-1.5 text-sm md:text-base font-display font-bold mb-5">
                 <Sparkles size={16} /> {V.kicker}
@@ -233,7 +233,7 @@ const Hero = () => {
               </div>
             </Reveal>
           </div>
-          <div className="order-2 relative">
+          <div className="order-1 lg:order-2 relative">
             {/* soft glow stage — adds depth so the photos don't float on flat white */}
             <div aria-hidden className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div className="w-[90%] aspect-square rounded-full blur-2xl" style={{ background: 'radial-gradient(circle, rgba(253,227,214,0.95), rgba(255,179,140,0.22) 55%, transparent 72%)' }} />
