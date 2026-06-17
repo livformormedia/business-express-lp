@@ -454,7 +454,9 @@ const FinalCTA = () => (
     <div className="container mx-auto px-5 md:px-12 max-w-5xl relative">
       <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
         <Reveal y={0} className="text-center md:text-right">
-          <img src={CHAR} alt="" aria-hidden className="w-[60%] max-w-[260px] mx-auto md:mx-0 mb-5 drop-shadow-xl" draggable={false} />
+          <div className="inline-block bg-white rounded-[28px] p-3 md:p-4 shadow-xl mb-5">
+            <img src={CHAR} alt="" aria-hidden className="w-[160px] md:w-[210px] block" draggable={false} />
+          </div>
           <h2 className="font-display font-bold leading-[1.05] mb-3" style={{ fontSize: 'clamp(2rem, 4.4vw, 3.4rem)' }}>סוף החודש הבא יכול להיראות אחרת.</h2>
           <p className="text-white/90 font-display font-bold text-lg md:text-xl mb-5">28–31.6 · 20:00 בערב · בלייב · ללא עלות</p>
           <div className="flex justify-center md:justify-start"><CountdownChip tone="dark" /></div>
