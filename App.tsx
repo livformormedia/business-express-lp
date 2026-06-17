@@ -104,7 +104,9 @@ const RegistrationForm: React.FC<{ id: string }> = ({ id }) => {
     const payload = { name: name.trim(), email: email.trim().toLowerCase(), phone: phone.trim(), challenge_date: '2026-06-28', challenge_time: '20:00', timestamp_iso: new Date().toISOString(), ...tracking };
     try {
       try { const fbq = (window as any).fbq; if (typeof fbq === 'function') fbq('track', 'Lead', { value: 0, currency: 'ILS', content_name: 'Esek LeKulam 4-Day Free Challenge' }, { eventID: eventId }); } catch { /* ignore */ }
-      fetch(MAKE_WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ event_type: 'lead', ...payload, fb_event_id: eventId, consent_marketing: consent, consent_at: new Date().toISOString() }) }).catch(() => {});
+      const leadBody = JSON.stringify({ event_type: 'lead', ...payload, fb_event_id: eventId, consent_marketing: consent, consent_at: new Date().toISOString() });
+      fetch(MAKE_WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: leadBody }).catch(() => {});
+      fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: leadBody }).catch(() => {});
       setSubmitting(false); setDone(true);
     } catch (err: any) { setSubmitting(false); setError(err?.message ? `שגיאה: ${err.message}` : 'שגיאה לא צפויה. נסו שוב.'); }
   };
