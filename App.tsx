@@ -2,17 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import {
   CheckCircle2, XCircle, ChevronsLeft, Loader2, Plus, Minus,
-  Calendar, Clock, Video, BadgeCheck, Wallet, ArrowLeft,
+  CalendarDays, Clock3, Video, Radio,
 } from 'lucide-react';
 
 /* ============================================================
-   עסק לכולם — drenched dark + orange redesign.
-   Brand-only inheritance: Philosof/Almoni fonts + brand colors.
-   Copy = locked Section C. Free lead-gen, no payment.
+   עסק לכולם — bright / warm / minimal redesign.
+   Brand-only inheritance: Philosof/Almoni + brand colors.
+   Light base, orange surgical pops, friendly character,
+   time-based scarcity (live-only countdown). Copy = Section C.
    ============================================================ */
 
 const WORKSHOP_DATE_ISO = '2026-06-28T20:00:00+03:00';
 const MAKE_WEBHOOK_URL = 'https://hook.eu2.make.com/5glwvheb1iyca9vp947qvrva274g18vw';
+const CHAR = '/images/character.jpg';
 
 // ---- countdown ----
 const useCountdown = (target: string) => {
@@ -23,20 +25,16 @@ const useCountdown = (target: string) => {
       const diff = end - Date.now();
       if (diff <= 0) { setT({ days: 0, hours: 0, minutes: 0, seconds: 0 }); return; }
       setT({
-        days: Math.floor(diff / 86400000),
-        hours: Math.floor((diff % 86400000) / 3600000),
-        minutes: Math.floor((diff % 3600000) / 60000),
-        seconds: Math.floor((diff % 60000) / 1000),
+        days: Math.floor(diff / 86400000), hours: Math.floor((diff % 86400000) / 3600000),
+        minutes: Math.floor((diff % 3600000) / 60000), seconds: Math.floor((diff % 60000) / 1000),
       });
     };
-    tick();
-    const id = setInterval(tick, 1000);
-    return () => clearInterval(id);
+    tick(); const id = setInterval(tick, 1000); return () => clearInterval(id);
   }, [target]);
   return t;
 };
 
-// ---- tracking (UTMs + click-ids + meta) ----
+// ---- tracking ----
 const collectTrackingData = () => {
   const p = new URLSearchParams(window.location.search);
   return {
@@ -50,59 +48,62 @@ const collectTrackingData = () => {
 };
 
 // ---- motion reveal ----
-const Reveal: React.FC<{ children: React.ReactNode; delay?: number; y?: number; className?: string }> = ({ children, delay = 0, y = 28, className = '' }) => {
+const Reveal: React.FC<{ children: React.ReactNode; delay?: number; y?: number; className?: string }> = ({ children, delay = 0, y = 26, className = '' }) => {
   const reduce = useReducedMotion();
   return (
-    <motion.div
-      className={className}
-      initial={reduce ? false : { opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}
-    >
+    <motion.div className={className}
+      initial={reduce ? false : { opacity: 0, y }} whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.65, delay, ease: [0.16, 1, 0.3, 1] }}>
       {children}
     </motion.div>
   );
 };
 
-// ---- primary CTA ----
-const CTA: React.FC<{ label?: string; sub?: string; className?: string }> = ({ label = 'שריינו את המקום שלכם בחינם', sub, className = '' }) => (
-  <a href="#register-top"
-     className={`group inline-flex flex-col items-center gap-1.5 ${className}`}>
-    <span className="cta-pill inline-flex items-center gap-3 bg-brand-orange text-white rounded-full font-display font-bold border-2 border-brand-orangeDark px-9 md:px-12 py-4 md:py-5 text-lg md:text-2xl">
-      <ChevronsLeft size={28} strokeWidth={3} className="shrink-0 transition-transform group-hover:-translate-x-1" />
-      {label}
-    </span>
-    {sub && <span className="text-white/55 text-sm md:text-base">{sub}</span>}
+// ---- CTA ----
+const CTA: React.FC<{ label?: string; className?: string }> = ({ label = 'שריינו את המקום שלכם בחינם', className = '' }) => (
+  <a href="#register-top" className={`cta-pill group inline-flex items-center gap-3 bg-brand-orange text-white rounded-full font-display font-bold border-2 border-brand-orangeDark px-8 md:px-11 py-4 md:py-5 text-lg md:text-2xl ${className}`}>
+    <ChevronsLeft size={28} strokeWidth={3} className="shrink-0 transition-transform group-hover:-translate-x-1" />
+    {label}
   </a>
 );
 
-// ---- sticky countdown bar ----
-const CountdownBar = () => {
+// ---- live countdown chip (time-based scarcity, reused) ----
+const CountdownChip: React.FC<{ tone?: 'light' | 'dark' }> = ({ tone = 'light' }) => {
   const { days, hours, minutes, seconds } = useCountdown(WORKSHOP_DATE_ISO);
+  const base = tone === 'light' ? 'bg-white border-brand-creamDark text-brand-navy' : 'bg-white/15 border-white/25 text-white';
   const Cell = ({ n, l }: { n: number; l: string }) => (
-    <div className="flex flex-col items-center">
-      <span className="font-display font-bold text-xl md:text-2xl text-white tabular-nums leading-none">{n.toString().padStart(2, '0')}</span>
-      <span className="text-[10px] md:text-xs text-white/45 mt-0.5">{l}</span>
+    <div className="flex flex-col items-center min-w-[46px] md:min-w-[58px]">
+      <span className="font-display font-bold text-2xl md:text-3xl tabular-nums leading-none">{n.toString().padStart(2, '0')}</span>
+      <span className={`text-[10px] md:text-xs mt-1 ${tone === 'light' ? 'text-brand-muted' : 'text-white/60'}`}>{l}</span>
     </div>
   );
   return (
-    <div className="sticky top-0 z-40 bg-brand-navyDark/90 backdrop-blur border-b border-brand-orange/30">
-      <div className="container mx-auto px-4 md:px-12 py-2.5 flex items-center justify-center gap-4 md:gap-6">
-        <span className="text-white/70 font-display font-bold text-sm md:text-base whitespace-nowrap">האתגר מתחיל בעוד</span>
-        <div className="flex items-center gap-3 md:gap-5" dir="ltr">
-          <Cell n={days} l="ימים" /><span className="text-brand-orange font-bold">:</span>
-          <Cell n={hours} l="שעות" /><span className="text-brand-orange font-bold">:</span>
-          <Cell n={minutes} l="דקות" /><span className="text-brand-orange font-bold">:</span>
-          <Cell n={seconds} l="שניות" />
-        </div>
-      </div>
+    <div className={`inline-flex items-center gap-3 md:gap-4 rounded-2xl border px-4 md:px-6 py-3 shadow-sm ${base}`} dir="ltr">
+      <Cell n={days} l="ימים" /><span className="text-brand-orange font-bold text-xl">:</span>
+      <Cell n={hours} l="שעות" /><span className="text-brand-orange font-bold text-xl">:</span>
+      <Cell n={minutes} l="דקות" /><span className="text-brand-orange font-bold text-xl">:</span>
+      <Cell n={seconds} l="שניות" />
     </div>
   );
 };
 
-// ---- registration form (cream card; keeps webhook/UTM/pixel) ----
-const RegistrationForm: React.FC<{ id: string; tone?: 'onDark' | 'onOrange' }> = ({ id, tone = 'onDark' }) => {
+// ---- sticky top bar ----
+const TopBar = () => (
+  <div className="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-brand-creamDark">
+    <div className="container mx-auto px-4 md:px-12 py-2.5 flex items-center justify-between gap-3">
+      <div className="flex items-center gap-2.5 text-brand-navy font-display font-bold text-sm md:text-base">
+        <Radio size={18} className="text-brand-orange" />
+        <span>השידור החי מתחיל 28.6 · 20:00</span>
+      </div>
+      <a href="#register-top" className="hidden sm:inline-flex items-center gap-1.5 bg-brand-orange hover:bg-brand-orangeDark text-white px-5 py-2 rounded-full font-display font-bold text-sm transition-colors shadow-sm">
+        <ChevronsLeft size={16} strokeWidth={3} /> נרשמים בחינם
+      </a>
+    </div>
+  </div>
+);
+
+// ---- registration form (white card) ----
+const RegistrationForm: React.FC<{ id: string }> = ({ id }) => {
   const [name, setName] = useState(''); const [email, setEmail] = useState(''); const [phone, setPhone] = useState('');
   const [consent, setConsent] = useState(false); const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false); const [error, setError] = useState<string | null>(null);
@@ -116,73 +117,50 @@ const RegistrationForm: React.FC<{ id: string; tone?: 'onDark' | 'onOrange' }> =
     setSubmitting(true);
     const tracking = collectTrackingData();
     const eventId = `lead-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-    const payload = {
-      name: name.trim(), email: email.trim().toLowerCase(), phone: phone.trim(),
-      challenge_date: '2026-06-28', challenge_time: '20:00', timestamp_iso: new Date().toISOString(), ...tracking,
-    };
+    const payload = { name: name.trim(), email: email.trim().toLowerCase(), phone: phone.trim(), challenge_date: '2026-06-28', challenge_time: '20:00', timestamp_iso: new Date().toISOString(), ...tracking };
     try {
-      try {
-        const fbq = (window as any).fbq;
-        if (typeof fbq === 'function') fbq('track', 'Lead', { value: 0, currency: 'ILS', content_name: 'Esek LeKulam 4-Day Free Challenge' }, { eventID: eventId });
-      } catch { /* ignore */ }
-      fetch(MAKE_WEBHOOK_URL, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ event_type: 'lead', ...payload, fb_event_id: eventId, consent_marketing: consent, consent_at: new Date().toISOString() }),
-      }).catch(() => { /* swallow */ });
+      try { const fbq = (window as any).fbq; if (typeof fbq === 'function') fbq('track', 'Lead', { value: 0, currency: 'ILS', content_name: 'Esek LeKulam 4-Day Free Challenge' }, { eventID: eventId }); } catch { /* ignore */ }
+      fetch(MAKE_WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ event_type: 'lead', ...payload, fb_event_id: eventId, consent_marketing: consent, consent_at: new Date().toISOString() }) }).catch(() => { /* swallow */ });
       setSubmitting(false); setDone(true);
-    } catch (err: any) {
-      setSubmitting(false); setError(err?.message ? `שגיאה: ${err.message}` : 'שגיאה לא צפויה. נסו שוב.');
-    }
+    } catch (err: any) { setSubmitting(false); setError(err?.message ? `שגיאה: ${err.message}` : 'שגיאה לא צפויה. נסו שוב.'); }
   };
 
   return (
-    <div id={id} className="scroll-mt-24">
-      <div className="bg-brand-cream text-brand-navy rounded-[28px] p-6 md:p-9 shadow-2xl border border-black/5 max-w-xl mx-auto">
-        {done ? (
-          <div className="text-center py-6">
-            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-brand-orange flex items-center justify-center shadow-lg">
-              <CheckCircle2 size={36} className="text-white" strokeWidth={2.5} />
-            </div>
-            <h3 className="font-display font-bold text-2xl md:text-3xl mb-2">נרשמתם בהצלחה!</h3>
-            <p className="text-brand-muted text-base md:text-lg leading-relaxed">שלחנו לכם את כל הפרטים והקישור לזום למייל. נתראה ב-28.6 בשעה 20:00.</p>
+    <div id={id} className="scroll-mt-24 bg-white rounded-[26px] p-6 md:p-8 shadow-[0_18px_50px_rgba(26,26,46,0.10)] border border-brand-creamDark max-w-md w-full mx-auto">
+      {done ? (
+        <div className="text-center py-6">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-brand-orange flex items-center justify-center shadow-lg"><CheckCircle2 size={34} className="text-white" strokeWidth={2.5} /></div>
+          <h3 className="font-display font-bold text-2xl mb-2 text-brand-navy">נרשמתם בהצלחה!</h3>
+          <p className="text-brand-muted text-base leading-relaxed">שלחנו לכם את כל הפרטים והקישור לזום למייל. נתראה ב-28.6 בשעה 20:00.</p>
+        </div>
+      ) : (
+        <form onSubmit={onSubmit} noValidate className="space-y-3.5">
+          <div className="text-center mb-1">
+            <h3 className="font-display font-bold text-2xl text-brand-navy leading-tight">מוכנים להתחיל?</h3>
+            <p className="text-brand-muted text-sm mt-1">השאירו פרטים ושריינו מקום במיני קורס "עסק לכולם", בחינם.</p>
           </div>
-        ) : (
-          <form onSubmit={onSubmit} noValidate className="space-y-3.5">
-            <div className="text-center mb-1">
-              <h3 className="font-display font-bold text-2xl md:text-3xl leading-tight">מוכנים להתחיל?</h3>
-              <p className="text-brand-muted text-sm md:text-base mt-1">השאירו פרטים ושריינו מקום במיני קורס "עסק לכולם", בחינם.</p>
+          {[
+            { l: 'שם מלא', v: name, set: setName, t: 'text', ac: 'name', ph: 'ישראל ישראלי', ltr: false },
+            { l: 'אימייל', v: email, set: setEmail, t: 'email', ac: 'email', ph: 'name@example.com', ltr: true },
+            { l: 'טלפון', v: phone, set: setPhone, t: 'tel', ac: 'tel', ph: '050-1234567', ltr: true },
+          ].map((f) => (
+            <div key={f.l}>
+              <label className="block text-sm font-display font-bold mb-1.5 text-brand-navy">{f.l}</label>
+              <input type={f.t} autoComplete={f.ac} inputMode={f.t === 'email' ? 'email' : f.t === 'tel' ? 'tel' : undefined as any} dir={f.ltr ? 'ltr' : undefined} value={f.v} onChange={(e) => f.set(e.target.value)} disabled={submitting} placeholder={f.ph}
+                className={`w-full px-4 py-3 text-base rounded-xl border-2 border-brand-creamDark bg-brand-cream/40 focus:bg-white focus:border-brand-orange focus:outline-none transition-colors disabled:opacity-60 ${f.ltr ? 'text-right' : ''}`} />
             </div>
-            <div>
-              <label className="block text-sm font-display font-bold mb-1.5">שם מלא</label>
-              <input type="text" autoComplete="name" value={name} onChange={(e) => setName(e.target.value)} disabled={submitting}
-                className="w-full px-4 py-3 text-base rounded-xl border-2 border-brand-creamDark bg-white focus:border-brand-orange focus:outline-none transition-colors disabled:opacity-60" placeholder="ישראל ישראלי" />
-            </div>
-            <div>
-              <label className="block text-sm font-display font-bold mb-1.5">אימייל</label>
-              <input type="email" inputMode="email" autoComplete="email" dir="ltr" value={email} onChange={(e) => setEmail(e.target.value)} disabled={submitting}
-                className="w-full px-4 py-3 text-base text-right rounded-xl border-2 border-brand-creamDark bg-white focus:border-brand-orange focus:outline-none transition-colors disabled:opacity-60" placeholder="name@example.com" />
-            </div>
-            <div>
-              <label className="block text-sm font-display font-bold mb-1.5">טלפון</label>
-              <input type="tel" inputMode="tel" autoComplete="tel" dir="ltr" value={phone} onChange={(e) => setPhone(e.target.value)} disabled={submitting}
-                className="w-full px-4 py-3 text-base text-right rounded-xl border-2 border-brand-creamDark bg-white focus:border-brand-orange focus:outline-none transition-colors disabled:opacity-60" placeholder="050-1234567" />
-            </div>
-            <label className="flex items-start gap-2.5 cursor-pointer select-none pt-0.5">
-              <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} disabled={submitting}
-                className="mt-1 w-5 h-5 accent-brand-orange shrink-0 cursor-pointer" />
-              <span className="text-xs text-brand-navy/75 leading-snug">
-                אני מאשר/ת קבלת תכנים שיווקיים ועדכונים מ"עסק לכולם" בכל ערוצי התקשורת (אימייל, SMS, WhatsApp ושיחה), בהתאם ל<a href="/privacy.html" target="_blank" rel="noopener" className="underline text-brand-orange font-bold">מדיניות הפרטיות</a>. ניתן להסיר רישום בכל עת.
-              </span>
-            </label>
-            {error && <div className="bg-red-50 border-2 border-red-300 text-red-800 rounded-xl px-4 py-2.5 text-sm font-display font-bold text-center">{error}</div>}
-            <button type="submit" disabled={submitting}
-              className="cta-pill w-full flex items-center justify-center gap-3 bg-brand-orange text-white rounded-full font-display font-bold border-2 border-brand-orangeDark px-7 py-4 text-lg md:text-xl disabled:opacity-70 disabled:cursor-wait">
-              {submitting ? <><Loader2 size={22} className="animate-spin" /> רושמים אתכם...</> : <><ChevronsLeft size={26} strokeWidth={3} /> אני רוצה להצטרף</>}
-            </button>
-            <p className="text-center text-brand-muted text-xs">ללא עלות · אישור והקישור לזום נשלחים מיד למייל</p>
-          </form>
-        )}
-      </div>
+          ))}
+          <label className="flex items-start gap-2.5 cursor-pointer select-none pt-0.5">
+            <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} disabled={submitting} className="mt-1 w-5 h-5 accent-brand-orange shrink-0 cursor-pointer" />
+            <span className="text-xs text-brand-navy/75 leading-snug">אני מאשר/ת קבלת תכנים שיווקיים ועדכונים מ"עסק לכולם" בכל ערוצי התקשורת (אימייל, SMS, WhatsApp ושיחה), בהתאם ל<a href="/privacy.html" target="_blank" rel="noopener" className="underline text-brand-orange font-bold">מדיניות הפרטיות</a>. ניתן להסיר רישום בכל עת.</span>
+          </label>
+          {error && <div className="bg-red-50 border-2 border-red-200 text-red-700 rounded-xl px-4 py-2.5 text-sm font-display font-bold text-center">{error}</div>}
+          <button type="submit" disabled={submitting} className="cta-pill w-full flex items-center justify-center gap-3 bg-brand-orange text-white rounded-full font-display font-bold border-2 border-brand-orangeDark px-7 py-4 text-lg disabled:opacity-70 disabled:cursor-wait">
+            {submitting ? <><Loader2 size={22} className="animate-spin" /> רושמים אתכם...</> : <><ChevronsLeft size={26} strokeWidth={3} /> אני רוצה להצטרף</>}
+          </button>
+          <p className="text-center text-brand-muted text-xs">ללא עלות · אישור והקישור לזום נשלחים מיד למייל</p>
+        </form>
+      )}
     </div>
   );
 };
@@ -191,63 +169,71 @@ const RegistrationForm: React.FC<{ id: string; tone?: 'onDark' | 'onOrange' }> =
 const Hero = () => {
   const reduce = useReducedMotion();
   return (
-    <section className="relative overflow-hidden bg-brand-navyDark">
-      {/* orange ambient glow */}
+    <section className="relative overflow-hidden bg-white">
       <div aria-hidden className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-1/3 right-[-10%] w-[70%] h-[80%] rounded-full opacity-40 blur-[120px]"
-          style={{ background: 'radial-gradient(circle, rgba(224,87,38,0.55), transparent 65%)' }} />
-        <div className="absolute bottom-[-20%] left-[-10%] w-[55%] h-[60%] rounded-full opacity-25 blur-[120px]"
-          style={{ background: 'radial-gradient(circle, rgba(255,115,64,0.5), transparent 65%)' }} />
+        <div className="absolute -top-24 right-[-8%] w-[55%] h-[70%] rounded-full opacity-60 blur-[110px]" style={{ background: 'radial-gradient(circle, rgba(253,227,214,0.9), transparent 65%)' }} />
       </div>
-
-      <div className="container mx-auto px-5 md:px-12 relative pt-10 md:pt-16 pb-12 md:pb-20 max-w-6xl">
-        <Reveal>
-          <div className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/15 px-4 py-1.5 text-white/80 text-sm md:text-base font-display font-bold mb-6">
-            <span className="w-2 h-2 rounded-full bg-brand-orange animate-pulse" />
-            מיני קורס לייב לשכירים ומשפחות · ללא עלות
+      <div className="container mx-auto px-5 md:px-12 relative pt-8 md:pt-12 pb-10 md:pb-16 max-w-6xl">
+        <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-6 lg:gap-10 items-center">
+          {/* text (right in RTL) */}
+          <div className="text-center lg:text-right order-2 lg:order-1">
+            <Reveal>
+              <div className="inline-flex items-center gap-2 rounded-full bg-brand-orangeSoft text-brand-orangeDark px-4 py-1.5 text-sm md:text-base font-display font-bold mb-5">
+                <span className="w-2 h-2 rounded-full bg-brand-orange animate-pulse" /> מיני קורס לייב לשכירים ומשפחות · ללא עלות
+              </div>
+            </Reveal>
+            <Reveal delay={0.05}>
+              <h1 className="font-display font-bold text-brand-navy leading-[1.05] mb-5" style={{ fontSize: 'clamp(2.1rem, 4.6vw, 3.9rem)', textWrap: 'balance' as any }}>
+                איך להגדיל הכנסה למשפחה <span className="text-brand-orange">בלי לסכן שקל</span>, ללמוד מקצוע חדש או להתפטר מהעבודה
+              </h1>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <p className="text-brand-muted leading-relaxed mb-7 max-w-xl mx-auto lg:mx-0" style={{ fontSize: 'clamp(1.05rem, 1.8vw, 1.35rem)' }}>
+                מיני קורס ללא עלות בן 4 ימים בלייב, לשכירים ומשפחות שמבינות שלייצר הכנסה נוספת זו לא המלצה אלא חובה ב-2026.
+              </p>
+            </Reveal>
+            <Reveal delay={0.16}>
+              <div className="flex flex-wrap justify-center lg:justify-start items-center gap-x-5 gap-y-2 mb-7 text-brand-navy font-display font-bold text-base md:text-lg">
+                <span className="inline-flex items-center gap-2"><CalendarDays size={19} className="text-brand-orange" /> 28–31.6</span>
+                <span className="text-brand-creamDark">·</span>
+                <span className="inline-flex items-center gap-2"><Clock3 size={19} className="text-brand-orange" /> 20:00 בערב</span>
+                <span className="text-brand-creamDark">·</span>
+                <span className="inline-flex items-center gap-2"><Video size={19} className="text-brand-orange" /> בלייב בזום</span>
+              </div>
+            </Reveal>
+            <Reveal delay={0.22}>
+              <div className="flex flex-col items-center lg:items-start gap-3">
+                <CTA />
+                <span className="text-brand-muted text-sm md:text-base">בהנחיית אפרת קולברג וארזית נחום</span>
+              </div>
+            </Reveal>
           </div>
-        </Reveal>
+          {/* character + countdown (left in RTL) */}
+          <div className="order-1 lg:order-2">
+            <Reveal y={0}>
+              <div className="relative">
+                <motion.img src={CHAR} alt="הדמות של עסק לכולם מזמינה אתכם להצטרף" className="w-[72%] sm:w-[58%] lg:w-[88%] max-w-md mx-auto block select-none"
+                  initial={reduce ? false : { opacity: 0, scale: 0.94 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }} draggable={false} />
+                <div className="mt-2 flex flex-col items-center gap-2">
+                  <p className="text-brand-muted text-sm font-display font-bold">השידור החי מתחיל בעוד</p>
+                  <CountdownChip />
+                  <p className="text-brand-orange text-xs md:text-sm font-display font-bold">שידור חי בלבד · בלי הקלטה · מי שלא מגיע, מפספס</p>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </div>
 
-        <Reveal delay={0.05}>
-          <h1 className="font-display font-bold text-white leading-[1.04] mb-5" style={{ fontSize: 'clamp(2.2rem, 5.2vw, 4.4rem)', textWrap: 'balance' as any }}>
-            איך להגדיל הכנסה למשפחה <span className="text-brand-orange">בלי לסכן שקל</span>, ללמוד מקצוע חדש או להתפטר מהעבודה
-          </h1>
-        </Reveal>
-
+        {/* hero bullets row */}
         <Reveal delay={0.1}>
-          <p className="text-white/70 leading-relaxed mb-7 max-w-2xl" style={{ fontSize: 'clamp(1.05rem, 2vw, 1.5rem)' }}>
-            מיני קורס ללא עלות בן 4 ימים בלייב, לשכירים ומשפחות שמבינות שלייצר הכנסה נוספת זו לא המלצה אלא חובה ב-2026.
-          </p>
-        </Reveal>
-
-        <Reveal delay={0.15}>
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 mb-8 text-white/85 font-display font-bold text-base md:text-xl">
-            <span className="inline-flex items-center gap-2"><Calendar size={20} className="text-brand-orange" /> 28–31.6</span>
-            <span className="text-white/25">·</span>
-            <span className="inline-flex items-center gap-2"><Clock size={20} className="text-brand-orange" /> 20:00 בערב</span>
-            <span className="text-white/25">·</span>
-            <span className="inline-flex items-center gap-2"><Video size={20} className="text-brand-orange" /> בלייב בזום</span>
-          </div>
-        </Reveal>
-
-        <Reveal delay={0.2}>
-          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-            <CTA />
-            <span className="text-white/55 text-sm md:text-base">בהנחיית אפרת קולברג וארזית נחום</span>
-          </div>
-        </Reveal>
-
-        {/* hero bullets as a clean row, not cards */}
-        <Reveal delay={0.28}>
-          <ul className="mt-11 grid sm:grid-cols-3 gap-x-8 gap-y-4 max-w-4xl border-t border-white/10 pt-7">
+          <ul className="mt-10 md:mt-12 grid sm:grid-cols-3 gap-x-8 gap-y-4 border-t border-brand-creamDark pt-7">
             {[
               'תגלו איך לייצר הכנסה נוספת מהניסיון והידע שכבר קיים אצלכם, בלי ללמוד מקצוע חדש.',
               'תגלו איך לעשות את זה בלי לסכן שקל אחד.',
               'ללא עלות, ללא הגבלת מקומות, סה״כ 30 דקות הדרכה ביום, למשך 4 ימים.',
             ].map((t, i) => (
-              <li key={i} className="flex items-start gap-3 text-white/75 leading-snug text-sm md:text-base">
-                <CheckCircle2 size={20} className="text-brand-orange shrink-0 mt-0.5" strokeWidth={2.5} />
-                <span>{t}</span>
+              <li key={i} className="flex items-start gap-3 text-brand-ink leading-snug text-sm md:text-base">
+                <CheckCircle2 size={20} className="text-brand-orange shrink-0 mt-0.5" strokeWidth={2.5} /><span>{t}</span>
               </li>
             ))}
           </ul>
@@ -257,12 +243,12 @@ const Hero = () => {
   );
 };
 
-// ---- promise band (big editorial moment) ----
+// ---- promise ----
 const PromiseBand = () => (
-  <section className="bg-brand-navy py-16 md:py-24">
+  <section className="bg-brand-cream py-16 md:py-24">
     <div className="container mx-auto px-5 md:px-12 max-w-4xl text-center">
       <Reveal>
-        <p className="font-display font-bold text-white leading-[1.15]" style={{ fontSize: 'clamp(1.7rem, 4vw, 3.2rem)', textWrap: 'balance' as any }}>
+        <p className="font-display font-bold text-brand-navy leading-[1.18]" style={{ fontSize: 'clamp(1.6rem, 3.6vw, 3rem)', textWrap: 'balance' as any }}>
           מה שאתם כבר יודעים לעשות <span className="text-brand-orange">שווה כסף.</span> הרבה יותר ממה שהבוס משלם לכם עליו. ב-4 ערבים נראה לכם איך להפוך את זה ל-5,000–8,000 ש"ח בחודש.
         </p>
       </Reveal>
@@ -270,74 +256,71 @@ const PromiseBand = () => (
   </section>
 );
 
-// ---- 4 days (numbered timeline, not card grid) ----
+// ---- 4 days ----
 const DAYS = [
   { n: '1', t: 'זיהוי הכסף שמסתתר אצלך', d: 'איך לזהות תוך 60 דקות איזה ידע שלך יכול להפוך להכנסה נוספת.' },
   { n: '2', t: 'יותר כסף, פחות שעות', d: 'איך להפוך את הידע שלך למוצר שמוכנים לשלם לך עליו פי 5 ממה שהבוס שלך משלם לך.' },
   { n: '3', t: 'הלקוחות הראשונים', d: 'איך להביא את הלקוח הראשון בלי אתר ובלי לשים שקל אחד על מודעות.' },
   { n: '4', t: 'מודל 8 הצעדים', d: 'להכנסה נוספת יציבה של 5,000–8,000 ש"ח בחודש, צעד אחר צעד.' },
 ];
-const DaysTimeline = () => (
-  <section id="days" className="bg-brand-navyDark py-16 md:py-24">
+const DaysList = () => (
+  <section className="bg-white py-16 md:py-24">
     <div className="container mx-auto px-5 md:px-12 max-w-4xl">
       <Reveal>
-        <h2 className="font-display font-bold text-white text-center leading-[1.05] mb-12 md:mb-16" style={{ fontSize: 'clamp(2rem, 4.5vw, 3.6rem)' }}>
+        <h2 className="font-display font-bold text-brand-navy text-center leading-[1.05] mb-12 md:mb-16" style={{ fontSize: 'clamp(2rem, 4.2vw, 3.4rem)' }}>
           מה נלמד ב-<span className="text-brand-orange">4 הימים?</span>
         </h2>
       </Reveal>
-      <div className="relative">
-        <div aria-hidden className="absolute top-2 bottom-2 right-7 md:right-8 w-px bg-gradient-to-b from-brand-orange/60 via-brand-orange/25 to-transparent" />
-        <div className="space-y-7 md:space-y-9">
-          {DAYS.map((day, i) => (
-            <Reveal key={day.n} delay={i * 0.07}>
-              <div className="flex items-start gap-5 md:gap-7">
-                <div className="relative z-10 shrink-0 w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-brand-orange text-white flex items-center justify-center font-display font-bold text-2xl md:text-3xl shadow-[0_8px_24px_rgba(224,87,38,0.4)]">
-                  {day.n}
-                </div>
-                <div className="pt-1.5">
-                  <div className="text-brand-orangeLight font-display font-bold text-sm md:text-base mb-1">יום {day.n}</div>
-                  <h3 className="font-display font-bold text-white text-xl md:text-3xl mb-1.5 leading-snug">{day.t}</h3>
-                  <p className="text-white/65 text-base md:text-lg leading-relaxed max-w-2xl">{day.d}</p>
-                </div>
+      <div className="space-y-4 md:space-y-5">
+        {DAYS.map((day, i) => (
+          <Reveal key={day.n} delay={i * 0.06}>
+            <div className="flex items-start gap-5 md:gap-7 rounded-2xl p-5 md:p-7 bg-brand-cream/60 hover:bg-brand-cream transition-colors">
+              <div className="shrink-0 w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-brand-orange text-white flex items-center justify-center font-display font-bold text-2xl md:text-3xl shadow-[0_8px_22px_rgba(224,87,38,0.32)]">{day.n}</div>
+              <div className="pt-0.5">
+                <div className="text-brand-orange font-display font-bold text-sm mb-1">יום {day.n}</div>
+                <h3 className="font-display font-bold text-brand-navy text-xl md:text-2xl mb-1.5 leading-snug">{day.t}</h3>
+                <p className="text-brand-muted text-base md:text-lg leading-relaxed">{day.d}</p>
               </div>
-            </Reveal>
-          ))}
-        </div>
+            </div>
+          </Reveal>
+        ))}
       </div>
-      <Reveal delay={0.1}>
-        <div className="text-center mt-14"><CTA /></div>
-      </Reveal>
+      <Reveal delay={0.1}><div className="text-center mt-12"><CTA /></div></Reveal>
     </div>
   </section>
 );
 
-// ---- inline form section on dark ----
+// ---- inline form on cream ----
 const FormSection: React.FC<{ id: string }> = ({ id }) => (
-  <section className="bg-brand-navy py-14 md:py-20">
+  <section className="bg-brand-cream py-14 md:py-20">
     <div className="container mx-auto px-5 md:px-12">
-      <Reveal><RegistrationForm id={id} /></Reveal>
+      <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center max-w-4xl mx-auto">
+        <Reveal y={0} className="hidden md:block">
+          <img src={CHAR} alt="" aria-hidden className="w-[70%] max-w-xs mx-auto" draggable={false} />
+        </Reveal>
+        <Reveal><RegistrationForm id={id} /></Reveal>
+      </div>
     </div>
   </section>
 );
 
-// ---- risk reversal (orange drench band) ----
-const RiskBand = () => (
-  <section className="relative bg-brand-orange text-white py-16 md:py-24 overflow-hidden">
-    <div aria-hidden className="absolute inset-0 opacity-[0.12]" style={{ backgroundImage: 'radial-gradient(circle at 80% 20%, #fff 0%, transparent 40%)' }} />
-    <div className="container mx-auto px-5 md:px-12 max-w-5xl relative">
+// ---- risk reversal (soft, warm) ----
+const RiskReversal = () => (
+  <section className="bg-white py-16 md:py-24">
+    <div className="container mx-auto px-5 md:px-12 max-w-5xl">
       <Reveal>
-        <h2 className="font-display font-bold leading-[1.05] mb-10 md:mb-12 text-center" style={{ fontSize: 'clamp(2rem, 4.5vw, 3.6rem)' }}>מה יש לכם להפסיד?</h2>
+        <h2 className="font-display font-bold text-brand-navy text-center leading-[1.05] mb-10 md:mb-12" style={{ fontSize: 'clamp(2rem, 4.2vw, 3.4rem)' }}>מה יש לכם להפסיד?</h2>
       </Reveal>
       <div className="grid md:grid-cols-2 gap-5 md:gap-7">
         <Reveal>
-          <div className="h-full rounded-3xl bg-brand-navyDark/15 border border-white/25 p-7 md:p-9">
-            <div className="font-display font-bold text-white/80 text-lg md:text-xl mb-2">במקרה הכי גרוע?</div>
-            <p className="text-white/95 text-lg md:text-2xl leading-relaxed font-display font-bold">תגיעו לשידור הראשון, תחשבו שזה חרטה ברטה, ותמשיכו בחייכם.</p>
+          <div className="h-full rounded-3xl bg-brand-cream p-7 md:p-9 border border-brand-creamDark">
+            <div className="font-display font-bold text-brand-muted text-lg mb-2">במקרה הכי גרוע?</div>
+            <p className="text-brand-navy text-lg md:text-2xl leading-relaxed font-display font-bold">תגיעו לשידור הראשון, תחשבו שזה חרטה ברטה, ותמשיכו בחייכם.</p>
           </div>
         </Reveal>
         <Reveal delay={0.08}>
-          <div className="h-full rounded-3xl bg-brand-navyDark p-7 md:p-9 shadow-xl">
-            <div className="font-display font-bold text-brand-orangeLight text-lg md:text-xl mb-2">במקרה הכי טוב?</div>
+          <div className="h-full rounded-3xl bg-brand-orange text-white p-7 md:p-9 shadow-[0_18px_45px_rgba(224,87,38,0.3)]">
+            <div className="font-display font-bold text-white/85 text-lg mb-2">במקרה הכי טוב?</div>
             <p className="text-white text-lg md:text-2xl leading-relaxed font-display font-bold">תבינו איך להשתמש בכישורים והניסיון שכבר יש לכם בכדי לייצר הכנסה של 5,000–8,000 ש"ח שתשמש לכם ולמשפחה שלכם ככרית ביטחון כלכלית בתוך 60 יום.</p>
           </div>
         </Reveal>
@@ -348,21 +331,16 @@ const RiskBand = () => (
 
 // ---- who it's for ----
 const WhoFor = () => (
-  <section className="bg-brand-navyDark py-16 md:py-24">
+  <section className="bg-brand-cream py-16 md:py-24">
     <div className="container mx-auto px-5 md:px-12 max-w-5xl">
-      <Reveal>
-        <h2 className="font-display font-bold text-white text-center leading-[1.05] mb-12" style={{ fontSize: 'clamp(2rem, 4.5vw, 3.6rem)' }}>
-          זה <span className="text-brand-orange">בשבילכם?</span>
-        </h2>
-      </Reveal>
+      <Reveal><h2 className="font-display font-bold text-brand-navy text-center leading-[1.05] mb-12" style={{ fontSize: 'clamp(2rem, 4.2vw, 3.4rem)' }}>זה <span className="text-brand-orange">בשבילכם?</span></h2></Reveal>
       <div className="grid md:grid-cols-2 gap-5 md:gap-7">
         <Reveal>
-          <div className="h-full rounded-3xl bg-white/[0.04] border border-brand-orange/40 p-7 md:p-9">
-            <h3 className="flex items-center gap-3 font-display font-bold text-white text-2xl md:text-3xl mb-5">
-              <span className="w-10 h-10 rounded-full bg-brand-orange flex items-center justify-center shrink-0"><CheckCircle2 size={22} className="text-white" strokeWidth={2.6} /></span>
-              בשבילכם אם
+          <div className="h-full rounded-3xl bg-white p-7 md:p-9 border-2 border-brand-orange/30 shadow-sm">
+            <h3 className="flex items-center gap-3 font-display font-bold text-brand-navy text-2xl mb-5">
+              <span className="w-10 h-10 rounded-full bg-brand-orange flex items-center justify-center shrink-0"><CheckCircle2 size={22} className="text-white" strokeWidth={2.6} /></span> בשבילכם אם
             </h3>
-            <ul className="space-y-3.5 text-white/80 text-lg md:text-xl">
+            <ul className="space-y-3.5 text-brand-ink text-lg">
               {['אתם שכירים עם 10+ שנות ניסיון.', 'שתי משכורות נכנסות ועדיין צפוף בסוף החודש.', 'רוצים הכנסה נוספת אבל לא יודעים מאיפה להתחיל.'].map((x, i) => (
                 <li key={i} className="flex items-start gap-3"><CheckCircle2 size={20} className="text-brand-orange shrink-0 mt-1" /> {x}</li>
               ))}
@@ -370,14 +348,13 @@ const WhoFor = () => (
           </div>
         </Reveal>
         <Reveal delay={0.08}>
-          <div className="h-full rounded-3xl bg-white/[0.02] border border-white/10 p-7 md:p-9">
-            <h3 className="flex items-center gap-3 font-display font-bold text-white/85 text-2xl md:text-3xl mb-5">
-              <span className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0"><XCircle size={22} className="text-white/70" strokeWidth={2.6} /></span>
-              לא בשבילכם אם
+          <div className="h-full rounded-3xl bg-white p-7 md:p-9 border border-brand-creamDark">
+            <h3 className="flex items-center gap-3 font-display font-bold text-brand-navy/70 text-2xl mb-5">
+              <span className="w-10 h-10 rounded-full bg-brand-creamDark flex items-center justify-center shrink-0"><XCircle size={22} className="text-brand-muted" strokeWidth={2.6} /></span> לא בשבילכם אם
             </h3>
-            <ul className="space-y-3.5 text-white/55 text-lg md:text-xl">
+            <ul className="space-y-3.5 text-brand-muted text-lg">
               {['אתם מחפשים כפתור קסם או להתעשר מהר.', 'לא מוכנים להשקיע אפילו שעה ביום.'].map((x, i) => (
-                <li key={i} className="flex items-start gap-3"><XCircle size={20} className="text-white/35 shrink-0 mt-1" /> {x}</li>
+                <li key={i} className="flex items-start gap-3"><XCircle size={20} className="text-brand-muted/60 shrink-0 mt-1" /> {x}</li>
               ))}
             </ul>
           </div>
@@ -387,19 +364,17 @@ const WhoFor = () => (
   </section>
 );
 
-// ---- tax reassurance ----
+// ---- tax ----
 const Tax = () => (
-  <section className="bg-brand-navy py-16 md:py-24">
+  <section className="bg-white py-16 md:py-24">
     <div className="container mx-auto px-5 md:px-12 max-w-3xl">
       <Reveal>
-        <div className="rounded-[28px] bg-white/[0.04] border border-white/10 p-8 md:p-12">
-          <h2 className="font-display font-bold text-white leading-[1.15] mb-6 text-center" style={{ fontSize: 'clamp(1.6rem, 3.4vw, 2.6rem)' }}>
-            "אבל אני אצטרך לפתוח עסק ולשלם מיסים?"
-          </h2>
-          <div className="text-white/70 text-lg md:text-xl leading-relaxed space-y-4">
+        <div className="rounded-[28px] bg-brand-cream p-8 md:p-12 border border-brand-creamDark">
+          <h2 className="font-display font-bold text-brand-navy leading-[1.15] mb-6 text-center" style={{ fontSize: 'clamp(1.55rem, 3.2vw, 2.5rem)' }}>"אבל אני אצטרך לפתוח עסק ולשלם מיסים?"</h2>
+          <div className="text-brand-ink text-lg md:text-xl leading-relaxed space-y-4">
             <p>שאלה טובה, וזה בדיוק הפחד שעוצר את רוב האנשים.</p>
             <p>אז בואו נרגיע אתכם: כן, בשלב מסוים פותחים עוסק פטור, וזה הרבה יותר פשוט וזול ממה שאתם מדמיינים, צעד אחר צעד, ואנחנו נלווה אתכם לאורך כל הדרך.</p>
-            <p>אבל זה ממש לא הדבר הראשון. <span className="text-white font-display font-bold">החלק המפחיד באמת הוא לא המיסים, הוא פשוט להבין קודם כל אם יש לכם בכלל משהו ששווה כסף. <span className="text-brand-orange">בדיוק את זה נעשה ביום הראשון.</span></span></p>
+            <p>אבל זה ממש לא הדבר הראשון. <span className="text-brand-navy font-display font-bold">החלק המפחיד באמת הוא לא המיסים, הוא פשוט להבין קודם כל אם יש לכם בכלל משהו ששווה כסף. <span className="text-brand-orange">בדיוק את זה נעשה ביום הראשון.</span></span></p>
           </div>
         </div>
       </Reveal>
@@ -409,28 +384,26 @@ const Tax = () => (
 
 // ---- founders ----
 const Founders = () => (
-  <section className="bg-brand-navyDark py-16 md:py-24">
+  <section className="bg-brand-cream py-16 md:py-24">
     <div className="container mx-auto px-5 md:px-12 max-w-5xl">
       <div className="grid md:grid-cols-[auto_1fr] gap-8 md:gap-12 items-center">
         <Reveal>
           <div className="flex md:flex-col gap-4 justify-center">
             {[{ src: '/images/efrat.jpg', n: 'אפרת קולברג' }, { src: '/images/arzit.jpg', n: 'ארזית נחום' }].map((f) => (
               <div key={f.n} className="text-center">
-                <div className="w-28 h-28 md:w-40 md:h-40 rounded-3xl overflow-hidden border-2 border-brand-orange/60 shadow-xl mx-auto">
+                <div className="w-28 h-28 md:w-40 md:h-40 rounded-3xl overflow-hidden border-2 border-brand-orange/40 shadow-md mx-auto bg-white">
                   <img src={f.src} alt={f.n} className="w-full h-full object-cover" loading="lazy" />
                 </div>
-                <p className="font-display font-bold text-white mt-2.5 md:text-lg">{f.n}</p>
+                <p className="font-display font-bold text-brand-navy mt-2.5 md:text-lg">{f.n}</p>
               </div>
             ))}
           </div>
         </Reveal>
         <Reveal delay={0.08}>
           <div>
-            <h2 className="font-display font-bold text-white leading-[1.05] mb-5" style={{ fontSize: 'clamp(1.9rem, 4vw, 3.2rem)' }}>
-              גם אנחנו <span className="text-brand-orange">היינו שכירות.</span>
-            </h2>
-            <div className="text-white/70 text-lg md:text-xl leading-relaxed space-y-4">
-              <p>אנחנו אפרת קולברג וארזית נחום, ושתינו היינו שכירות. ארזית ניהלה את השיווק בחברת DHL תמורת <strong className="text-white">12,000 ש"ח בחודש</strong>, עד שפיטרו אותה, ואותו ידע בדיוק התחיל להכניס לה <strong className="text-brand-orange">950 ש"ח על שעת ייעוץ אחת</strong>.</p>
+            <h2 className="font-display font-bold text-brand-navy leading-[1.05] mb-5" style={{ fontSize: 'clamp(1.8rem, 3.8vw, 3rem)' }}>גם אנחנו <span className="text-brand-orange">היינו שכירות.</span></h2>
+            <div className="text-brand-ink text-lg md:text-xl leading-relaxed space-y-4">
+              <p>אנחנו אפרת קולברג וארזית נחום, ושתינו היינו שכירות. ארזית ניהלה את השיווק בחברת DHL תמורת <strong className="text-brand-navy">12,000 ש"ח בחודש</strong>, עד שפיטרו אותה, ואותו ידע בדיוק התחיל להכניס לה <strong className="text-brand-orange">950 ש"ח על שעת ייעוץ אחת</strong>.</p>
               <p>היום אנחנו מנהלות יחד חברת ייעוץ עסקי, ובשנה האחרונה ליווינו מאות אנשים. עכשיו אנחנו לוקחות את כל מה שלמדנו, ומלמדות אתכם איך לעשות בדיוק את אותו הדבר, צעד אחר צעד.</p>
             </div>
           </div>
@@ -451,25 +424,19 @@ const FAQS = [
 const FAQ = () => {
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <section className="bg-brand-navy py-16 md:py-24">
+    <section className="bg-white py-16 md:py-24">
       <div className="container mx-auto px-5 md:px-12 max-w-3xl">
-        <Reveal>
-          <h2 className="font-display font-bold text-white text-center leading-[1.05] mb-10" style={{ fontSize: 'clamp(2rem, 4.5vw, 3.6rem)' }}>
-            איך זה <span className="text-brand-orange">עובד?</span>
-          </h2>
-        </Reveal>
+        <Reveal><h2 className="font-display font-bold text-brand-navy text-center leading-[1.05] mb-10" style={{ fontSize: 'clamp(2rem, 4.2vw, 3.4rem)' }}>איך זה <span className="text-brand-orange">עובד?</span></h2></Reveal>
         <div className="space-y-3">
           {FAQS.map((f, i) => (
             <Reveal key={i} delay={i * 0.04}>
-              <div className="rounded-2xl bg-white/[0.04] border border-white/10 overflow-hidden">
+              <div className="rounded-2xl bg-brand-cream/60 border border-brand-creamDark overflow-hidden">
                 <button onClick={() => setOpen(open === i ? null : i)} className="w-full px-5 md:px-7 py-5 flex items-center justify-between gap-4 text-right">
-                  <span className={`font-display font-bold text-lg md:text-xl ${open === i ? 'text-brand-orange' : 'text-white'}`}>{f.q}</span>
-                  <span className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-colors ${open === i ? 'bg-brand-orange text-white' : 'bg-white/10 text-brand-orange'}`}>
-                    {open === i ? <Minus size={18} strokeWidth={3} /> : <Plus size={18} strokeWidth={3} />}
-                  </span>
+                  <span className={`font-display font-bold text-lg md:text-xl ${open === i ? 'text-brand-orange' : 'text-brand-navy'}`}>{f.q}</span>
+                  <span className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-colors ${open === i ? 'bg-brand-orange text-white' : 'bg-white text-brand-orange border border-brand-orange/40'}`}>{open === i ? <Minus size={18} strokeWidth={3} /> : <Plus size={18} strokeWidth={3} />}</span>
                 </button>
                 <div className={`grid transition-all duration-300 ${open === i ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
-                  <div className="overflow-hidden"><p className="px-5 md:px-7 pb-5 text-white/65 text-base md:text-lg leading-relaxed">{f.a}</p></div>
+                  <div className="overflow-hidden"><p className="px-5 md:px-7 pb-5 text-brand-ink text-base md:text-lg leading-relaxed">{f.a}</p></div>
                 </div>
               </div>
             </Reveal>
@@ -482,42 +449,42 @@ const FAQ = () => {
 
 // ---- final CTA ----
 const FinalCTA = () => (
-  <section className="relative bg-brand-orange text-white py-20 md:py-28 overflow-hidden">
-    <div aria-hidden className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle at 50% 0%, #fff, transparent 55%)' }} />
-    <div className="container mx-auto px-5 md:px-12 max-w-2xl relative text-center">
-      <Reveal>
-        <h2 className="font-display font-bold leading-[1.05] mb-4" style={{ fontSize: 'clamp(2.2rem, 5vw, 4rem)' }}>סוף החודש הבא יכול להיראות אחרת.</h2>
-        <p className="text-white/85 font-display font-bold text-lg md:text-2xl mb-8">28–31.6 · 20:00 בערב · בלייב · ללא עלות</p>
-      </Reveal>
-      <Reveal delay={0.08}>
-        <div className="bg-white/10 rounded-[28px] p-2 backdrop-blur border border-white/20">
-          <RegistrationForm id="register-bottom" />
-        </div>
-        <p className="font-display font-bold text-white text-xl md:text-2xl mt-8">מחכות לראות אתכם שם, אפרת וארזית.</p>
-      </Reveal>
+  <section className="relative bg-brand-orange text-white py-16 md:py-24 overflow-hidden">
+    <div aria-hidden className="absolute inset-0 opacity-15" style={{ backgroundImage: 'radial-gradient(circle at 50% 0%, #fff, transparent 55%)' }} />
+    <div className="container mx-auto px-5 md:px-12 max-w-5xl relative">
+      <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+        <Reveal y={0} className="text-center md:text-right">
+          <img src={CHAR} alt="" aria-hidden className="w-[60%] max-w-[260px] mx-auto md:mx-0 mb-5 drop-shadow-xl" draggable={false} />
+          <h2 className="font-display font-bold leading-[1.05] mb-3" style={{ fontSize: 'clamp(2rem, 4.4vw, 3.4rem)' }}>סוף החודש הבא יכול להיראות אחרת.</h2>
+          <p className="text-white/90 font-display font-bold text-lg md:text-xl mb-5">28–31.6 · 20:00 בערב · בלייב · ללא עלות</p>
+          <div className="flex justify-center md:justify-start"><CountdownChip tone="dark" /></div>
+          <p className="font-display font-bold text-white text-lg md:text-xl mt-6">מחכות לראות אתכם שם, אפרת וארזית.</p>
+        </Reveal>
+        <Reveal delay={0.08}><RegistrationForm id="register-bottom" /></Reveal>
+      </div>
     </div>
   </section>
 );
 
 const Footer = () => (
-  <footer className="bg-brand-navyDark text-white/45 py-9 text-center text-sm border-t border-white/10">
+  <footer className="bg-white text-brand-muted py-9 text-center text-sm border-t border-brand-creamDark">
     <div className="container mx-auto px-5 space-y-1.5">
-      <p className="font-display font-bold text-white/80 text-base">עסק לכולם</p>
+      <p className="font-display font-bold text-brand-navy text-base">עסק לכולם</p>
       <p>אפרת קולברג + ארזית נחום</p>
       <p>© עסק לכולם · כל הזכויות שמורות · פרטיותכם נשמרת</p>
-      <p className="text-xs pt-1"><a href="/privacy.html" className="hover:text-white underline">מדיניות פרטיות</a> · <a href="/accessibility.html" className="hover:text-white underline">הצהרת נגישות</a></p>
+      <p className="text-xs pt-1"><a href="/privacy.html" className="hover:text-brand-navy underline">מדיניות פרטיות</a> · <a href="/accessibility.html" className="hover:text-brand-navy underline">הצהרת נגישות</a></p>
     </div>
   </footer>
 );
 
 const AppA = () => (
-  <div className="bg-brand-navyDark min-h-screen overflow-x-clip" dir="rtl">
-    <CountdownBar />
+  <div className="bg-white min-h-screen overflow-x-clip" dir="rtl">
+    <TopBar />
     <Hero />
     <PromiseBand />
-    <DaysTimeline />
+    <DaysList />
     <FormSection id="register-top" />
-    <RiskBand />
+    <RiskReversal />
     <WhoFor />
     <Tax />
     <Founders />
@@ -527,6 +494,5 @@ const AppA = () => (
   </div>
 );
 
-// Variants consolidated; ?v=b / ?v=c still resolve.
 const App = () => <AppA />;
 export default App;
