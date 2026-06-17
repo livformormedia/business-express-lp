@@ -226,18 +226,6 @@ const Hero = () => {
   );
 };
 
-const PromiseBand = () => (
-  <section className="bg-brand-orangeSoft py-16 md:py-24">
-    <div className="container mx-auto px-5 md:px-12 max-w-4xl text-center">
-      <Reveal>
-        <p className="font-display font-bold text-brand-navy leading-[1.18]" style={{ fontSize: 'clamp(1.6rem, 3.6vw, 3rem)', textWrap: 'balance' as any }}>
-          מה שאתם כבר יודעים לעשות <span className="text-brand-orange">שווה כסף.</span> הרבה יותר ממה שהבוס משלם לכם עליו. ב-4 ערבים נראה לכם איך להפוך את זה ל-5,000–8,000 ש"ח בחודש.
-        </p>
-      </Reveal>
-    </div>
-  </section>
-);
-
 const DAYS = [
   { n: '1', t: 'זיהוי הכסף שמסתתר אצלך', d: 'איך לזהות תוך 60 דקות איזה ידע שלך יכול להפוך להכנסה נוספת.' },
   { n: '2', t: 'יותר כסף, פחות שעות', d: 'איך להפוך את הידע שלך למוצר שמוכנים לשלם לך עליו פי 5 ממה שהבוס שלך משלם לך.' },
@@ -458,7 +446,7 @@ const Footer = () => (
 
 const AppA = () => (
   <div className="bg-white min-h-screen overflow-x-clip" dir="rtl">
-    <TopBar /><Hero /><PromiseBand /><DaysList /><FormSection id="register-mid" /><RiskReversal /><WhoFor /><Tax /><Founders /><FAQ /><FinalCTA /><Footer />
+    <TopBar /><Hero /><DaysList /><FormSection id="register-mid" /><RiskReversal /><WhoFor /><Tax /><Founders /><FAQ /><FinalCTA /><Footer />
   </div>
 );
 const App = () => <AppA />;
