@@ -112,9 +112,10 @@ const RegistrationForm: React.FC<{ id: string }> = ({ id }) => {
     try {
       try { const fbq = (window as any).fbq; if (typeof fbq === 'function') fbq('track', 'Lead', { value: 0, currency: 'ILS', content_name: 'Esek LeKulam 4-Day Free Challenge' }, { eventID: eventId }); } catch { /* ignore */ }
       const leadBody = JSON.stringify({ event_type: 'lead', ...payload, fb_event_id: eventId, consent_marketing: consent, consent_at: new Date().toISOString() });
-      fetch(MAKE_WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: leadBody }).catch(() => {});
-      fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: leadBody }).catch(() => {});
-      setSubmitting(false); setDone(true);
+      fetch(MAKE_WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: leadBody, keepalive: true }).catch(() => {});
+      fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: leadBody, keepalive: true }).catch(() => {});
+      // every submitter → thank-you page (5s timer → WhatsApp group). keepalive lets the POSTs finish through navigation.
+      window.location.assign('/thank-you.html' + window.location.search);
     } catch (err: any) { setSubmitting(false); setError(err?.message ? `שגיאה: ${err.message}` : 'שגיאה לא צפויה. נסו שוב.'); }
   };
   return (
