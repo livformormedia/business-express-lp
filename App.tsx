@@ -67,14 +67,17 @@ const Countdown: React.FC<{ tone?: 'light' | 'dark' }> = ({ tone = 'light' }) =>
 };
 
 const TopBar = () => (
-  <div className="sticky top-0 z-40 bg-white/92 backdrop-blur border-b border-brand-creamDark">
-    <div className="container mx-auto px-4 md:px-12 py-2.5 flex items-center justify-between gap-3">
-      <div className="flex items-center gap-2.5 text-brand-navy font-display font-bold text-sm md:text-base">
-        <span className="inline-flex items-center gap-1.5 bg-brand-orangeSoft text-brand-orangeDark px-2.5 py-1 rounded-full"><Radio size={15} /> שידור חי</span>
-        <span>מתחיל 28.6 · 20:00</span>
+  <div className="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-brand-creamDark shadow-[0_2px_14px_rgba(26,26,46,0.06)]">
+    <div className="container mx-auto px-4 md:px-12 py-3 md:py-3.5 flex items-center justify-between gap-3">
+      <div className="flex items-center gap-3 md:gap-4 min-w-0">
+        <span className="font-display font-extrabold text-brand-navy text-lg md:text-2xl shrink-0">ביזנס אקספרס</span>
+        <span className="hidden sm:inline-flex items-center gap-2 bg-brand-orangeSoft text-brand-orangeDark px-3.5 py-1.5 rounded-full font-display font-bold text-sm md:text-base whitespace-nowrap">
+          <span className="relative flex h-2.5 w-2.5"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-orange opacity-60" /><span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand-orange" /></span>
+          שידור חי · מתחיל 28.6 ב-20:00
+        </span>
       </div>
-      <a href="#register-top" className="hidden sm:inline-flex items-center gap-1.5 bg-brand-orange hover:bg-brand-orangeDark text-white px-5 py-2 rounded-full font-display font-bold text-sm transition-colors shadow-sm">
-        <ChevronsLeft size={16} strokeWidth={3} /> נרשמים בחינם
+      <a href="#register-top" className="cta-pill inline-flex items-center gap-2 bg-brand-orange hover:bg-brand-orangeDark text-white px-5 md:px-7 py-2.5 md:py-3 rounded-full font-display font-bold text-sm md:text-lg transition-colors shadow-md shrink-0 whitespace-nowrap">
+        <ChevronsLeft size={18} strokeWidth={3} /> שריינו מקום בחינם
       </a>
     </div>
   </div>
@@ -151,6 +154,10 @@ const RegistrationForm: React.FC<{ id: string }> = ({ id }) => {
   );
 };
 
+// constant across ALL variants — the 4-day-free-mini-course subheadline + the "hour a day" promise (Oriel 17/6)
+const HERO_SUBHEAD = 'מיני קורס חינמי בן 4 ימים בלייב, שמלמד אתכם איך להפוך את הניסיון והידע שכבר יש לכם להכנסה נוספת.';
+const HERO_PROMISE = (<>כל מה שצריך זה <span className="text-brand-orange">שעה ביום</span>. בלי לסכן שקל, בלי ללמוד מקצוע חדש ובלי להתפטר.</>);
+
 // 4 headline/hook variants — switch per ad via ?v=a|b|c|d (variant captured in webhook payload)
 const HERO_VARIANTS: Record<string, { kicker: string; headline: React.ReactNode; hook?: string }> = {
   a: {
@@ -184,7 +191,7 @@ const Hero = () => {
       <Blobs />
       <div className="container mx-auto px-5 md:px-12 relative pt-7 md:pt-12 pb-12 md:pb-16 max-w-6xl">
         {/* header: copy + illustration */}
-        <div className="grid lg:grid-cols-2 gap-6 lg:gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <div className="text-center lg:text-right order-2 lg:order-1">
             <Reveal>
               <div className="inline-flex items-center gap-2 rounded-full bg-brand-orangeSoft text-brand-orangeDark px-4 py-1.5 text-sm md:text-base font-display font-bold mb-5">
@@ -192,52 +199,67 @@ const Hero = () => {
               </div>
             </Reveal>
             <Reveal delay={0.05}>
-              <h1 className="font-display font-bold text-brand-navy leading-[1.04] mb-5" style={{ fontSize: 'clamp(2.2rem, 4.8vw, 4rem)', textWrap: 'balance' as any }}>
+              <h1 className="font-display font-bold text-brand-navy leading-[1.05] mb-4" style={{ fontSize: 'clamp(2.3rem, 5vw, 4.1rem)', textWrap: 'balance' as any }}>
                 {V.headline}
               </h1>
             </Reveal>
-            {V.hook && (
             <Reveal delay={0.1}>
-              <p className="text-brand-muted leading-relaxed max-w-xl mx-auto lg:mx-0" style={{ fontSize: 'clamp(1.05rem, 1.8vw, 1.35rem)' }}>
-                {V.hook}
+              <p className="text-brand-ink leading-relaxed max-w-xl mx-auto lg:mx-0 mb-4" style={{ fontSize: 'clamp(1.1rem, 1.9vw, 1.4rem)' }}>
+                {HERO_SUBHEAD}
               </p>
             </Reveal>
-            )}
-            <Reveal delay={0.16}>
+            <Reveal delay={0.14}>
+              <p className="font-display font-bold text-brand-navy leading-snug max-w-xl mx-auto lg:mx-0" style={{ fontSize: 'clamp(1.3rem, 2.3vw, 1.8rem)' }}>
+                {HERO_PROMISE}
+              </p>
+            </Reveal>
+            <Reveal delay={0.18}>
               <div className="flex flex-wrap justify-center lg:justify-start items-center gap-x-5 gap-y-2 mt-6 text-brand-navy font-display font-bold text-base md:text-lg">
-                <span className="inline-flex items-center gap-2"><CalendarDays size={19} className="text-brand-orange" /> 28–31.6</span><span className="text-brand-creamDark">·</span>
-                <span className="inline-flex items-center gap-2"><Clock3 size={19} className="text-brand-orange" /> 20:00 בערב</span><span className="text-brand-creamDark">·</span>
-                <span className="inline-flex items-center gap-2"><Video size={19} className="text-brand-orange" /> בלייב בזום</span>
+                <span className="inline-flex items-center gap-2"><CalendarDays size={20} className="text-brand-orange" /> 28–31.6</span><span className="text-brand-creamDark">·</span>
+                <span className="inline-flex items-center gap-2"><Clock3 size={20} className="text-brand-orange" /> 20:00 בערב</span><span className="text-brand-creamDark">·</span>
+                <span className="inline-flex items-center gap-2"><Video size={20} className="text-brand-orange" /> בלייב בזום</span>
+              </div>
+            </Reveal>
+            <Reveal delay={0.22}>
+              <div className="mt-7 flex flex-col sm:flex-row items-center lg:items-start gap-3 sm:gap-4 justify-center lg:justify-start">
+                <CTA href="#register-top" label="שריינו מקום בחינם" />
+                <span className="text-brand-muted text-sm md:text-base font-display font-bold leading-snug max-w-[190px] sm:max-w-none text-center sm:text-right">ללא עלות · מקומות מוגבלים · שידור חי בלבד</span>
               </div>
             </Reveal>
           </div>
-          <div className="order-1 lg:order-2">
+          <div className="order-1 lg:order-2 relative">
+            <div aria-hidden className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="w-[72%] aspect-square rounded-full" style={{ background: 'radial-gradient(circle, rgba(253,227,214,0.9), transparent 70%)' }} />
+            </div>
             <Reveal y={0}>
-              <motion.img src={ILL('work-from-home')} alt="שכיר שמגלה שהידע שלו שווה כסף, מהבית" className="w-[78%] sm:w-[60%] lg:w-full max-w-md mx-auto block select-none"
+              <motion.img src={ILL('work-from-home')} alt="שכיר שמגלה שהידע שלו שווה כסף, מהבית" className="relative w-[74%] sm:w-[56%] lg:w-full max-w-md mx-auto block select-none"
                 initial={reduce ? false : { opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }} draggable={false} />
+            </Reveal>
+            <Reveal delay={0.2}>
+              <div className="relative mx-auto max-w-[300px] lg:max-w-sm -mt-1 lg:mt-3 rounded-2xl bg-white border border-brand-creamDark shadow-[0_18px_50px_rgba(26,26,46,0.16)] p-4 flex flex-col items-center gap-2.5">
+                <span className="inline-flex items-center gap-1.5 text-brand-orangeDark font-display font-bold text-sm md:text-base"><Radio size={16} /> השידור החי מתחיל בעוד</span>
+                <Countdown tone="light" />
+              </div>
             </Reveal>
           </div>
         </div>
 
         {/* value bullets — above the CTA */}
         <Reveal delay={0.05}>
-          <ul className="mt-10 md:mt-12 grid sm:grid-cols-3 gap-x-8 gap-y-4 border-t border-brand-creamDark pt-8">
+          <ul className="mt-12 md:mt-14 grid sm:grid-cols-3 gap-5 md:gap-6">
             {['תגלו איך לייצר הכנסה נוספת מהניסיון והידע שכבר קיים אצלכם, בלי ללמוד מקצוע חדש.', 'תגלו איך לעשות את זה בלי לסכן שקל אחד.', 'ללא עלות, ללא הגבלת מקומות, סה״כ 30 דקות הדרכה ביום, למשך 4 ימים.'].map((t, i) => (
-              <li key={i} className="flex items-start gap-3 text-brand-ink leading-snug text-sm md:text-base">
-                <CheckCircle2 size={20} className="text-brand-orange shrink-0 mt-0.5" strokeWidth={2.5} /><span>{t}</span>
+              <li key={i} className="flex items-start gap-3.5 rounded-2xl bg-brand-orangeSoft/40 border border-brand-orange/15 p-5 md:p-6">
+                <CheckCircle2 size={28} className="text-brand-orange shrink-0 mt-0.5" strokeWidth={2.5} />
+                <span className="text-brand-navy font-display font-bold leading-snug" style={{ fontSize: 'clamp(1.05rem, 1.7vw, 1.3rem)' }}>{t}</span>
               </li>
             ))}
           </ul>
         </Reveal>
 
-        {/* countdown moment */}
+        {/* scarcity ribbon */}
         <Reveal delay={0.05}>
-          <div className="mt-9 md:mt-11 rounded-3xl bg-brand-navy text-white p-5 md:p-6 flex flex-col md:flex-row items-center justify-between gap-5">
-            <div className="text-center md:text-right">
-              <p className="font-display font-bold text-lg md:text-2xl">השידור החי מתחיל בעוד</p>
-              <p className="text-brand-orangeLight text-sm md:text-base font-display font-bold mt-0.5">שידור חי בלבד · בלי הקלטה · מי שלא מגיע, מפספס</p>
-            </div>
-            <Countdown tone="dark" />
+          <div className="mt-10 md:mt-12 rounded-2xl bg-brand-navy text-white px-5 py-4 md:py-5 text-center font-display font-bold leading-snug" style={{ fontSize: 'clamp(1.05rem, 2vw, 1.5rem)' }}>
+            שידור חי בלבד · אין הקלטה · מי שלא מגיע, מפספס.
           </div>
         </Reveal>
 
@@ -466,8 +488,8 @@ const FinalCTA = () => (
 const Footer = () => (
   <footer className="bg-white text-brand-muted py-9 text-center text-sm border-t border-brand-creamDark">
     <div className="container mx-auto px-5 space-y-1.5">
-      <p className="font-display font-bold text-brand-navy text-base">עסק לכולם</p>
-      <p>אפרת קולברג + ארזית נחום</p>
+      <p className="font-display font-bold text-brand-navy text-base">ביזנס אקספרס</p>
+      <p>המיני קורס "עסק לכולם" · אפרת קולברג + ארזית נחום</p>
       <p>© עסק לכולם · כל הזכויות שמורות · פרטיותכם נשמרת</p>
       <p className="text-xs pt-1"><a href="/privacy.html" className="hover:text-brand-navy underline">מדיניות פרטיות</a> · <a href="/accessibility.html" className="hover:text-brand-navy underline">הצהרת נגישות</a></p>
     </div>
