@@ -130,7 +130,7 @@ const RegistrationForm: React.FC<{ id: string }> = ({ id }) => {
             <p className="text-brand-muted text-base leading-relaxed">שלחנו לכם את כל הפרטים והקישור לזום למייל. נתראה ב-28.6 בשעה 20:00.</p>
           </div>
         ) : (
-          <form onSubmit={onSubmit} noValidate className="space-y-3.5">
+          <form onSubmit={onSubmit} noValidate className="space-y-4">
             {[
               { l: 'שם מלא', v: name, set: setName, t: 'text', ac: 'name', ph: 'ישראל ישראלי', ltr: false },
               { l: 'אימייל', v: email, set: setEmail, t: 'email', ac: 'email', ph: 'name@example.com', ltr: true },
@@ -139,7 +139,7 @@ const RegistrationForm: React.FC<{ id: string }> = ({ id }) => {
               <div key={f.l}>
                 <label className="block text-sm font-display font-bold mb-1.5 text-brand-navy">{f.l}</label>
                 <input type={f.t} autoComplete={f.ac} inputMode={f.t === 'email' ? 'email' : f.t === 'tel' ? 'tel' : undefined as any} dir={f.ltr ? 'ltr' : undefined} value={f.v} onChange={(e) => f.set(e.target.value)} disabled={submitting} placeholder={f.ph}
-                  className={`w-full px-4 py-3 text-base rounded-xl border-2 border-brand-creamDark bg-brand-cream/50 focus:bg-white focus:border-brand-orange focus:outline-none transition-colors disabled:opacity-60 ${f.ltr ? 'text-right' : ''}`} />
+                  className={`w-full px-4 py-3.5 text-base rounded-xl border border-brand-navy/15 bg-brand-cream/60 shadow-[inset_0_1px_2px_rgba(26,26,46,0.04)] focus:bg-white focus:border-brand-orange focus:ring-2 focus:ring-brand-orange/20 focus:outline-none transition disabled:opacity-60 ${f.ltr ? 'text-right' : ''}`} />
               </div>
             ))}
             <label className="flex items-start gap-2.5 cursor-pointer select-none pt-0.5">
@@ -158,31 +158,30 @@ const RegistrationForm: React.FC<{ id: string }> = ({ id }) => {
   );
 };
 
-// constant across ALL variants — the 4-day-free-mini-course subheadline + the "hour a day" promise (Oriel 17/6)
+// constant across ALL variants — the 4-day-free-mini-course line (sits BELOW the per-variant bracketed qualifier)
 const HERO_SUBHEAD = 'מיני קורס חינמי בן 4 ימים בלייב, שמלמד אתכם איך להפוך את הניסיון והידע שכבר יש לכם להכנסה נוספת.';
-const HERO_PROMISE = (<>כל מה שצריך זה <span className="text-brand-orange">שעה ביום</span>. בלי לסכן שקל, בלי ללמוד מקצוע חדש ובלי להתפטר.</>);
 
 // 4 headline/hook variants — switch per ad via ?v=a|b|c|d (variant captured in webhook payload)
 const HERO_VARIANTS: Record<string, { kicker: string; headline: React.ReactNode; hook?: string }> = {
   a: {
     kicker: 'מיני קורס לייב לשכירים ומשפחות · ללא עלות',
     headline: <>איך להגדיל הכנסה למשפחה <span className="text-brand-orange">בלי לסכן שקל</span>, בלי ללמוד מקצוע חדש או להתפטר מהעבודה</>,
-    hook: 'מיני קורס ללא עלות בן 4 ימים בלייב, לשכירים ומשפחות שמבינות שלייצר הכנסה נוספת זו לא המלצה אלא חובה ב-2026.',
+    hook: '',
   },
   b: {
     kicker: 'מיני קורס לייב · 4 ימים · ללא עלות',
     headline: <>איך לפתוח עסק מהצד ולהכניס <span className="text-brand-orange">בין 5 ל-8 אלף ש"ח נוספים</span> בכל חודש</>,
-    hook: 'ואיך באמת לעשות כסף מהידע והנסיון שצברת כל השנים.',
+    hook: 'ואיך באמת לעשות כסף מהידע והניסיון שצברת כל השנים.',
   },
   c: {
     kicker: 'משכורת נוספת · בשעה ביום',
     headline: <>איך להכניס <span className="text-brand-orange">5,000–8,000 ש"ח נוספים</span> מהידע, הכישורים והכישרון שכבר יש לך</>,
-    hook: 'בלי רעיון גאוני, בלי לקחת סיכונים ובלי להתפטר (עדיין…)',
+    hook: '(בלי לסכן שקל, בלי ללמוד מקצוע חדש, ובלי להתפטר עדיין…)',
   },
   d: {
     kicker: 'משכורת אקסטרה · בשעה ביום',
     headline: <>איך להכניס <span className="text-brand-orange">5,000–8,000 ש"ח נוספים</span> מהידע, הכישורים והכישרון שכבר יש לך</>,
-    hook: 'בלי רעיון גאוני, בלי לקחת סיכונים ובלי להתפטר (עדיין…)',
+    hook: '(בלי לסכן שקל, בלי ללמוד מקצוע חדש, ובלי להתפטר עדיין…)',
   },
 };
 
@@ -203,20 +202,20 @@ const Hero = () => {
               </div>
             </Reveal>
             <Reveal delay={0.05}>
-              <h1 className="font-display font-bold text-brand-navy leading-[1.05] mb-4" style={{ fontSize: 'clamp(2.3rem, 5vw, 4.1rem)', textWrap: 'balance' as any }}>
+              <h1 className="font-display font-bold text-brand-navy leading-[1.05] mb-3.5" style={{ fontSize: 'clamp(2.3rem, 5vw, 4.1rem)', textWrap: 'balance' as any }}>
                 {V.headline}
               </h1>
             </Reveal>
-            <motion.div className="h-1.5 rounded-full bg-brand-orange origin-right mx-auto lg:mx-0 mb-5" style={{ width: 92 }}
-              initial={reduce ? false : { scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.25, ease: [0.16, 1, 0.3, 1] }} />
-            <Reveal delay={0.1}>
-              <p className="text-brand-ink leading-relaxed max-w-xl mx-auto lg:mx-0 mb-4" style={{ fontSize: 'clamp(1.1rem, 1.9vw, 1.4rem)' }}>
-                {HERO_SUBHEAD}
-              </p>
-            </Reveal>
+            {V.hook && (
+              <Reveal delay={0.1}>
+                <p className="font-display font-bold text-brand-navy/85 leading-snug max-w-xl mx-auto lg:mx-0 mb-3" style={{ fontSize: 'clamp(1.2rem, 2.1vw, 1.6rem)' }}>
+                  {V.hook}
+                </p>
+              </Reveal>
+            )}
             <Reveal delay={0.14}>
-              <p className="font-display font-bold text-brand-navy leading-snug max-w-xl mx-auto lg:mx-0" style={{ fontSize: 'clamp(1.3rem, 2.3vw, 1.8rem)' }}>
-                {HERO_PROMISE}
+              <p className="text-brand-muted leading-relaxed max-w-xl mx-auto lg:mx-0" style={{ fontSize: 'clamp(1.02rem, 1.6vw, 1.22rem)' }}>
+                {HERO_SUBHEAD}
               </p>
             </Reveal>
             <Reveal delay={0.18}>
@@ -238,7 +237,7 @@ const Hero = () => {
             <div aria-hidden className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div className="w-[90%] aspect-square rounded-full blur-2xl" style={{ background: 'radial-gradient(circle, rgba(253,227,214,0.95), rgba(255,179,140,0.22) 55%, transparent 72%)' }} />
             </div>
-            <div className="relative mx-auto max-w-[300px] lg:max-w-none">
+            <div className="relative mx-auto max-w-[260px] lg:max-w-none">
               <div className="grid grid-cols-2 gap-3.5 md:gap-5 items-center">
                 {[
                   { src: '/images/efrat.jpg', n: 'אפרת קולברג', cls: '-mt-2 md:-mt-6', fy: [0, -9, 0], dur: 6.5 },
@@ -254,25 +253,17 @@ const Hero = () => {
                   </motion.figure>
                 ))}
               </div>
-              {/* floating proof chip — substance + gentle motion */}
-              <motion.div className="mx-auto mt-5 w-max max-w-full rounded-full bg-white shadow-[0_14px_40px_rgba(26,26,46,0.16)] border border-brand-creamDark px-4 md:px-5 py-2.5"
-                initial={reduce ? false : { opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.45 }}>
-                <motion.span className="flex items-center gap-2" animate={reduce ? undefined : { y: [0, -4, 0] }} transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}>
-                  <span className="w-6 h-6 rounded-full bg-brand-orange flex items-center justify-center shrink-0"><CheckCircle2 size={15} className="text-white" strokeWidth={3} /></span>
-                  <span className="font-display font-bold text-brand-navy text-xs md:text-sm whitespace-nowrap">ליווינו מאות אנשים בשנה האחרונה</span>
-                </motion.span>
-              </motion.div>
             </div>
           </div>
         </div>
 
         {/* value bullets — above the CTA */}
         <Reveal delay={0.05}>
-          <ul className="mt-12 md:mt-14 grid sm:grid-cols-3 gap-5 md:gap-6">
+          <ul className="mt-11 md:mt-12 grid sm:grid-cols-3 gap-4">
             {['תגלו איך לייצר הכנסה נוספת מהניסיון והידע שכבר קיים אצלכם, בלי ללמוד מקצוע חדש.', 'תגלו איך לעשות את זה בלי לסכן שקל אחד.', 'ללא עלות, ללא הגבלת מקומות, סה״כ 30 דקות הדרכה ביום, למשך 4 ימים.'].map((t, i) => (
-              <li key={i} className="flex items-start gap-3.5 rounded-2xl bg-brand-orangeSoft/40 border border-brand-orange/15 p-5 md:p-6">
-                <CheckCircle2 size={28} className="text-brand-orange shrink-0 mt-0.5" strokeWidth={2.5} />
-                <span className="text-brand-navy font-display font-bold leading-snug" style={{ fontSize: 'clamp(1.05rem, 1.7vw, 1.3rem)' }}>{t}</span>
+              <li key={i} className="flex items-start gap-3 rounded-xl bg-brand-orangeSoft/30 p-4">
+                <CheckCircle2 size={22} className="text-brand-orange shrink-0 mt-0.5" strokeWidth={2.5} />
+                <span className="text-brand-navy font-display font-bold leading-snug text-base md:text-lg">{t}</span>
               </li>
             ))}
           </ul>
