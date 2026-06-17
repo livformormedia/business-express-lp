@@ -83,12 +83,16 @@ const TopBar = () => (
   </div>
 );
 
-const Blobs = () => (
-  <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-    <div className="absolute -top-20 right-[-6%] w-[42%] h-[60%] rounded-full opacity-70 blur-[90px]" style={{ background: 'radial-gradient(circle, rgba(253,227,214,0.95), transparent 68%)' }} />
-    <div className="absolute bottom-[-15%] left-[-8%] w-[38%] h-[55%] rounded-full opacity-50 blur-[100px]" style={{ background: 'radial-gradient(circle, rgba(255,179,140,0.5), transparent 68%)' }} />
-  </div>
-);
+const Blobs = () => {
+  const reduce = useReducedMotion();
+  const drift = (a: any, b: number) => (reduce ? {} : { animate: a, transition: { duration: b, repeat: Infinity, repeatType: 'mirror' as const, ease: 'easeInOut' } });
+  return (
+    <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+      <motion.div className="absolute -top-24 right-[-8%] w-[46%] h-[64%] rounded-full opacity-70 blur-[90px]" style={{ background: 'radial-gradient(circle, rgba(253,227,214,0.95), transparent 68%)' }} {...drift({ x: [0, 26, 0], y: [0, 18, 0] }, 20)} />
+      <motion.div className="absolute bottom-[-18%] left-[-10%] w-[42%] h-[58%] rounded-full opacity-55 blur-[100px]" style={{ background: 'radial-gradient(circle, rgba(255,179,140,0.55), transparent 68%)' }} {...drift({ x: [0, -22, 0], y: [0, -16, 0] }, 24)} />
+    </div>
+  );
+};
 
 // prominent form — orange header so it clearly reads as a registration form
 const RegistrationForm: React.FC<{ id: string }> = ({ id }) => {
@@ -192,7 +196,7 @@ const Hero = () => {
       <div className="container mx-auto px-5 md:px-12 relative pt-7 md:pt-12 pb-12 md:pb-16 max-w-6xl">
         {/* header: copy + illustration */}
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          <div className="text-center lg:text-right order-2 lg:order-1">
+          <div className="text-center lg:text-right order-1">
             <Reveal>
               <div className="inline-flex items-center gap-2 rounded-full bg-brand-orangeSoft text-brand-orangeDark px-4 py-1.5 text-sm md:text-base font-display font-bold mb-5">
                 <Sparkles size={16} /> {V.kicker}
@@ -203,6 +207,8 @@ const Hero = () => {
                 {V.headline}
               </h1>
             </Reveal>
+            <motion.div className="h-1.5 rounded-full bg-brand-orange origin-right mx-auto lg:mx-0 mb-5" style={{ width: 92 }}
+              initial={reduce ? false : { scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.25, ease: [0.16, 1, 0.3, 1] }} />
             <Reveal delay={0.1}>
               <p className="text-brand-ink leading-relaxed max-w-xl mx-auto lg:mx-0 mb-4" style={{ fontSize: 'clamp(1.1rem, 1.9vw, 1.4rem)' }}>
                 {HERO_SUBHEAD}
@@ -227,20 +233,36 @@ const Hero = () => {
               </div>
             </Reveal>
           </div>
-          <div className="order-1 lg:order-2 relative">
+          <div className="order-2 relative">
+            {/* soft glow stage — adds depth so the photos don't float on flat white */}
             <div aria-hidden className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="w-[72%] aspect-square rounded-full" style={{ background: 'radial-gradient(circle, rgba(253,227,214,0.9), transparent 70%)' }} />
+              <div className="w-[90%] aspect-square rounded-full blur-2xl" style={{ background: 'radial-gradient(circle, rgba(253,227,214,0.95), rgba(255,179,140,0.22) 55%, transparent 72%)' }} />
             </div>
-            <Reveal y={0}>
-              <motion.img src={ILL('work-from-home')} alt="שכיר שמגלה שהידע שלו שווה כסף, מהבית" className="relative w-[74%] sm:w-[56%] lg:w-full max-w-md mx-auto block select-none"
-                initial={reduce ? false : { opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }} draggable={false} />
-            </Reveal>
-            <Reveal delay={0.2}>
-              <div className="relative mx-auto max-w-[300px] lg:max-w-sm -mt-1 lg:mt-3 rounded-2xl bg-white border border-brand-creamDark shadow-[0_18px_50px_rgba(26,26,46,0.16)] p-4 flex flex-col items-center gap-2.5">
-                <span className="inline-flex items-center gap-1.5 text-brand-orangeDark font-display font-bold text-sm md:text-base"><Radio size={16} /> השידור החי מתחיל בעוד</span>
-                <Countdown tone="light" />
+            <div className="relative mx-auto max-w-sm lg:max-w-none">
+              <div className="grid grid-cols-2 gap-3.5 md:gap-5 items-center">
+                {[
+                  { src: '/images/efrat.jpg', n: 'אפרת קולברג', cls: '-mt-3 md:-mt-8', fy: [0, -9, 0], dur: 6.5 },
+                  { src: '/images/arzit.jpg', n: 'ארזית נחום', cls: 'mt-5 md:mt-10', fy: [0, 9, 0], dur: 7.5 },
+                ].map((p, i) => (
+                  <motion.figure key={p.n} className={`relative ${p.cls}`}
+                    initial={reduce ? false : { opacity: 0, y: 26 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.1 + i * 0.12, ease: [0.16, 1, 0.3, 1] }}>
+                    <motion.div className="rounded-[28px] overflow-hidden border-4 border-white shadow-[0_24px_60px_rgba(26,26,46,0.24)] aspect-[7/10] bg-brand-cream"
+                      animate={reduce ? undefined : { y: p.fy }} transition={{ duration: p.dur, repeat: Infinity, ease: 'easeInOut' }}>
+                      <img src={p.src} alt={p.n} className="w-full h-full object-cover" loading="eager" draggable={false} />
+                    </motion.div>
+                    <figcaption className="text-center mt-2.5 font-display font-bold text-brand-navy text-sm md:text-base">{p.n}</figcaption>
+                  </motion.figure>
+                ))}
               </div>
-            </Reveal>
+              {/* floating proof chip — substance + gentle motion */}
+              <motion.div className="mx-auto mt-7 w-max max-w-full rounded-full bg-white shadow-[0_14px_40px_rgba(26,26,46,0.16)] border border-brand-creamDark px-4 md:px-5 py-2.5"
+                initial={reduce ? false : { opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.45 }}>
+                <motion.span className="flex items-center gap-2" animate={reduce ? undefined : { y: [0, -4, 0] }} transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}>
+                  <span className="w-6 h-6 rounded-full bg-brand-orange flex items-center justify-center shrink-0"><CheckCircle2 size={15} className="text-white" strokeWidth={3} /></span>
+                  <span className="font-display font-bold text-brand-navy text-xs md:text-sm whitespace-nowrap">ליווינו מאות אנשים בשנה האחרונה</span>
+                </motion.span>
+              </motion.div>
+            </div>
           </div>
         </div>
 
@@ -256,19 +278,16 @@ const Hero = () => {
           </ul>
         </Reveal>
 
-        {/* scarcity ribbon */}
+        {/* benefit-driven line + countdown (demoted here, at the decision point) + the form */}
         <Reveal delay={0.05}>
-          <div className="mt-10 md:mt-12 rounded-2xl bg-brand-navy text-white px-5 py-4 md:py-5 text-center font-display font-bold leading-snug" style={{ fontSize: 'clamp(1.05rem, 2vw, 1.5rem)' }}>
-            שידור חי בלבד · אין הקלטה · מי שלא מגיע, מפספס.
-          </div>
-        </Reveal>
-
-        {/* benefit-driven line + the form */}
-        <Reveal delay={0.05}>
-          <div className="mt-9 md:mt-11 rounded-[32px] bg-brand-orangeSoft/55 p-6 md:p-9 text-center">
+          <div className="mt-10 md:mt-12 rounded-[32px] bg-brand-orangeSoft/55 p-6 md:p-9 text-center">
             <p className="font-display font-bold text-brand-navy leading-snug mb-6 max-w-2xl mx-auto" style={{ fontSize: 'clamp(1.3rem, 2.6vw, 2rem)' }}>
               שריינו מקום ל-4 הערבים שיראו לכם איך להפוך את מה שאתם כבר יודעים <span className="text-brand-orange">ל-5,000–8,000 ש"ח בחודש.</span>
             </p>
+            <div className="flex flex-col items-center gap-2.5 mb-6">
+              <span className="inline-flex items-center gap-1.5 text-brand-orangeDark font-display font-bold text-sm md:text-base"><Radio size={16} /> השידור החי מתחיל בעוד</span>
+              <Countdown tone="light" />
+            </div>
             <RegistrationForm id="register-top" />
             <p className="text-brand-muted text-sm mt-4">בהנחיית אפרת קולברג וארזית נחום</p>
           </div>
