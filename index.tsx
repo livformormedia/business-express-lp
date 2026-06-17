@@ -10,8 +10,8 @@ import './index.css';
     const params = new URLSearchParams(window.location.search);
     if (params.get('v')) return; // explicit variant wins (preview, debug, ad-set-specific UTM)
     let v = localStorage.getItem('bex_variant');
-    if (v !== 'b' && v !== 'c') {
-      v = Math.random() < 0.5 ? 'b' : 'c';
+    if (v !== 'a' && v !== 'b' && v !== 'c' && v !== 'd') {
+      v = (['a', 'b', 'c', 'd'] as const)[Math.floor(Math.random() * 4)];
       localStorage.setItem('bex_variant', v);
     }
     const url = new URL(window.location.href);

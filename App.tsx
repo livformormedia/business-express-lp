@@ -149,8 +149,34 @@ const RegistrationForm: React.FC<{ id: string }> = ({ id }) => {
   );
 };
 
+// 4 headline/hook variants — switch per ad via ?v=a|b|c|d (variant captured in webhook payload)
+const HERO_VARIANTS: Record<string, { kicker: string; headline: React.ReactNode; hook?: string }> = {
+  a: {
+    kicker: 'מיני קורס לייב לשכירים ומשפחות · ללא עלות',
+    headline: <>איך להגדיל הכנסה למשפחה <span className="text-brand-orange">בלי לסכן שקל</span>, בלי ללמוד מקצוע חדש או להתפטר מהעבודה</>,
+    hook: 'מיני קורס ללא עלות בן 4 ימים בלייב, לשכירים ומשפחות שמבינות שלייצר הכנסה נוספת זו לא המלצה אלא חובה ב-2026.',
+  },
+  b: {
+    kicker: 'מיני קורס לייב · 4 ימים · ללא עלות',
+    headline: <>איך לפתוח עסק מהצד ולהכניס <span className="text-brand-orange">בין 5 ל-8 אלף ש"ח נוספים</span> בכל חודש</>,
+    hook: 'ואיך באמת לעשות כסף מהידע והנסיון שצברת כל השנים.',
+  },
+  c: {
+    kicker: 'משכורת נוספת · בשעה ביום',
+    headline: <>איך להכניס <span className="text-brand-orange">5,000–8,000 ש"ח נוספים</span> מהידע, הכישורים והכישרון שכבר יש לך</>,
+    hook: 'בלי רעיון גאוני, בלי לקחת סיכונים ובלי להתפטר (עדיין…)',
+  },
+  d: {
+    kicker: 'משכורת אקסטרה · בשעה ביום',
+    headline: <>איך להכניס <span className="text-brand-orange">5,000–8,000 ש"ח נוספים</span> מהידע, הכישורים והכישרון שכבר יש לך</>,
+    hook: 'בלי רעיון גאוני, בלי לקחת סיכונים ובלי להתפטר (עדיין…)',
+  },
+};
+
 const Hero = () => {
   const reduce = useReducedMotion();
+  const _p = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : new URLSearchParams();
+  const V = HERO_VARIANTS[_p.get('v') || 'a'] || HERO_VARIANTS.a;
   return (
     <section className="relative overflow-hidden bg-white">
       <Blobs />
@@ -160,19 +186,21 @@ const Hero = () => {
           <div className="text-center lg:text-right order-2 lg:order-1">
             <Reveal>
               <div className="inline-flex items-center gap-2 rounded-full bg-brand-orangeSoft text-brand-orangeDark px-4 py-1.5 text-sm md:text-base font-display font-bold mb-5">
-                <Sparkles size={16} /> מיני קורס לייב לשכירים ומשפחות · ללא עלות
+                <Sparkles size={16} /> {V.kicker}
               </div>
             </Reveal>
             <Reveal delay={0.05}>
               <h1 className="font-display font-bold text-brand-navy leading-[1.04] mb-5" style={{ fontSize: 'clamp(2.2rem, 4.8vw, 4rem)', textWrap: 'balance' as any }}>
-                איך להגדיל הכנסה למשפחה <span className="text-brand-orange">בלי לסכן שקל</span>, ללמוד מקצוע חדש או להתפטר מהעבודה
+                {V.headline}
               </h1>
             </Reveal>
+            {V.hook && (
             <Reveal delay={0.1}>
               <p className="text-brand-muted leading-relaxed max-w-xl mx-auto lg:mx-0" style={{ fontSize: 'clamp(1.05rem, 1.8vw, 1.35rem)' }}>
-                מיני קורס ללא עלות בן 4 ימים בלייב, לשכירים ומשפחות שמבינות שלייצר הכנסה נוספת זו לא המלצה אלא חובה ב-2026.
+                {V.hook}
               </p>
             </Reveal>
+            )}
             <Reveal delay={0.16}>
               <div className="flex flex-wrap justify-center lg:justify-start items-center gap-x-5 gap-y-2 mt-6 text-brand-navy font-display font-bold text-base md:text-lg">
                 <span className="inline-flex items-center gap-2"><CalendarDays size={19} className="text-brand-orange" /> 28–31.6</span><span className="text-brand-creamDark">·</span>
@@ -422,7 +450,7 @@ const FinalCTA = () => (
       <div className="grid md:grid-cols-2 gap-10 md:gap-12 items-center">
         <Reveal y={0} className="text-center md:text-right">
           <div className="inline-block bg-white rounded-[28px] p-3 md:p-4 shadow-xl mb-5"><img src={ILL('man-riding-a-rocket')} alt="" aria-hidden className="w-[170px] md:w-[220px] block" draggable={false} /></div>
-          <h2 className="font-display font-bold leading-[1.05] mb-3" style={{ fontSize: 'clamp(2rem, 4.4vw, 3.4rem)' }}>סוף החודש הבא יכול להיראות אחרת.</h2>
+          <h2 className="font-display font-bold leading-[1.05] mb-3" style={{ fontSize: 'clamp(2rem, 4.4vw, 3.4rem)' }}>זה הזמן להפוך את הידע שלכם להכנסה נוספת.</h2>
           <p className="text-white/90 font-display font-bold text-lg md:text-xl mb-5">28–31.6 · 20:00 בערב · בלייב · ללא עלות</p>
           <div className="flex justify-center md:justify-start"><Countdown tone="dark" /></div>
           <p className="font-display font-bold text-white text-lg md:text-xl mt-6">מחכות לראות אתכם שם, אפרת וארזית.</p>
