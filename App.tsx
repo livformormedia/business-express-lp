@@ -118,18 +118,17 @@ const RegistrationForm: React.FC<{ id: string }> = ({ id }) => {
     } catch (err: any) { setSubmitting(false); setError(err?.message ? `שגיאה: ${err.message}` : 'שגיאה לא צפויה. נסו שוב.'); }
   };
   return (
-    <div id={id} className="scroll-mt-24 w-full max-w-md mx-auto rounded-[24px] overflow-hidden bg-white shadow-[0_26px_70px_rgba(26,26,46,0.22)] border-2 border-brand-orange/25">
-      <div className="bg-brand-orange text-white text-center px-6 py-3.5 font-display font-bold text-base md:text-lg flex items-center justify-center gap-2">
-        <Sparkles size={18} /> הרשמה חינם · שריינו מקום
-      </div>
-      <div className="p-6 md:p-7">
-        {done ? (
-          <div className="text-center py-4">
-            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-brand-orange flex items-center justify-center shadow-lg"><CheckCircle2 size={34} className="text-white" strokeWidth={2.5} /></div>
-            <h3 className="font-display font-bold text-2xl mb-2 text-brand-navy">נרשמתם בהצלחה!</h3>
-            <p className="text-brand-muted text-base leading-relaxed">שלחנו לכם את כל הפרטים והקישור לזום למייל. נתראה ב-28.6 בשעה 20:00.</p>
-          </div>
-        ) : (
+    <div id={id} className="scroll-mt-24 w-full max-w-md mx-auto text-right rounded-2xl bg-white border border-brand-navy/10 shadow-[0_30px_80px_-24px_rgba(26,26,46,0.3)] p-6 md:p-8">
+      {done ? (
+        <div className="text-center py-6">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-brand-orange flex items-center justify-center shadow-lg"><CheckCircle2 size={34} className="text-white" strokeWidth={2.5} /></div>
+          <h3 className="font-display font-bold text-2xl mb-2 text-brand-navy">נרשמתם בהצלחה!</h3>
+          <p className="text-brand-muted text-base leading-relaxed">שלחנו לכם את כל הפרטים והקישור לזום למייל. נתראה ב-28.6 בשעה 20:00.</p>
+        </div>
+      ) : (
+        <>
+          <h3 className="font-display font-bold text-brand-navy leading-tight mb-1.5" style={{ fontSize: 'clamp(1.5rem, 3.4vw, 1.85rem)' }}>שריינו את המקום שלכם</h3>
+          <p className="text-brand-muted text-sm md:text-base mb-6">ללא עלות. הקישור לזום נשלח מיד למייל אחרי ההרשמה.</p>
           <form onSubmit={onSubmit} noValidate className="space-y-4">
             {[
               { l: 'שם מלא', v: name, set: setName, t: 'text', ac: 'name', ph: 'ישראל ישראלי', ltr: false },
@@ -137,23 +136,23 @@ const RegistrationForm: React.FC<{ id: string }> = ({ id }) => {
               { l: 'טלפון', v: phone, set: setPhone, t: 'tel', ac: 'tel', ph: '050-1234567', ltr: true },
             ].map((f) => (
               <div key={f.l}>
-                <label className="block text-sm font-display font-bold mb-1.5 text-brand-navy">{f.l}</label>
+                <label className="block text-sm font-display font-bold mb-2 text-brand-navy">{f.l}</label>
                 <input type={f.t} autoComplete={f.ac} inputMode={f.t === 'email' ? 'email' : f.t === 'tel' ? 'tel' : undefined as any} dir={f.ltr ? 'ltr' : undefined} value={f.v} onChange={(e) => f.set(e.target.value)} disabled={submitting} placeholder={f.ph}
-                  className={`w-full px-4 py-3.5 text-base rounded-xl border border-brand-navy/15 bg-brand-cream/60 shadow-[inset_0_1px_2px_rgba(26,26,46,0.04)] focus:bg-white focus:border-brand-orange focus:ring-2 focus:ring-brand-orange/20 focus:outline-none transition disabled:opacity-60 ${f.ltr ? 'text-right' : ''}`} />
+                  className={`w-full px-4 py-3.5 text-base rounded-xl border border-brand-navy/15 bg-white placeholder:text-brand-navy/30 focus:border-brand-orange focus:ring-4 focus:ring-brand-orange/12 focus:outline-none transition disabled:opacity-60 ${f.ltr ? 'text-right' : ''}`} />
               </div>
             ))}
-            <label className="flex items-start gap-2.5 cursor-pointer select-none pt-0.5">
-              <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} disabled={submitting} className="mt-1 w-5 h-5 accent-brand-orange shrink-0 cursor-pointer" />
-              <span className="text-xs text-brand-navy/75 leading-snug">אני מאשר/ת קבלת תכנים שיווקיים ועדכונים מ"עסק לכולם" בכל ערוצי התקשורת (אימייל, SMS, WhatsApp ושיחה), בהתאם ל<a href="/privacy.html" target="_blank" rel="noopener" className="underline text-brand-orange font-bold">מדיניות הפרטיות</a>. ניתן להסיר רישום בכל עת.</span>
+            <label className="flex items-start gap-2.5 cursor-pointer select-none pt-1">
+              <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} disabled={submitting} className="mt-0.5 w-5 h-5 accent-brand-orange shrink-0 cursor-pointer" />
+              <span className="text-xs text-brand-navy/70 leading-snug">אני מאשר/ת קבלת תכנים שיווקיים ועדכונים מ"עסק לכולם" בכל ערוצי התקשורת (אימייל, SMS, WhatsApp ושיחה), בהתאם ל<a href="/privacy.html" target="_blank" rel="noopener" className="underline text-brand-orange font-bold">מדיניות הפרטיות</a>. ניתן להסיר רישום בכל עת.</span>
             </label>
-            {error && <div className="bg-red-50 border-2 border-red-200 text-red-700 rounded-xl px-4 py-2.5 text-sm font-display font-bold text-center">{error}</div>}
-            <button type="submit" disabled={submitting} className="cta-pill w-full flex items-center justify-center gap-3 bg-brand-orange text-white rounded-full font-display font-bold border-2 border-brand-orangeDark px-7 py-4 text-lg disabled:opacity-70 disabled:cursor-wait">
-              {submitting ? <><Loader2 size={22} className="animate-spin" /> רושמים אתכם...</> : <><ChevronsLeft size={26} strokeWidth={3} /> אני רוצה להצטרף</>}
+            {error && <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-2.5 text-sm font-display font-bold text-center">{error}</div>}
+            <button type="submit" disabled={submitting} className="cta-pill w-full flex items-center justify-center gap-2.5 bg-brand-orange text-white rounded-xl font-display font-bold border-2 border-brand-orangeDark px-7 py-4 text-lg disabled:opacity-70 disabled:cursor-wait">
+              {submitting ? <><Loader2 size={22} className="animate-spin" /> רושמים אתכם...</> : <>שריינו לי מקום בחינם <ChevronsLeft size={24} strokeWidth={3} /></>}
             </button>
-            <p className="text-center text-brand-muted text-xs">ללא עלות · אישור והקישור לזום נשלחים מיד למייל</p>
+            <p className="text-center text-brand-muted text-xs pt-0.5">פרטיותכם נשמרת · ניתן להסיר רישום בכל עת</p>
           </form>
-        )}
-      </div>
+        </>
+      )}
     </div>
   );
 };
@@ -269,18 +268,20 @@ const Hero = () => {
           </ul>
         </Reveal>
 
-        {/* benefit-driven line + countdown (demoted here, at the decision point) + the form */}
+        {/* register: clean two-column — value + countdown beside the form (no tinted blob) */}
         <Reveal delay={0.05}>
-          <div className="mt-10 md:mt-12 rounded-[32px] bg-brand-orangeSoft/55 p-6 md:p-9 text-center">
-            <p className="font-display font-bold text-brand-navy leading-snug mb-6 max-w-2xl mx-auto" style={{ fontSize: 'clamp(1.3rem, 2.6vw, 2rem)' }}>
-              שריינו מקום ל-4 הערבים שיראו לכם איך להפוך את מה שאתם כבר יודעים <span className="text-brand-orange">ל-5,000–8,000 ש"ח בחודש.</span>
-            </p>
-            <div className="flex flex-col items-center gap-2.5 mb-6">
-              <span className="inline-flex items-center gap-1.5 text-brand-orangeDark font-display font-bold text-sm md:text-base"><Radio size={16} /> השידור החי מתחיל בעוד</span>
-              <Countdown tone="light" />
+          <div className="mt-14 md:mt-20 grid lg:grid-cols-2 gap-9 lg:gap-14 items-center max-w-4xl mx-auto">
+            <div className="text-center lg:text-right">
+              <h3 className="font-display font-bold text-brand-navy leading-tight mb-6" style={{ fontSize: 'clamp(1.55rem, 3vw, 2.3rem)' }}>
+                שריינו מקום ל-4 הערבים שיראו לכם איך להפוך את מה שאתם כבר יודעים <span className="text-brand-orange">ל-5,000–8,000 ש"ח בחודש.</span>
+              </h3>
+              <div className="inline-flex flex-col items-center lg:items-start gap-2.5">
+                <span className="inline-flex items-center gap-1.5 text-brand-orangeDark font-display font-bold text-sm md:text-base"><Radio size={16} /> השידור החי מתחיל בעוד</span>
+                <Countdown tone="light" />
+              </div>
+              <p className="text-brand-muted text-sm mt-6">בהנחיית אפרת קולברג וארזית נחום</p>
             </div>
             <RegistrationForm id="register-top" />
-            <p className="text-brand-muted text-sm mt-4">בהנחיית אפרת קולברג וארזית נחום</p>
           </div>
         </Reveal>
       </div>
