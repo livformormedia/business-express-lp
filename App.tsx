@@ -643,54 +643,6 @@ const AppA = () => {
       {/* Sentinel — FloatingCTA shows after scrolling past this point */}
       <div id="floating-cta-trigger" aria-hidden="true" className="h-0 w-0 invisible" />
 
-      {/* FOUNDER CREDIBILITY — Efrat + Arzit, "we were employees too" */}
-      <section className="relative bg-brand-navyDark text-white py-16 md:py-24 overflow-hidden">
-        <div className="absolute inset-0 opacity-25" style={{
-          backgroundImage: `radial-gradient(circle at 20% 30%, rgba(224,87,38,0.35), transparent 55%), radial-gradient(circle at 80% 70%, rgba(224,87,38,0.2), transparent 55%)`
-        }}></div>
-        <div className="container mx-auto px-5 md:px-12 relative max-w-4xl">
-          <div className="text-center mb-10 md:mb-12">
-            <p className="text-base md:text-xl font-bold text-brand-orange tracking-[0.3em] uppercase mb-4">מי אנחנו?</p>
-            <h2 className="font-display font-bold leading-[1.05] mb-2" style={{ fontSize: 'clamp(2rem, 4.6vw, 4.4rem)' }}>
-              גם אנחנו <span className="text-brand-orange">היינו שכירות.</span>
-            </h2>
-          </div>
-
-          {/* Founder portraits */}
-          <div className="flex flex-wrap justify-center gap-5 md:gap-8 mb-10">
-            <div className="text-center">
-              <div className="w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden border-4 border-brand-orange shadow-xl mx-auto">
-                <img src="/images/efrat.jpg" alt="אפרת קולברג" className="w-full h-full object-cover" loading="lazy" />
-              </div>
-              <p className="font-display font-bold text-lg md:text-xl mt-3">אפרת קולברג</p>
-            </div>
-            <div className="text-center">
-              <div className="w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden border-4 border-brand-orange shadow-xl mx-auto">
-                <img src="/images/arzit.jpg" alt="ארזית נחום" className="w-full h-full object-cover" loading="lazy" />
-              </div>
-              <p className="font-display font-bold text-lg md:text-xl mt-3">ארזית נחום</p>
-            </div>
-          </div>
-
-          <div className="bg-white/5 backdrop-blur rounded-3xl border border-white/15 p-7 md:p-12 max-w-3xl mx-auto">
-            <div className="text-lg md:text-2xl text-white/90 leading-relaxed space-y-4 text-right">
-              <p>אנחנו אפרת קולברג וארזית נחום, ושתינו היינו שכירות.</p>
-              <p>
-                ארזית ניהלה את השיווק בחברת DHL תמורת <strong className="text-white">12,000 ש"ח בחודש</strong>, עד שפיטרו אותה, ואותו ידע בדיוק התחיל להכניס לה <strong className="text-brand-orange">950 ש"ח על שעת ייעוץ אחת</strong>.
-              </p>
-              <p>היום אנחנו מנהלות יחד חברת ייעוץ עסקי, ובשנה האחרונה ליווינו מאות אנשים.</p>
-              <p className="font-display font-bold text-white">
-                עכשיו אנחנו לוקחות את כל מה שלמדנו, ומלמדות אתכם איך לעשות בדיוק את אותו הדבר, צעד אחר צעד.
-              </p>
-            </div>
-          </div>
-
-          <div className="text-center mt-10">
-            <CTAPill label="שריינו את המקום שלכם בחינם" size="lg" href="#register" external={false} />
-          </div>
-        </div>
-      </section>
-
       {/* 4 CHALLENGE DAYS */}
       <section id="modules" className="py-16 md:py-24 bg-white">
         <div className="container mx-auto px-5 md:px-12">
@@ -722,6 +674,9 @@ const AppA = () => {
           </div>
         </div>
       </section>
+
+      {/* INLINE FORM — early capture */}
+      <RegistrationForm id="register-top" />
 
       {/* RISK REVERSAL + CTA */}
       <section id="guarantee" className="py-12 md:py-16 bg-brand-cream">
@@ -801,6 +756,50 @@ const AppA = () => {
         </div>
       </section>
 
+      {/* FOUNDER CREDIBILITY — Efrat + Arzit, "we were employees too" */}
+      <section className="relative bg-brand-navyDark text-white py-16 md:py-24 overflow-hidden">
+        <div className="absolute inset-0 opacity-25" style={{
+          backgroundImage: `radial-gradient(circle at 20% 30%, rgba(224,87,38,0.35), transparent 55%), radial-gradient(circle at 80% 70%, rgba(224,87,38,0.2), transparent 55%)`
+        }}></div>
+        <div className="container mx-auto px-5 md:px-12 relative max-w-4xl">
+          <div className="text-center mb-10 md:mb-12">
+            <p className="text-base md:text-xl font-bold text-brand-orange tracking-[0.3em] uppercase mb-4">מי אנחנו?</p>
+            <h2 className="font-display font-bold leading-[1.05] mb-2" style={{ fontSize: 'clamp(2rem, 4.6vw, 4.4rem)' }}>
+              גם אנחנו <span className="text-brand-orange">היינו שכירות.</span>
+            </h2>
+          </div>
+
+          {/* Founder portraits */}
+          <div className="flex flex-wrap justify-center gap-5 md:gap-8 mb-10">
+            <div className="text-center">
+              <div className="w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden border-4 border-brand-orange shadow-xl mx-auto">
+                <img src="/images/efrat.jpg" alt="אפרת קולברג" className="w-full h-full object-cover" loading="lazy" />
+              </div>
+              <p className="font-display font-bold text-lg md:text-xl mt-3">אפרת קולברג</p>
+            </div>
+            <div className="text-center">
+              <div className="w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden border-4 border-brand-orange shadow-xl mx-auto">
+                <img src="/images/arzit.jpg" alt="ארזית נחום" className="w-full h-full object-cover" loading="lazy" />
+              </div>
+              <p className="font-display font-bold text-lg md:text-xl mt-3">ארזית נחום</p>
+            </div>
+          </div>
+
+          <div className="bg-white/5 backdrop-blur rounded-3xl border border-white/15 p-7 md:p-12 max-w-3xl mx-auto">
+            <div className="text-lg md:text-2xl text-white/90 leading-relaxed space-y-4 text-right">
+              <p>אנחנו אפרת קולברג וארזית נחום, ושתינו היינו שכירות.</p>
+              <p>
+                ארזית ניהלה את השיווק בחברת DHL תמורת <strong className="text-white">12,000 ש"ח בחודש</strong>, עד שפיטרו אותה, ואותו ידע בדיוק התחיל להכניס לה <strong className="text-brand-orange">950 ש"ח על שעת ייעוץ אחת</strong>.
+              </p>
+              <p>היום אנחנו מנהלות יחד חברת ייעוץ עסקי, ובשנה האחרונה ליווינו מאות אנשים.</p>
+              <p className="font-display font-bold text-white">
+                עכשיו אנחנו לוקחות את כל מה שלמדנו, ומלמדות אתכם איך לעשות בדיוק את אותו הדבר, צעד אחר צעד.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* REGISTRATION */}
       <RegistrationForm id="register" />
 
@@ -843,6 +842,9 @@ const AppA = () => {
         </div>
       </section>
 
+
+      {/* INLINE FORM — final capture */}
+      <RegistrationForm id="register-bottom" />
 
       {/* FINAL CTA — dark */}
       <section className="relative bg-brand-navyDark text-white py-20 md:py-28 clip-diagonal-top overflow-hidden">
