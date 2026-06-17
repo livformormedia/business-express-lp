@@ -6,10 +6,9 @@ import {
 } from 'lucide-react';
 
 /* ============================================================
-   עסק לכולם — warm / bright / illustrated rebuild.
-   Brand-only inheritance: Philosof/Almoni + brand colors.
-   Popsy hand-drawn illustrations (orange), woven for life + density.
-   Copy = locked Section C. Time-based scarcity (live-only).
+   עסק לכולם — warm / bright / illustrated. Brand-only inheritance
+   (Philosof/Almoni + brand colors). Popsy illustrations in orange.
+   Copy = locked Section C (+ founder 4-6M line per Oriel 17/6).
    ============================================================ */
 
 const WORKSHOP_DATE_ISO = '2026-06-28T20:00:00+03:00';
@@ -44,17 +43,16 @@ const Reveal: React.FC<{ children: React.ReactNode; delay?: number; y?: number; 
   const reduce = useReducedMotion();
   return (
     <motion.div className={className} initial={reduce ? false : { opacity: 0, y }} whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.65, delay, ease: [0.16, 1, 0.3, 1] }}>{children}</motion.div>
+      viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}>{children}</motion.div>
   );
 };
 
-const CTA: React.FC<{ label?: string; className?: string }> = ({ label = 'שריינו את המקום שלכם בחינם', className = '' }) => (
-  <a href="#register-top" className={`cta-pill group inline-flex items-center gap-3 bg-brand-orange text-white rounded-full font-display font-bold border-2 border-brand-orangeDark px-8 md:px-11 py-4 md:py-5 text-lg md:text-2xl ${className}`}>
+const CTA: React.FC<{ label?: string; href?: string; className?: string }> = ({ label = 'שריינו את המקום שלכם בחינם', href = '#register-mid', className = '' }) => (
+  <a href={href} className={`cta-pill group inline-flex items-center gap-3 bg-brand-orange text-white rounded-full font-display font-bold border-2 border-brand-orangeDark px-8 md:px-11 py-4 md:py-5 text-lg md:text-2xl ${className}`}>
     <ChevronsLeft size={28} strokeWidth={3} className="shrink-0 transition-transform group-hover:-translate-x-1" />{label}
   </a>
 );
 
-// dramatic countdown block (time-based scarcity)
 const Countdown: React.FC<{ tone?: 'light' | 'dark' }> = ({ tone = 'light' }) => {
   const { days, hours, minutes, seconds } = useCountdown(WORKSHOP_DATE_ISO);
   const cell = tone === 'light' ? 'bg-white border-brand-creamDark text-brand-navy shadow-sm' : 'bg-white/15 border-white/25 text-white';
@@ -65,11 +63,7 @@ const Countdown: React.FC<{ tone?: 'light' | 'dark' }> = ({ tone = 'light' }) =>
       <div className={`text-[10px] md:text-xs mt-1 ${lab}`}>{l}</div>
     </div>
   );
-  return (
-    <div className="flex items-end gap-2 md:gap-2.5" dir="ltr">
-      <Cell n={days} l="ימים" /><Cell n={hours} l="שעות" /><Cell n={minutes} l="דקות" /><Cell n={seconds} l="שניות" />
-    </div>
-  );
+  return (<div className="flex items-end gap-2 md:gap-2.5" dir="ltr"><Cell n={days} l="ימים" /><Cell n={hours} l="שעות" /><Cell n={minutes} l="דקות" /><Cell n={seconds} l="שניות" /></div>);
 };
 
 const TopBar = () => (
@@ -86,7 +80,6 @@ const TopBar = () => (
   </div>
 );
 
-// decorative warm blobs + dots for life/density
 const Blobs = () => (
   <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
     <div className="absolute -top-20 right-[-6%] w-[42%] h-[60%] rounded-full opacity-70 blur-[90px]" style={{ background: 'radial-gradient(circle, rgba(253,227,214,0.95), transparent 68%)' }} />
@@ -94,6 +87,7 @@ const Blobs = () => (
   </div>
 );
 
+// prominent form — orange header so it clearly reads as a registration form
 const RegistrationForm: React.FC<{ id: string }> = ({ id }) => {
   const [name, setName] = useState(''); const [email, setEmail] = useState(''); const [phone, setPhone] = useState('');
   const [consent, setConsent] = useState(false); const [submitting, setSubmitting] = useState(false);
@@ -115,41 +109,42 @@ const RegistrationForm: React.FC<{ id: string }> = ({ id }) => {
     } catch (err: any) { setSubmitting(false); setError(err?.message ? `שגיאה: ${err.message}` : 'שגיאה לא צפויה. נסו שוב.'); }
   };
   return (
-    <div id={id} className="scroll-mt-24 bg-white rounded-[26px] p-6 md:p-8 shadow-[0_20px_55px_rgba(26,26,46,0.13)] border border-brand-creamDark max-w-md w-full mx-auto">
-      {done ? (
-        <div className="text-center py-6">
-          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-brand-orange flex items-center justify-center shadow-lg"><CheckCircle2 size={34} className="text-white" strokeWidth={2.5} /></div>
-          <h3 className="font-display font-bold text-2xl mb-2 text-brand-navy">נרשמתם בהצלחה!</h3>
-          <p className="text-brand-muted text-base leading-relaxed">שלחנו לכם את כל הפרטים והקישור לזום למייל. נתראה ב-28.6 בשעה 20:00.</p>
-        </div>
-      ) : (
-        <form onSubmit={onSubmit} noValidate className="space-y-3.5">
-          <div className="text-center mb-1">
-            <h3 className="font-display font-bold text-2xl text-brand-navy leading-tight">מוכנים להתחיל?</h3>
-            <p className="text-brand-muted text-sm mt-1">השאירו פרטים ושריינו מקום במיני קורס "עסק לכולם", בחינם.</p>
+    <div id={id} className="scroll-mt-24 w-full max-w-md mx-auto rounded-[24px] overflow-hidden bg-white shadow-[0_26px_70px_rgba(26,26,46,0.22)] border-2 border-brand-orange/25">
+      <div className="bg-brand-orange text-white text-center px-6 py-3.5 font-display font-bold text-base md:text-lg flex items-center justify-center gap-2">
+        <Sparkles size={18} /> הרשמה חינם · שריינו מקום
+      </div>
+      <div className="p-6 md:p-7">
+        {done ? (
+          <div className="text-center py-4">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-brand-orange flex items-center justify-center shadow-lg"><CheckCircle2 size={34} className="text-white" strokeWidth={2.5} /></div>
+            <h3 className="font-display font-bold text-2xl mb-2 text-brand-navy">נרשמתם בהצלחה!</h3>
+            <p className="text-brand-muted text-base leading-relaxed">שלחנו לכם את כל הפרטים והקישור לזום למייל. נתראה ב-28.6 בשעה 20:00.</p>
           </div>
-          {[
-            { l: 'שם מלא', v: name, set: setName, t: 'text', ac: 'name', ph: 'ישראל ישראלי', ltr: false },
-            { l: 'אימייל', v: email, set: setEmail, t: 'email', ac: 'email', ph: 'name@example.com', ltr: true },
-            { l: 'טלפון', v: phone, set: setPhone, t: 'tel', ac: 'tel', ph: '050-1234567', ltr: true },
-          ].map((f) => (
-            <div key={f.l}>
-              <label className="block text-sm font-display font-bold mb-1.5 text-brand-navy">{f.l}</label>
-              <input type={f.t} autoComplete={f.ac} inputMode={f.t === 'email' ? 'email' : f.t === 'tel' ? 'tel' : undefined as any} dir={f.ltr ? 'ltr' : undefined} value={f.v} onChange={(e) => f.set(e.target.value)} disabled={submitting} placeholder={f.ph}
-                className={`w-full px-4 py-3 text-base rounded-xl border-2 border-brand-creamDark bg-brand-cream/40 focus:bg-white focus:border-brand-orange focus:outline-none transition-colors disabled:opacity-60 ${f.ltr ? 'text-right' : ''}`} />
-            </div>
-          ))}
-          <label className="flex items-start gap-2.5 cursor-pointer select-none pt-0.5">
-            <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} disabled={submitting} className="mt-1 w-5 h-5 accent-brand-orange shrink-0 cursor-pointer" />
-            <span className="text-xs text-brand-navy/75 leading-snug">אני מאשר/ת קבלת תכנים שיווקיים ועדכונים מ"עסק לכולם" בכל ערוצי התקשורת (אימייל, SMS, WhatsApp ושיחה), בהתאם ל<a href="/privacy.html" target="_blank" rel="noopener" className="underline text-brand-orange font-bold">מדיניות הפרטיות</a>. ניתן להסיר רישום בכל עת.</span>
-          </label>
-          {error && <div className="bg-red-50 border-2 border-red-200 text-red-700 rounded-xl px-4 py-2.5 text-sm font-display font-bold text-center">{error}</div>}
-          <button type="submit" disabled={submitting} className="cta-pill w-full flex items-center justify-center gap-3 bg-brand-orange text-white rounded-full font-display font-bold border-2 border-brand-orangeDark px-7 py-4 text-lg disabled:opacity-70 disabled:cursor-wait">
-            {submitting ? <><Loader2 size={22} className="animate-spin" /> רושמים אתכם...</> : <><ChevronsLeft size={26} strokeWidth={3} /> אני רוצה להצטרף</>}
-          </button>
-          <p className="text-center text-brand-muted text-xs">ללא עלות · אישור והקישור לזום נשלחים מיד למייל</p>
-        </form>
-      )}
+        ) : (
+          <form onSubmit={onSubmit} noValidate className="space-y-3.5">
+            {[
+              { l: 'שם מלא', v: name, set: setName, t: 'text', ac: 'name', ph: 'ישראל ישראלי', ltr: false },
+              { l: 'אימייל', v: email, set: setEmail, t: 'email', ac: 'email', ph: 'name@example.com', ltr: true },
+              { l: 'טלפון', v: phone, set: setPhone, t: 'tel', ac: 'tel', ph: '050-1234567', ltr: true },
+            ].map((f) => (
+              <div key={f.l}>
+                <label className="block text-sm font-display font-bold mb-1.5 text-brand-navy">{f.l}</label>
+                <input type={f.t} autoComplete={f.ac} inputMode={f.t === 'email' ? 'email' : f.t === 'tel' ? 'tel' : undefined as any} dir={f.ltr ? 'ltr' : undefined} value={f.v} onChange={(e) => f.set(e.target.value)} disabled={submitting} placeholder={f.ph}
+                  className={`w-full px-4 py-3 text-base rounded-xl border-2 border-brand-creamDark bg-brand-cream/50 focus:bg-white focus:border-brand-orange focus:outline-none transition-colors disabled:opacity-60 ${f.ltr ? 'text-right' : ''}`} />
+              </div>
+            ))}
+            <label className="flex items-start gap-2.5 cursor-pointer select-none pt-0.5">
+              <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} disabled={submitting} className="mt-1 w-5 h-5 accent-brand-orange shrink-0 cursor-pointer" />
+              <span className="text-xs text-brand-navy/75 leading-snug">אני מאשר/ת קבלת תכנים שיווקיים ועדכונים מ"עסק לכולם" בכל ערוצי התקשורת (אימייל, SMS, WhatsApp ושיחה), בהתאם ל<a href="/privacy.html" target="_blank" rel="noopener" className="underline text-brand-orange font-bold">מדיניות הפרטיות</a>. ניתן להסיר רישום בכל עת.</span>
+            </label>
+            {error && <div className="bg-red-50 border-2 border-red-200 text-red-700 rounded-xl px-4 py-2.5 text-sm font-display font-bold text-center">{error}</div>}
+            <button type="submit" disabled={submitting} className="cta-pill w-full flex items-center justify-center gap-3 bg-brand-orange text-white rounded-full font-display font-bold border-2 border-brand-orangeDark px-7 py-4 text-lg disabled:opacity-70 disabled:cursor-wait">
+              {submitting ? <><Loader2 size={22} className="animate-spin" /> רושמים אתכם...</> : <><ChevronsLeft size={26} strokeWidth={3} /> אני רוצה להצטרף</>}
+            </button>
+            <p className="text-center text-brand-muted text-xs">ללא עלות · אישור והקישור לזום נשלחים מיד למייל</p>
+          </form>
+        )}
+      </div>
     </div>
   );
 };
@@ -159,8 +154,9 @@ const Hero = () => {
   return (
     <section className="relative overflow-hidden bg-white">
       <Blobs />
-      <div className="container mx-auto px-5 md:px-12 relative pt-6 md:pt-10 pb-10 md:pb-14 max-w-6xl">
-        <div className="grid lg:grid-cols-2 gap-4 lg:gap-10 items-center">
+      <div className="container mx-auto px-5 md:px-12 relative pt-7 md:pt-12 pb-12 md:pb-16 max-w-6xl">
+        {/* header: copy + illustration */}
+        <div className="grid lg:grid-cols-2 gap-6 lg:gap-12 items-center">
           <div className="text-center lg:text-right order-2 lg:order-1">
             <Reveal>
               <div className="inline-flex items-center gap-2 rounded-full bg-brand-orangeSoft text-brand-orangeDark px-4 py-1.5 text-sm md:text-base font-display font-bold mb-5">
@@ -169,39 +165,44 @@ const Hero = () => {
             </Reveal>
             <Reveal delay={0.05}>
               <h1 className="font-display font-bold text-brand-navy leading-[1.04] mb-5" style={{ fontSize: 'clamp(2.2rem, 4.8vw, 4rem)', textWrap: 'balance' as any }}>
-                איך להגדיל הכנסה למשפחה <span className="relative whitespace-nowrap text-brand-orange">בלי לסכן שקל<span className="absolute right-0 -bottom-1 left-0 h-[0.35em] bg-brand-orange/20 rounded-full -z-0" /></span>, ללמוד מקצוע חדש או להתפטר מהעבודה
+                איך להגדיל הכנסה למשפחה <span className="text-brand-orange">בלי לסכן שקל</span>, ללמוד מקצוע חדש או להתפטר מהעבודה
               </h1>
             </Reveal>
             <Reveal delay={0.1}>
-              <p className="text-brand-muted leading-relaxed mb-6 max-w-xl mx-auto lg:mx-0" style={{ fontSize: 'clamp(1.05rem, 1.8vw, 1.35rem)' }}>
+              <p className="text-brand-muted leading-relaxed max-w-xl mx-auto lg:mx-0" style={{ fontSize: 'clamp(1.05rem, 1.8vw, 1.35rem)' }}>
                 מיני קורס ללא עלות בן 4 ימים בלייב, לשכירים ומשפחות שמבינות שלייצר הכנסה נוספת זו לא המלצה אלא חובה ב-2026.
               </p>
             </Reveal>
             <Reveal delay={0.16}>
-              <div className="flex flex-wrap justify-center lg:justify-start items-center gap-x-5 gap-y-2 mb-6 text-brand-navy font-display font-bold text-base md:text-lg">
+              <div className="flex flex-wrap justify-center lg:justify-start items-center gap-x-5 gap-y-2 mt-6 text-brand-navy font-display font-bold text-base md:text-lg">
                 <span className="inline-flex items-center gap-2"><CalendarDays size={19} className="text-brand-orange" /> 28–31.6</span><span className="text-brand-creamDark">·</span>
                 <span className="inline-flex items-center gap-2"><Clock3 size={19} className="text-brand-orange" /> 20:00 בערב</span><span className="text-brand-creamDark">·</span>
                 <span className="inline-flex items-center gap-2"><Video size={19} className="text-brand-orange" /> בלייב בזום</span>
               </div>
             </Reveal>
-            <Reveal delay={0.22}>
-              <div className="flex flex-col items-center lg:items-start gap-3">
-                <CTA />
-                <span className="text-brand-muted text-sm md:text-base">בהנחיית אפרת קולברג וארזית נחום</span>
-              </div>
-            </Reveal>
           </div>
           <div className="order-1 lg:order-2">
             <Reveal y={0}>
-              <motion.img src={ILL('work-from-home')} alt="שכיר שמגלה שהידע שלו שווה כסף, מהבית" className="w-[82%] sm:w-[64%] lg:w-full max-w-lg mx-auto block select-none"
+              <motion.img src={ILL('work-from-home')} alt="שכיר שמגלה שהידע שלו שווה כסף, מהבית" className="w-[78%] sm:w-[60%] lg:w-full max-w-md mx-auto block select-none"
                 initial={reduce ? false : { opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }} draggable={false} />
             </Reveal>
           </div>
         </div>
 
+        {/* value bullets — above the CTA */}
+        <Reveal delay={0.05}>
+          <ul className="mt-10 md:mt-12 grid sm:grid-cols-3 gap-x-8 gap-y-4 border-t border-brand-creamDark pt-8">
+            {['תגלו איך לייצר הכנסה נוספת מהניסיון והידע שכבר קיים אצלכם, בלי ללמוד מקצוע חדש.', 'תגלו איך לעשות את זה בלי לסכן שקל אחד.', 'ללא עלות, ללא הגבלת מקומות, סה״כ 30 דקות הדרכה ביום, למשך 4 ימים.'].map((t, i) => (
+              <li key={i} className="flex items-start gap-3 text-brand-ink leading-snug text-sm md:text-base">
+                <CheckCircle2 size={20} className="text-brand-orange shrink-0 mt-0.5" strokeWidth={2.5} /><span>{t}</span>
+              </li>
+            ))}
+          </ul>
+        </Reveal>
+
         {/* countdown moment */}
-        <Reveal delay={0.1}>
-          <div className="mt-8 md:mt-10 rounded-3xl bg-brand-navy text-white p-5 md:p-7 flex flex-col md:flex-row items-center justify-between gap-5 shadow-[0_18px_50px_rgba(26,26,46,0.25)]">
+        <Reveal delay={0.05}>
+          <div className="mt-9 md:mt-11 rounded-3xl bg-brand-navy text-white p-5 md:p-6 flex flex-col md:flex-row items-center justify-between gap-5">
             <div className="text-center md:text-right">
               <p className="font-display font-bold text-lg md:text-2xl">השידור החי מתחיל בעוד</p>
               <p className="text-brand-orangeLight text-sm md:text-base font-display font-bold mt-0.5">שידור חי בלבד · בלי הקלטה · מי שלא מגיע, מפספס</p>
@@ -210,14 +211,15 @@ const Hero = () => {
           </div>
         </Reveal>
 
-        <Reveal delay={0.1}>
-          <ul className="mt-9 grid sm:grid-cols-3 gap-x-8 gap-y-4">
-            {['תגלו איך לייצר הכנסה נוספת מהניסיון והידע שכבר קיים אצלכם, בלי ללמוד מקצוע חדש.', 'תגלו איך לעשות את זה בלי לסכן שקל אחד.', 'ללא עלות, ללא הגבלת מקומות, סה״כ 30 דקות הדרכה ביום, למשך 4 ימים.'].map((t, i) => (
-              <li key={i} className="flex items-start gap-3 text-brand-ink leading-snug text-sm md:text-base">
-                <CheckCircle2 size={20} className="text-brand-orange shrink-0 mt-0.5" strokeWidth={2.5} /><span>{t}</span>
-              </li>
-            ))}
-          </ul>
+        {/* benefit-driven line + the form */}
+        <Reveal delay={0.05}>
+          <div className="mt-9 md:mt-11 rounded-[32px] bg-brand-orangeSoft/55 p-6 md:p-9 text-center">
+            <p className="font-display font-bold text-brand-navy leading-snug mb-6 max-w-2xl mx-auto" style={{ fontSize: 'clamp(1.3rem, 2.6vw, 2rem)' }}>
+              שריינו מקום ל-4 הערבים שיראו לכם איך להפוך את מה שאתם כבר יודעים <span className="text-brand-orange">ל-5,000–8,000 ש"ח בחודש.</span>
+            </p>
+            <RegistrationForm id="register-top" />
+            <p className="text-brand-muted text-sm mt-4">בהנחיית אפרת קולברג וארזית נחום</p>
+          </div>
         </Reveal>
       </div>
     </section>
@@ -225,8 +227,8 @@ const Hero = () => {
 };
 
 const PromiseBand = () => (
-  <section className="relative bg-brand-orangeSoft py-16 md:py-24 overflow-hidden">
-    <div className="container mx-auto px-5 md:px-12 max-w-4xl text-center relative">
+  <section className="bg-brand-orangeSoft py-16 md:py-24">
+    <div className="container mx-auto px-5 md:px-12 max-w-4xl text-center">
       <Reveal>
         <p className="font-display font-bold text-brand-navy leading-[1.18]" style={{ fontSize: 'clamp(1.6rem, 3.6vw, 3rem)', textWrap: 'balance' as any }}>
           מה שאתם כבר יודעים לעשות <span className="text-brand-orange">שווה כסף.</span> הרבה יותר ממה שהבוס משלם לכם עליו. ב-4 ערבים נראה לכם איך להפוך את זה ל-5,000–8,000 ש"ח בחודש.
@@ -245,13 +247,13 @@ const DAYS = [
 const DaysList = () => (
   <section className="bg-white py-16 md:py-24">
     <div className="container mx-auto px-5 md:px-12 max-w-6xl">
-      <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-10 lg:gap-14 items-center">
+      <div className="grid lg:grid-cols-[0.85fr_1.15fr] gap-10 lg:gap-16 items-center">
         <Reveal y={0} className="order-2 lg:order-1">
-          <img src={ILL('presentation')} alt="ארבעה ערבים של הדרכה חיה, צעד אחר צעד" className="w-[70%] lg:w-full max-w-md mx-auto block" draggable={false} />
+          <img src={ILL('freelancer')} alt="להפוך את הידע שכבר יש לכם להכנסה נוספת" className="w-[62%] lg:w-full max-w-sm mx-auto block" draggable={false} />
         </Reveal>
         <div className="order-1 lg:order-2">
           <Reveal>
-            <h2 className="font-display font-bold text-brand-navy leading-[1.05] mb-9 text-center lg:text-right" style={{ fontSize: 'clamp(2rem, 4.2vw, 3.4rem)' }}>
+            <h2 className="font-display font-bold text-brand-navy leading-[1.05] mb-8 md:mb-10 text-center lg:text-right" style={{ fontSize: 'clamp(2rem, 4.2vw, 3.4rem)' }}>
               מה נלמד ב-<span className="text-brand-orange">4 הימים?</span>
             </h2>
           </Reveal>
@@ -268,7 +270,7 @@ const DaysList = () => (
               </Reveal>
             ))}
           </div>
-          <Reveal delay={0.1}><div className="text-center lg:text-right mt-8"><CTA /></div></Reveal>
+          <Reveal delay={0.1}><div className="text-center lg:text-right mt-9"><CTA href="#register-mid" /></div></Reveal>
         </div>
       </div>
     </div>
@@ -276,12 +278,12 @@ const DaysList = () => (
 );
 
 const FormSection: React.FC<{ id: string }> = ({ id }) => (
-  <section className="relative bg-brand-cream py-14 md:py-20 overflow-hidden">
+  <section className="bg-brand-cream py-16 md:py-20">
     <div className="container mx-auto px-5 md:px-12">
-      <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center max-w-4xl mx-auto">
+      <div className="grid md:grid-cols-2 gap-10 md:gap-12 items-center max-w-4xl mx-auto">
         <Reveal y={0} className="text-center">
-          <img src={ILL('video-call')} alt="המפגשים בלייב דרך זום, מהסלון בבית" className="w-[68%] md:w-full max-w-sm mx-auto block" draggable={false} />
-          <p className="font-display font-bold text-brand-navy text-xl md:text-2xl mt-4 leading-snug">4 ערבים בלייב מהבית.<br /><span className="text-brand-orange">שריינו מקום עכשיו.</span></p>
+          <img src={ILL('video-call')} alt="המפגשים בלייב דרך זום, מהסלון בבית" className="w-[64%] md:w-full max-w-xs mx-auto block" draggable={false} />
+          <p className="font-display font-bold text-brand-navy text-xl md:text-2xl mt-5 leading-snug">4 ערבים בלייב מהבית.<br /><span className="text-brand-orange">שריינו מקום עכשיו.</span></p>
         </Reveal>
         <Reveal><RegistrationForm id={id} /></Reveal>
       </div>
@@ -302,7 +304,7 @@ const RiskReversal = () => (
         </Reveal>
         <Reveal delay={0.08}>
           <div className="h-full rounded-3xl bg-brand-orange text-white p-7 md:p-9 shadow-[0_18px_45px_rgba(224,87,38,0.3)] relative overflow-hidden">
-            <img src={ILL('success')} alt="" aria-hidden className="absolute -left-4 -bottom-4 w-32 md:w-40 opacity-90" draggable={false} />
+            <img src={ILL('success')} alt="" aria-hidden className="absolute -left-3 -bottom-3 w-28 md:w-36 opacity-90" draggable={false} />
             <div className="relative">
               <div className="font-display font-bold text-white/85 text-lg mb-2">במקרה הכי טוב?</div>
               <p className="text-white text-lg md:text-2xl leading-relaxed font-display font-bold">תבינו איך להשתמש בכישורים והניסיון שכבר יש לכם בכדי לייצר הכנסה של 5,000–8,000 ש"ח שתשמש לכם ולמשפחה שלכם ככרית ביטחון כלכלית בתוך 60 יום.</p>
@@ -353,26 +355,41 @@ const Tax = () => (
   </section>
 );
 
+// founders — premium: large photos + highlighted journey stat + 4-6M line
 const Founders = () => (
-  <section className="bg-brand-cream py-16 md:py-24">
+  <section className="bg-brand-navy text-white py-16 md:py-24">
     <div className="container mx-auto px-5 md:px-12 max-w-5xl">
-      <div className="grid md:grid-cols-[auto_1fr] gap-8 md:gap-12 items-center">
+      <div className="grid md:grid-cols-2 gap-10 md:gap-14 items-center">
         <Reveal>
-          <div className="flex md:flex-col gap-4 justify-center">
-            {[{ src: '/images/efrat.jpg', n: 'אפרת קולברג' }, { src: '/images/arzit.jpg', n: 'ארזית נחום' }].map((f) => (
-              <div key={f.n} className="text-center">
-                <div className="w-28 h-28 md:w-40 md:h-40 rounded-3xl overflow-hidden border-2 border-brand-orange/40 shadow-md mx-auto bg-white"><img src={f.src} alt={f.n} className="w-full h-full object-cover" loading="lazy" /></div>
-                <p className="font-display font-bold text-brand-navy mt-2.5 md:text-lg">{f.n}</p>
+          <div className="grid grid-cols-2 gap-4 md:gap-5">
+            {[{ src: '/images/efrat.jpg', n: 'אפרת קולברג' }, { src: '/images/arzit.jpg', n: 'ארזית נחום' }].map((f, i) => (
+              <div key={f.n} className={i === 0 ? 'pt-6' : ''}>
+                <div className="rounded-3xl overflow-hidden border border-white/15 shadow-2xl aspect-[3/4] bg-white/5"><img src={f.src} alt={f.n} className="w-full h-full object-cover" loading="lazy" /></div>
+                <p className="font-display font-bold text-center mt-3 md:text-lg">{f.n}</p>
               </div>
             ))}
           </div>
         </Reveal>
         <Reveal delay={0.08}>
           <div>
-            <h2 className="font-display font-bold text-brand-navy leading-[1.05] mb-5" style={{ fontSize: 'clamp(1.8rem, 3.8vw, 3rem)' }}>גם אנחנו <span className="text-brand-orange">היינו שכירות.</span></h2>
-            <div className="text-brand-ink text-lg md:text-xl leading-relaxed space-y-4">
-              <p>אנחנו אפרת קולברג וארזית נחום, ושתינו היינו שכירות. ארזית ניהלה את השיווק בחברת DHL תמורת <strong className="text-brand-navy">12,000 ש"ח בחודש</strong>, עד שפיטרו אותה, ואותו ידע בדיוק התחיל להכניס לה <strong className="text-brand-orange">950 ש"ח על שעת ייעוץ אחת</strong>.</p>
-              <p>היום אנחנו מנהלות יחד חברת ייעוץ עסקי, ובשנה האחרונה ליווינו מאות אנשים. עכשיו אנחנו לוקחות את כל מה שלמדנו, ומלמדות אתכם איך לעשות בדיוק את אותו הדבר, צעד אחר צעד.</p>
+            <p className="text-brand-orangeLight font-display font-bold mb-2">מי אנחנו?</p>
+            <h2 className="font-display font-bold leading-[1.05] mb-5" style={{ fontSize: 'clamp(1.9rem, 4vw, 3.2rem)' }}>גם אנחנו <span className="text-brand-orange">היינו שכירות.</span></h2>
+            <div className="text-white/75 text-lg leading-relaxed space-y-4">
+              <p>אנחנו אפרת קולברג וארזית נחום, ושתינו היינו שכירות. ארזית ניהלה את השיווק בחברת DHL תמורת <strong className="text-white">12,000 ש"ח בחודש</strong>, עד שפיטרו אותה, ואותו ידע בדיוק התחיל להכניס לה <strong className="text-white">950 ש"ח על שעת ייעוץ אחת</strong>. והיום יש לנו עסק שמכניס <strong className="text-brand-orange">4-6 מיליון ש"ח בשנה</strong> (לא פתחנו סטארט אפ, זה מאותו תחום בדיוק של ייעוץ עסקי).</p>
+              <p>בשנה האחרונה ליווינו מאות אנשים. עכשיו אנחנו לוקחות את כל מה שלמדנו, ומלמדות אתכם איך לעשות בדיוק את אותו הדבר, צעד אחר צעד.</p>
+            </div>
+            {/* journey stat strip */}
+            <div className="mt-7 flex items-stretch gap-2 md:gap-3" dir="rtl">
+              {[{ k: 'כשכירה', v: '12,000', s: 'לחודש' }, { k: 'כיועצת', v: '950', s: 'לשעה' }, { k: 'היום', v: '4-6 מ׳', s: 'בשנה', hot: true }].map((st, i) => (
+                <React.Fragment key={i}>
+                  <div className={`flex-1 rounded-2xl px-3 py-3 text-center ${st.hot ? 'bg-brand-orange' : 'bg-white/10'}`}>
+                    <div className={`text-[11px] font-display font-bold ${st.hot ? 'text-white/85' : 'text-white/55'}`}>{st.k}</div>
+                    <div className="font-display font-bold text-xl md:text-2xl leading-tight">{st.v}</div>
+                    <div className={`text-[11px] ${st.hot ? 'text-white/85' : 'text-white/55'}`}>ש"ח {st.s}</div>
+                  </div>
+                  {i < 2 && <div className="flex items-center text-brand-orange"><ChevronsLeft size={20} strokeWidth={3} /></div>}
+                </React.Fragment>
+              ))}
             </div>
           </div>
         </Reveal>
@@ -414,9 +431,9 @@ const FinalCTA = () => (
   <section className="relative bg-brand-orange text-white py-16 md:py-24 overflow-hidden">
     <div aria-hidden className="absolute inset-0 opacity-15" style={{ backgroundImage: 'radial-gradient(circle at 50% 0%, #fff, transparent 55%)' }} />
     <div className="container mx-auto px-5 md:px-12 max-w-5xl relative">
-      <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+      <div className="grid md:grid-cols-2 gap-10 md:gap-12 items-center">
         <Reveal y={0} className="text-center md:text-right">
-          <div className="inline-block bg-white rounded-[28px] p-3 md:p-4 shadow-xl mb-5"><img src={ILL('man-riding-a-rocket')} alt="" aria-hidden className="w-[180px] md:w-[230px] block" draggable={false} /></div>
+          <div className="inline-block bg-white rounded-[28px] p-3 md:p-4 shadow-xl mb-5"><img src={ILL('man-riding-a-rocket')} alt="" aria-hidden className="w-[170px] md:w-[220px] block" draggable={false} /></div>
           <h2 className="font-display font-bold leading-[1.05] mb-3" style={{ fontSize: 'clamp(2rem, 4.4vw, 3.4rem)' }}>סוף החודש הבא יכול להיראות אחרת.</h2>
           <p className="text-white/90 font-display font-bold text-lg md:text-xl mb-5">28–31.6 · 20:00 בערב · בלייב · ללא עלות</p>
           <div className="flex justify-center md:justify-start"><Countdown tone="dark" /></div>
@@ -441,7 +458,7 @@ const Footer = () => (
 
 const AppA = () => (
   <div className="bg-white min-h-screen overflow-x-clip" dir="rtl">
-    <TopBar /><Hero /><PromiseBand /><DaysList /><FormSection id="register-top" /><RiskReversal /><WhoFor /><Tax /><Founders /><FAQ /><FinalCTA /><Footer />
+    <TopBar /><Hero /><PromiseBand /><DaysList /><FormSection id="register-mid" /><RiskReversal /><WhoFor /><Tax /><Founders /><FAQ /><FinalCTA /><Footer />
   </div>
 );
 const App = () => <AppA />;
