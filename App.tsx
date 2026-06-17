@@ -220,7 +220,7 @@ const Hero = () => {
             </Reveal>
             <Reveal delay={0.18}>
               <div className="flex flex-wrap justify-center lg:justify-start items-center gap-x-5 gap-y-2 mt-6 text-brand-navy font-display font-bold text-base md:text-lg">
-                <span className="inline-flex items-center gap-2"><CalendarDays size={20} className="text-brand-orange" /> 28–31.6</span><span className="text-brand-creamDark">·</span>
+                <span className="inline-flex items-center gap-2"><CalendarDays size={20} className="text-brand-orange" /> 28.6 עד 1.7</span><span className="text-brand-creamDark">·</span>
                 <span className="inline-flex items-center gap-2"><Clock3 size={20} className="text-brand-orange" /> 20:00 בערב</span><span className="text-brand-creamDark">·</span>
                 <span className="inline-flex items-center gap-2"><Video size={20} className="text-brand-orange" /> בלייב בזום</span>
               </div>
@@ -450,7 +450,7 @@ const Founders = () => (
 );
 
 const FAQS = [
-  { q: 'מתי?', a: '28–31 ביוני, כל ערב ב-20:00.' }, { q: 'כמה זמן?', a: '30 דקות ביום, 4 ימים.' },
+  { q: 'מתי?', a: '28 ביוני עד 1 ביולי, כל ערב ב-20:00.' }, { q: 'כמה זמן?', a: '30 דקות ביום, 4 ימים.' },
   { q: 'איפה?', a: 'בלייב מהבית, דרך זום.' }, { q: 'כמה זה עולה?', a: 'ללא עלות, וללא הגבלת מקומות.' },
   { q: 'תהיה הקלטה?', a: 'המפגשים משודרים בלייב כדי שתוכלו לשאול שאלות ולקבל מענה אישי בזמן אמת. שווה לשריין את כל 4 הערבים מראש.' },
 ];
@@ -486,7 +486,7 @@ const FinalCTA = () => (
         <Reveal y={0} className="text-center md:text-right">
           <div className="inline-block bg-white rounded-[28px] p-3 md:p-4 shadow-xl mb-5"><img src={ILL('man-riding-a-rocket')} alt="" aria-hidden className="w-[170px] md:w-[220px] block" draggable={false} /></div>
           <h2 className="font-display font-bold leading-[1.05] mb-3" style={{ fontSize: 'clamp(2rem, 4.4vw, 3.4rem)' }}>זה הזמן להפוך את הידע שלכם להכנסה נוספת.</h2>
-          <p className="text-white/90 font-display font-bold text-lg md:text-xl mb-5">28–31.6 · 20:00 בערב · בלייב · ללא עלות</p>
+          <p className="text-white/90 font-display font-bold text-lg md:text-xl mb-5">28.6 עד 1.7 · 20:00 בערב · בלייב · ללא עלות</p>
           <div className="flex justify-center md:justify-start"><Countdown tone="dark" /></div>
           <p className="font-display font-bold text-white text-lg md:text-xl mt-6">מחכות לראות אתכם שם, אפרת וארזית.</p>
         </Reveal>
