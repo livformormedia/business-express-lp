@@ -118,7 +118,7 @@ const RegistrationForm: React.FC<{ id: string }> = ({ id }) => {
     } catch (err: any) { setSubmitting(false); setError(err?.message ? `שגיאה: ${err.message}` : 'שגיאה לא צפויה. נסו שוב.'); }
   };
   return (
-    <div id={id} className="scroll-mt-24 w-full max-w-md mx-auto text-right rounded-2xl bg-white border border-brand-navy/10 shadow-[0_30px_80px_-24px_rgba(26,26,46,0.3)] p-6 md:p-8">
+    <div id={id} className="scroll-mt-24 w-full max-w-md mx-auto text-right rounded-2xl bg-white border border-brand-navy/12 shadow-[0_2px_6px_rgba(26,26,46,0.06),0_12px_30px_-8px_rgba(26,26,46,0.16),0_34px_70px_-18px_rgba(26,26,46,0.3)] p-6 md:p-8">
       {done ? (
         <div className="text-center py-6">
           <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-brand-orange flex items-center justify-center shadow-lg"><CheckCircle2 size={34} className="text-white" strokeWidth={2.5} /></div>
@@ -423,8 +423,7 @@ const Founders = () => (
         </Reveal>
         <Reveal delay={0.08}>
           <div>
-            <p className="text-brand-orangeLight font-display font-bold mb-2">מי אנחנו?</p>
-            <h2 className="font-display font-bold leading-[1.05] mb-5" style={{ fontSize: 'clamp(1.9rem, 4vw, 3.2rem)' }}>גם אנחנו <span className="text-brand-orange">היינו שכירות.</span></h2>
+            <h2 className="font-display font-bold leading-[1.05] mb-5 text-white" style={{ fontSize: 'clamp(1.9rem, 4vw, 3.2rem)' }}>מי <span className="text-brand-orange">אנחנו?</span></h2>
             <div className="text-white/75 text-lg leading-relaxed space-y-4">
               <p>אנחנו אפרת קולברג וארזית נחום, ושתינו היינו שכירות. ארזית ניהלה את השיווק בחברת DHL תמורת <strong className="text-white">12,000 ש"ח בחודש</strong>, עד שפיטרו אותה, ואותו ידע בדיוק התחיל להכניס לה <strong className="text-white">950 ש"ח על שעת ייעוץ אחת</strong>. והיום יש לנו עסק שמכניס <strong className="text-brand-orange">4-6 מיליון ש"ח בשנה</strong> (לא פתחנו סטארט אפ, זה מאותו תחום בדיוק של ייעוץ עסקי).</p>
               <p>בשנה האחרונה ליווינו מאות אנשים. עכשיו אנחנו לוקחות את כל מה שלמדנו, ומלמדות אתכם איך לעשות בדיוק את אותו הדבר, צעד אחר צעד.</p>
