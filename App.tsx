@@ -238,15 +238,15 @@ const Hero = () => {
             <div aria-hidden className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div className="w-[90%] aspect-square rounded-full blur-2xl" style={{ background: 'radial-gradient(circle, rgba(253,227,214,0.95), rgba(255,179,140,0.22) 55%, transparent 72%)' }} />
             </div>
-            <div className="relative mx-auto max-w-sm lg:max-w-none">
+            <div className="relative mx-auto max-w-[300px] lg:max-w-none">
               <div className="grid grid-cols-2 gap-3.5 md:gap-5 items-center">
                 {[
-                  { src: '/images/efrat.jpg', n: 'אפרת קולברג', cls: '-mt-3 md:-mt-8', fy: [0, -9, 0], dur: 6.5 },
-                  { src: '/images/arzit.jpg', n: 'ארזית נחום', cls: 'mt-5 md:mt-10', fy: [0, 9, 0], dur: 7.5 },
+                  { src: '/images/efrat.jpg', n: 'אפרת קולברג', cls: '-mt-2 md:-mt-6', fy: [0, -9, 0], dur: 6.5 },
+                  { src: '/images/arzit.jpg', n: 'ארזית נחום', cls: 'mt-3 md:mt-8', fy: [0, 9, 0], dur: 7.5 },
                 ].map((p, i) => (
                   <motion.figure key={p.n} className={`relative ${p.cls}`}
                     initial={reduce ? false : { opacity: 0, y: 26 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.1 + i * 0.12, ease: [0.16, 1, 0.3, 1] }}>
-                    <motion.div className="rounded-[28px] overflow-hidden border-4 border-white shadow-[0_24px_60px_rgba(26,26,46,0.24)] aspect-[7/10] bg-brand-cream"
+                    <motion.div className="rounded-[24px] overflow-hidden border-4 border-white shadow-[0_22px_55px_rgba(26,26,46,0.22)] aspect-[4/5] bg-brand-cream"
                       animate={reduce ? undefined : { y: p.fy }} transition={{ duration: p.dur, repeat: Infinity, ease: 'easeInOut' }}>
                       <img src={p.src} alt={p.n} className="w-full h-full object-cover" loading="eager" draggable={false} />
                     </motion.div>
@@ -255,7 +255,7 @@ const Hero = () => {
                 ))}
               </div>
               {/* floating proof chip — substance + gentle motion */}
-              <motion.div className="mx-auto mt-7 w-max max-w-full rounded-full bg-white shadow-[0_14px_40px_rgba(26,26,46,0.16)] border border-brand-creamDark px-4 md:px-5 py-2.5"
+              <motion.div className="mx-auto mt-5 w-max max-w-full rounded-full bg-white shadow-[0_14px_40px_rgba(26,26,46,0.16)] border border-brand-creamDark px-4 md:px-5 py-2.5"
                 initial={reduce ? false : { opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.45 }}>
                 <motion.span className="flex items-center gap-2" animate={reduce ? undefined : { y: [0, -4, 0] }} transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}>
                   <span className="w-6 h-6 rounded-full bg-brand-orange flex items-center justify-center shrink-0"><CheckCircle2 size={15} className="text-white" strokeWidth={3} /></span>
