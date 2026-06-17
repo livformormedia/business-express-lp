@@ -12,10 +12,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   if (!SUPABASE_READY) return res.status(500).json({ error: 'supabase_not_configured' });
 
+  // Only count the NEW free-challenge campaign. The prior PAID workshop run
+  // (ended 2026-06-07) lives in the same table and must be excluded.
+  const CAMPAIGN_START = '2026-06-17T00:00:00Z';
+
   const { data, error } = await supabase
     .from('bex_events')
     .select('tx_id, event_type, variant, utm_source, utm_campaign, referrer, created_at')
     .eq('event_type', 'lead')
+    .gte('created_at', CAMPAIGN_START)
     .order('created_at', { ascending: false })
     .limit(8000);
   if (error) return res.status(500).json({ error: error.message });
