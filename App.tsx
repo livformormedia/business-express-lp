@@ -174,10 +174,10 @@ const GuaranteeCard = () => (
           <span className="text-brand-orange">הפסדתם חצי שעה.</span>
         </h3>
         <p className="text-brand-muted text-base md:text-xl leading-relaxed mb-4">
-          תגיעו ליום הראשון, תחליטו שזה לא בשבילכם, ותמשיכו הלאה.
+          תגיעו לשידור הראשון, תחשבו שזה חרטה ברטה, ותמשיכו בחייכם.
         </p>
         <p className="text-brand-navy font-display font-bold text-base md:text-xl leading-relaxed">
-          במקרה הכי טוב? תבינו איך לייצר 5,000–8,000 ₪ נוספים בחודש מהכישורים שכבר יש לכם, בלי לסכן שקל ובלי לעזוב את העבודה. אוויר לנשום, וכרית ביטחון כלכלית למשפחה.
+          במקרה הכי טוב? תבינו איך להשתמש בכישורים והניסיון שכבר יש לכם בכדי לייצר הכנסה של 5,000–8,000 ש"ח שתשמש לכם ולמשפחה שלכם ככרית ביטחון כלכלית בתוך 60 יום.
         </p>
       </div>
     </div>
@@ -596,10 +596,10 @@ const AppA = () => {
             <div className="order-2 lg:order-1 text-center lg:text-right">
 
             <h1 className="font-display text-brand-navy font-bold mb-4 leading-tight" style={{ fontSize: 'clamp(2rem, 4vw, 3.4rem)' }}>
-              איך להגדיל הכנסה למשפחה, <span className="text-brand-orange">בלי לסכן שקל</span>, ללמוד מקצוע חדש או להתפטר מהעבודה
+              איך להגדיל הכנסה למשפחה (<span className="text-brand-orange">בלי לסכן שקל</span>, ללמוד מקצוע חדש או להתפטר מהעבודה)
             </h1>
             <p className="text-lg md:text-2xl text-brand-muted mb-6 leading-relaxed">
-              מיני קורס בן 4 ימים בלייב, לשכירים ומשפחות שמבינות שלייצר הכנסה נוספת זו כבר לא המלצה אלא חובה ב-2026.
+              מיני קורס ללא עלות בן 4 ימים בלייב, לשכירים ומשפחות שמבינות שלייצר הכנסה נוספת זו לא המלצה אלא חובה ב-2026.
             </p>
 
             {/* Date pill — prominent for 40+ audience */}
@@ -616,9 +616,9 @@ const AppA = () => {
 
             <ul className="space-y-3 mb-6 max-w-xl mx-auto lg:mx-0 text-right">
               {[
-                'הכנסה נוספת מהניסיון והידע שכבר קיים אצלכם, בלי ללמוד מקצוע חדש.',
-                'איך לעשות את זה בלי לסכן שקל אחד.',
-                'ללא עלות, ללא הגבלת מקומות, 30 דקות הדרכה ביום למשך 4 ימים.',
+                'תגלו איך לייצר הכנסה נוספת מהניסיון והידע שכבר קיים אצלכם, בלי ללמוד מקצוע חדש.',
+                'תגלו איך לעשות את זה בלי לסכן שקל אחד.',
+                'ללא עלות, ללא הגבלת מקומות, סה״כ 30 דקות הדרכה ביום, למשך 4 ימים.',
               ].map((t, i) => (
                 <li key={i} className="flex items-start gap-3 text-base md:text-lg text-brand-ink">
                   <span className="shrink-0 mt-0.5 w-6 h-6 md:w-7 md:h-7 rounded-full bg-brand-orange text-white flex items-center justify-center">
@@ -629,202 +629,16 @@ const AppA = () => {
               ))}
             </ul>
 
-            <div className="flex justify-center lg:justify-start gap-3 mb-2 mt-7">
+            <div className="flex flex-col items-center lg:items-start gap-2 mb-2 mt-7">
               <CTAPill label="שריינו את המקום שלכם בחינם" size="lg" href="#register" external={false} />
+              <p className="text-brand-muted text-sm md:text-base">בהנחיית אפרת קולברג וארזית נחום</p>
             </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* PAIN — the price trap */}
-      <section id="story" className="py-16 md:py-24 bg-brand-cream">
-        <div className="container mx-auto px-5 md:px-12 max-w-4xl text-center">
-          <h2 className="font-display font-bold text-brand-navy leading-[1.05] mb-8" style={{ fontSize: 'clamp(2.4rem, 5.5vw, 5.5rem)' }}>
-            תעשה את החשבון, ותבין את האמת:<br />
-            <span className="text-brand-orange">השכר שלך לא משקף את הערך שאתה נותן.</span>
-          </h2>
 
-          <div className="space-y-5 text-xl md:text-3xl text-brand-ink leading-relaxed">
-            {/* Identity-level agitation */}
-            <p className="font-display font-bold text-brand-navy leading-tight" style={{ fontSize: 'clamp(2rem, 4.2vw, 3.5rem)' }}>
-              אתה כבר לא בן 25.
-            </p>
-            <p className="pt-2">מאחוריך 10+ שנים של עבודה אמיתית, אלפי שעות של ניסיון, וידע שלוקח שנים לצבור.</p>
-            <p className="text-brand-muted font-display font-bold leading-snug pt-3" style={{ fontSize: 'clamp(1.5rem, 3.4vw, 2.8rem)' }}>
-              ובכל זאת, שתי משכורות נכנסות הביתה, ועדיין צפוף בסוף החודש.
-            </p>
-
-            {/* The real math */}
-            <p className="pt-4">8 שעות ביום אתה נותן ידע של 10–15 שנה ומקבל עליו משכורת.</p>
-            <p>החברה מוכרת את אותה עבודה ללקוחות שלה בפי כמה, ושמה את ההפרש בכיס.</p>
-
-            {/* Punchline — high emotion truth, big + bold */}
-            <div className="my-10 md:my-14">
-              <div className="inline-block bg-brand-navy text-white rounded-2xl px-8 md:px-14 py-7 md:py-10 shadow-2xl border-4 border-brand-orange relative">
-                <p className="font-display font-bold text-white leading-[1.05]" style={{ fontSize: 'clamp(2rem, 5vw, 4.5rem)' }}>
-                  הזמן שלך שווה הרבה יותר
-                </p>
-                <p className="font-display font-bold text-brand-orange leading-[1.05] mt-2" style={{ fontSize: 'clamp(2rem, 5vw, 4.5rem)' }}>
-                  ממה שמשלמים לך עליו.
-                </p>
-              </div>
-            </div>
-
-            <p className="font-display font-bold text-brand-navy pt-4 leading-tight" style={{ fontSize: 'clamp(1.9rem, 4vw, 3.8rem)' }}>
-              אתה עובד קשה כל חייך,<br />
-              <span className="text-brand-orange">אז איך זה שבסוף החודש עדיין צפוף?</span>
-            </p>
-          </div>
-
-          {/* Self-talk — the things he keeps telling himself */}
-          <div className="mt-14 md:mt-20">
-            <h3 className="font-display font-bold text-brand-orange text-center leading-[1.05] mb-10 md:mb-12" style={{ fontSize: 'clamp(2rem, 4.6vw, 4.4rem)' }}>
-              ואתה ממשיך להגיד לעצמך:<br className="md:hidden" /> "עוד העלאה אחת ויהיה אחרת"
-            </h3>
-            <div className="grid md:grid-cols-3 gap-5 md:gap-7 max-w-5xl mx-auto">
-              {[
-                '"אין לי מושג איך מביאים לקוח ראשון."',
-                '"כדי להרוויח עוד צריך עוד עבודה, ואין לי זמן."',
-                '"המשכורת היא הביטחון, אסור לי לגעת בזה."',
-              ].map((q, i) => (
-                <div key={i} className="bg-white rounded-2xl border-2 border-brand-creamDark shadow-md p-6 md:p-8 text-center hover:border-brand-orange/50 transition-colors">
-                  <div className="w-16 h-16 md:w-20 md:h-20 mx-auto mb-5 rounded-full bg-brand-orange flex items-center justify-center shadow-lg">
-                    <HelpCircle size={32} className="text-white" strokeWidth={2.5} />
-                  </div>
-                  <p className="font-display font-bold text-brand-navy text-xl md:text-2xl leading-snug">{q}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="text-center text-xl md:text-3xl text-brand-ink leading-relaxed">
-
-            {/* Pivot to diagnosis — high emotion, big bold box */}
-            <div className="my-10 md:my-14">
-              <div className="inline-block bg-brand-navy text-white rounded-2xl px-8 md:px-14 py-7 md:py-10 shadow-2xl border-4 border-brand-orange">
-                <p className="font-display font-bold text-white leading-[1.05]" style={{ fontSize: 'clamp(2rem, 5vw, 4.5rem)' }}>
-                  זה לא חייב להישאר ככה.
-                </p>
-                <p className="font-display font-bold text-brand-orange leading-[1.05] mt-3" style={{ fontSize: 'clamp(2rem, 5vw, 4.5rem)' }}>
-                  ובעצם, זה לא יכול להישאר ככה.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* DIAGNOSIS — capability beat + Hormozi price cycle */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="container mx-auto px-5 md:px-12 max-w-5xl">
-          <div className="text-center mb-12 md:mb-14">
-            <p className="text-base md:text-xl font-bold text-brand-orange tracking-[0.3em] uppercase mb-4">החדשות הטובות</p>
-            <h2 className="font-display font-bold text-brand-navy leading-[1.05] mb-6" style={{ fontSize: 'clamp(2.4rem, 5.5vw, 5.5rem)' }}>
-              זה לא אתה,<br />
-              <span className="text-brand-orange">זו המסגרת.</span>
-            </h2>
-            <div className="text-xl md:text-2xl text-brand-ink leading-relaxed max-w-3xl mx-auto space-y-3">
-              <p>זה לא שאתה לא טוב, אתה מעולה.</p>
-              <p>זה לא שהידע שלך חלש, הוא זהב.</p>
-              <p className="font-display font-bold text-brand-navy pt-2">
-                זו פשוט הדרך שבה אתה מוכר אותו: <span className="text-brand-orange">כשכיר, לבוס אחד, בזול</span>. אותו ידע בדיוק, כעצמאי, שווה פי כמה.
-              </p>
-            </div>
-
-            {/* Analogy — first-class flight. PROMINENT block. */}
-            <div className="mt-12 md:mt-16 max-w-5xl mx-auto">
-              {/* Floating lightbulb badge */}
-              <div className="relative">
-                <div className="absolute -top-7 md:-top-9 left-1/2 -translate-x-1/2 z-10">
-                  <div className="bg-brand-orange text-white rounded-full w-14 h-14 md:w-20 md:h-20 flex items-center justify-center shadow-xl border-4 border-white">
-                    <Lightbulb size={28} strokeWidth={2.5} className="md:hidden" />
-                    <Lightbulb size={40} strokeWidth={2.5} className="hidden md:block" />
-                  </div>
-                </div>
-
-                <div className="bg-white rounded-3xl border-4 border-brand-orange shadow-2xl overflow-hidden pt-10 md:pt-14">
-                  <p className="text-brand-orange font-display font-bold text-sm md:text-base tracking-[0.25em] uppercase text-center mb-3">תחשוב על זה ככה:</p>
-
-                  <h3 className="font-display font-bold text-brand-navy text-center leading-[1.05] px-5 md:px-10 mb-7 md:mb-10" style={{ fontSize: 'clamp(2rem, 5vw, 4.5rem)' }}>
-                    אותו ידע. אותו אדם.<br />
-                    <span className="text-brand-orange">פי 5 מחיר.</span>
-                  </h3>
-
-                  {/* IMAGE — generated split-screen economy vs first class */}
-                  <div className="relative w-full overflow-hidden bg-brand-navyDark" style={{ aspectRatio: '21 / 9' }}>
-                    <picture>
-                      <source srcSet="/images/first-class.webp" type="image/webp" />
-                      <img
-                        src="/images/first-class.jpg"
-                        alt="מחלקה ראשונה מול מחלקת תיירים"
-                        className="absolute inset-0 w-full h-full object-cover"
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    </picture>
-                    {/* Price labels overlaid in bottom corners */}
-                    <div className="absolute bottom-3 md:bottom-5 right-3 md:right-5 bg-brand-navy/85 backdrop-blur-sm rounded-xl px-4 md:px-6 py-2 md:py-3 border border-brand-orange/40">
-                      <p className="font-display font-bold text-brand-orange leading-none text-xl md:text-3xl">20,000 ₪</p>
-                      <p className="text-white/85 text-xs md:text-sm mt-1">מחלקה ראשונה</p>
-                    </div>
-                    <div className="absolute bottom-3 md:bottom-5 left-3 md:left-5 bg-black/65 backdrop-blur-sm rounded-xl px-4 md:px-6 py-2 md:py-3 border border-white/15">
-                      <p className="font-display font-bold text-white/85 leading-none text-xl md:text-3xl">2,000 ₪</p>
-                      <p className="text-white/60 text-xs md:text-sm mt-1">מחלקת תיירים</p>
-                    </div>
-                  </div>
-
-                  <div className="p-6 md:p-10 text-right space-y-4">
-                    <p className="text-xl md:text-3xl text-brand-ink leading-relaxed">
-                      אותו מטוס. אותו טייס. אותו זמן נחיתה. <strong className="text-brand-navy">פי 10 מחיר.</strong>
-                    </p>
-                    <p className="text-xl md:text-3xl text-brand-ink leading-relaxed">
-                      מה הלקוח במחלקה הראשונה באמת קונה? לא יעד אחר, ולא מטוס אחר, אלא <strong className="text-brand-navy">חוויה אחרת, מעמד אחר, ותפיסת ערך אחרת לגמרי</strong>.
-                    </p>
-                    <p className="font-display font-bold text-brand-navy text-center leading-snug pt-3" style={{ fontSize: 'clamp(1.8rem, 4vw, 3.5rem)' }}>
-                      בדיוק אותו דבר<br className="md:hidden" /> <span className="text-brand-orange">קורה עם הידע שלך.</span>
-                    </p>
-                    <p className="text-xl md:text-3xl text-brand-ink leading-relaxed text-center">
-                      במשכורת מקבלים עליו מעט. עצמאי, על אותו ידע, משלמים פי כמה.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <PriceCycleVisual />
-
-          <div className="text-center mt-10 md:mt-14 max-w-3xl mx-auto">
-            <p className="font-display font-bold text-brand-navy leading-tight" style={{ fontSize: 'clamp(1.7rem, 3.5vw, 3rem)' }}>
-              אותו ידע בדיוק, <span className="text-brand-orange">תוצאה אחרת לגמרי.</span>
-            </p>
-            <p className="text-brand-muted text-lg md:text-2xl pt-3 leading-relaxed">
-              אתה לא צריך ללמוד מקצוע חדש, רק לדעת איך אורזים את מה שכבר יש לך.
-            </p>
-            <div className="mt-10 md:mt-12">
-              <CTAPill label="שריינו את המקום שלכם בחינם" size="lg" href="#register" external={false} />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* TAX OBJECTION — calm reassurance */}
-      <section className="py-16 md:py-24 bg-brand-cream">
-        <div className="container mx-auto px-5 md:px-12 max-w-3xl text-center">
-          <h2 className="font-display font-bold text-brand-navy leading-[1.1] mb-8" style={{ fontSize: 'clamp(1.9rem, 4.4vw, 3.6rem)' }}>
-            "אבל אני אצטרך לפתוח עסק<br className="md:hidden" /> ולשלם מיסים?"
-          </h2>
-          <div className="text-lg md:text-2xl text-brand-ink leading-relaxed space-y-4 text-right max-w-2xl mx-auto">
-            <p>שאלה טובה, וזה בדיוק הפחד שעוצר את רוב האנשים.</p>
-            <p>אז בואו נרגיע אתכם: כן, בשלב מסוים פותחים עוסק פטור, וזה הרבה יותר פשוט וזול ממה שאתם מדמיינים, צעד אחר צעד, ואנחנו נלווה אתכם לאורך כל הדרך.</p>
-            <p>אבל זה ממש לא הדבר הראשון.</p>
-            <p className="font-display font-bold text-brand-navy">
-              החלק המפחיד באמת הוא לא המיסים, הוא פשוט להבין קודם כל אם יש לכם בכלל משהו ששווה כסף. <span className="text-brand-orange">בדיוק את זה נעשה ביום הראשון.</span>
-            </p>
-          </div>
-        </div>
-      </section>
 
       {/* Sentinel — FloatingCTA shows after scrolling past this point */}
       <div id="floating-cta-trigger" aria-hidden="true" className="h-0 w-0 invisible" />
@@ -836,7 +650,7 @@ const AppA = () => {
         }}></div>
         <div className="container mx-auto px-5 md:px-12 relative max-w-4xl">
           <div className="text-center mb-10 md:mb-12">
-            <p className="text-base md:text-xl font-bold text-brand-orange tracking-[0.3em] uppercase mb-4">מי אנחנו</p>
+            <p className="text-base md:text-xl font-bold text-brand-orange tracking-[0.3em] uppercase mb-4">מי אנחנו?</p>
             <h2 className="font-display font-bold leading-[1.05] mb-2" style={{ fontSize: 'clamp(2rem, 4.6vw, 4.4rem)' }}>
               גם אנחנו <span className="text-brand-orange">היינו שכירות.</span>
             </h2>
@@ -862,11 +676,11 @@ const AppA = () => {
             <div className="text-lg md:text-2xl text-white/90 leading-relaxed space-y-4 text-right">
               <p>אנחנו אפרת קולברג וארזית נחום, ושתינו היינו שכירות.</p>
               <p>
-                ארזית ניהלה את השיווק בחברת DHL תמורת <strong className="text-white">12,000 ₪ בחודש</strong>, עד שפיטרו אותה, ואותו ידע בדיוק התחיל להכניס לה <strong className="text-brand-orange">950 ₪ על שעת ייעוץ אחת</strong>.
+                ארזית ניהלה את השיווק בחברת DHL תמורת <strong className="text-white">12,000 ש"ח בחודש</strong>, עד שפיטרו אותה, ואותו ידע בדיוק התחיל להכניס לה <strong className="text-brand-orange">950 ש"ח על שעת ייעוץ אחת</strong>.
               </p>
               <p>היום אנחנו מנהלות יחד חברת ייעוץ עסקי, ובשנה האחרונה ליווינו מאות אנשים.</p>
               <p className="font-display font-bold text-white">
-                עכשיו אנחנו לוקחות את כל מה שלמדנו ומלמדות אתכם לעשות בדיוק את אותו הדבר.
+                עכשיו אנחנו לוקחות את כל מה שלמדנו, ומלמדות אתכם איך לעשות בדיוק את אותו הדבר, צעד אחר צעד.
               </p>
             </div>
           </div>
@@ -881,7 +695,7 @@ const AppA = () => {
       <section id="modules" className="py-16 md:py-24 bg-white">
         <div className="container mx-auto px-5 md:px-12">
           <div className="text-center mb-14">
-            <p className="text-base md:text-xl font-bold text-brand-orange tracking-[0.3em] uppercase mb-4">מה נעשה ב-4 הימים</p>
+            <p className="text-base md:text-xl font-bold text-brand-orange tracking-[0.3em] uppercase mb-4">מה נלמד ב-4 הימים?</p>
             <h2 className="font-display font-bold text-brand-navy leading-[1.05]" style={{ fontSize: 'clamp(2.4rem, 5vw, 5.5rem)' }}>
               4 ימים, 30 דקות ביום,{' '}<br />
               <span className="text-brand-orange">צעד אחר צעד.</span>
@@ -890,10 +704,10 @@ const AppA = () => {
 
           <div className="max-w-4xl mx-auto space-y-5">
             {[
-              { day: 'יום 1', benefit: 'זיהוי הכסף שמסתתר אצלך', purpose: 'איך לזהות תוך 60 דקות איזה ידע שכבר יש לכם יכול להפוך להכנסה נוספת.' },
-              { day: 'יום 2', benefit: 'יותר כסף, פחות שעות', purpose: 'איך להפוך את הידע שלכם למוצר שמשלמים לכם עליו פי 5 ממה שהבוס משלם.' },
+              { day: 'יום 1', benefit: 'זיהוי הכסף שמסתתר אצלך', purpose: 'איך לזהות תוך 60 דקות איזה ידע שלך יכול להפוך להכנסה נוספת.' },
+              { day: 'יום 2', benefit: 'יותר כסף, פחות שעות', purpose: 'איך להפוך את הידע שלך למוצר שמוכנים לשלם לך עליו פי 5 ממה שהבוס שלך משלם לך.' },
               { day: 'יום 3', benefit: 'הלקוחות הראשונים', purpose: 'איך להביא את הלקוח הראשון בלי אתר ובלי לשים שקל אחד על מודעות.' },
-              { day: 'יום 4', benefit: 'מודל 8 הצעדים', purpose: 'השיטה המלאה להכנסה נוספת ויציבה של 5,000–8,000 ₪ בחודש, צעד אחר צעד.' },
+              { day: 'יום 4', benefit: 'מודל 8 הצעדים', purpose: 'להכנסה נוספת יציבה של 5,000–8,000 ש"ח בחודש, צעד אחר צעד.' },
             ].map((item, i) => (
               <div key={i} className="bg-brand-cream rounded-2xl p-6 md:p-8 border-2 border-brand-creamDark hover:border-brand-orange transition-colors flex gap-4 md:gap-6">
                 <div className="shrink-0 w-14 h-14 md:w-16 md:h-16 rounded-full bg-brand-orange text-white flex items-center justify-center font-display font-bold text-base md:text-lg shadow-md text-center leading-tight">
@@ -922,11 +736,37 @@ const AppA = () => {
         </div>
       </section>
 
+      {/* THE PROMISE */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="container mx-auto px-5 md:px-12 max-w-3xl text-center">
+          <p className="text-xl md:text-3xl text-brand-ink leading-relaxed">
+            מה שאתם כבר יודעים לעשות שווה כסף. <span className="font-display font-bold text-brand-navy">הרבה יותר ממה שהבוס משלם לכם עליו.</span> ב-4 ערבים נראה לכם איך להפוך את זה ל-<span className="text-brand-orange font-display font-bold">5,000–8,000 ש"ח בחודש.</span>
+          </p>
+        </div>
+      </section>
+
+      {/* TAX REASSURANCE */}
+      <section className="py-16 md:py-24 bg-brand-cream">
+        <div className="container mx-auto px-5 md:px-12 max-w-3xl text-center">
+          <h2 className="font-display font-bold text-brand-navy leading-[1.1] mb-8" style={{ fontSize: 'clamp(1.9rem, 4.4vw, 3.6rem)' }}>
+            "אבל אני אצטרך לפתוח עסק<br className="md:hidden" /> ולשלם מיסים?"
+          </h2>
+          <div className="text-lg md:text-2xl text-brand-ink leading-relaxed space-y-4 text-right max-w-2xl mx-auto">
+            <p>שאלה טובה, וזה בדיוק הפחד שעוצר את רוב האנשים.</p>
+            <p>אז בואו נרגיע אתכם: כן, בשלב מסוים פותחים עוסק פטור, וזה הרבה יותר פשוט וזול ממה שאתם מדמיינים, צעד אחר צעד, ואנחנו נלווה אתכם לאורך כל הדרך.</p>
+            <p>אבל זה ממש לא הדבר הראשון.</p>
+            <p className="font-display font-bold text-brand-navy">
+              החלק המפחיד באמת הוא לא המיסים, הוא פשוט להבין קודם כל אם יש לכם בכלל משהו ששווה כסף. <span className="text-brand-orange">בדיוק את זה נעשה ביום הראשון.</span>
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* WHO IT'S FOR */}
       <section className="py-14 md:py-20 bg-white">
         <div className="container mx-auto px-5 md:px-12 max-w-5xl">
           <h2 className="font-display font-bold text-brand-navy text-center leading-[1.05] mb-12" style={{ fontSize: 'clamp(2.2rem, 5vw, 5rem)' }}>
-            המיני קורס הזה <span className="text-brand-orange">לא לכולם.</span>
+            זה <span className="text-brand-orange">בשבילכם?</span>
           </h2>
 
           <div className="grid md:grid-cols-2 gap-6 md:gap-8">
@@ -938,7 +778,7 @@ const AppA = () => {
                 <h3 className="font-display font-bold text-2xl md:text-3xl text-brand-navy">לא בשבילכם אם…</h3>
               </div>
               <ul className="space-y-4 text-lg md:text-2xl text-brand-ink">
-                <li className="flex gap-3"><span className="text-red-500 font-bold text-2xl shrink-0">✕</span> מחפשים כפתור קסם או להתעשר מהר.</li>
+                <li className="flex gap-3"><span className="text-red-500 font-bold text-2xl shrink-0">✕</span> אתם מחפשים כפתור קסם או להתעשר מהר.</li>
                 <li className="flex gap-3"><span className="text-red-500 font-bold text-2xl shrink-0">✕</span> לא מוכנים להשקיע אפילו שעה ביום.</li>
               </ul>
             </div>
@@ -952,7 +792,7 @@ const AppA = () => {
                 <h3 className="font-display font-bold text-2xl md:text-3xl text-brand-navy">בשבילכם אם…</h3>
               </div>
               <ul className="space-y-4 text-lg md:text-2xl text-brand-ink relative">
-                <li className="flex gap-3"><span className="text-brand-orange font-bold text-2xl shrink-0">✓</span> שכירים עם 10+ שנות ניסיון.</li>
+                <li className="flex gap-3"><span className="text-brand-orange font-bold text-2xl shrink-0">✓</span> אתם שכירים עם 10+ שנות ניסיון.</li>
                 <li className="flex gap-3"><span className="text-brand-orange font-bold text-2xl shrink-0">✓</span> שתי משכורות נכנסות ועדיין צפוף בסוף החודש.</li>
                 <li className="flex gap-3"><span className="text-brand-orange font-bold text-2xl shrink-0">✓</span> רוצים הכנסה נוספת אבל לא יודעים מאיפה להתחיל.</li>
               </ul>
@@ -976,8 +816,7 @@ const AppA = () => {
       <section className="py-14 md:py-20 bg-brand-cream">
         <div className="container mx-auto px-5 md:px-12 max-w-3xl">
           <h2 className="font-display font-bold text-brand-orange text-center leading-[1.05] mb-10" style={{ fontSize: 'clamp(2.2rem, 5vw, 5rem)' }}>
-            יש לכם שאלות?<br />
-            <span className="text-brand-navy">כל התשובות כאן.</span>
+            איך זה <span className="text-brand-navy">עובד?</span>
           </h2>
 
           <div className="space-y-3">
@@ -986,7 +825,7 @@ const AppA = () => {
               { q: 'כמה זמן?', a: '30 דקות ביום, 4 ימים.' },
               { q: 'איפה?', a: 'בלייב מהבית, דרך זום.' },
               { q: 'כמה זה עולה?', a: 'ללא עלות, וללא הגבלת מקומות.' },
-              { q: 'תהיה הקלטה?', a: 'השידור בלייב בלבד.' },
+              { q: 'תהיה הקלטה?', a: 'השידור בלייב בלבד. מי שלא מגיע, מפספס.' },
             ].map((f, i) => (
               <div key={i} className="bg-white rounded-2xl border-2 border-brand-creamDark overflow-hidden hover:border-brand-orange transition-colors">
                 <button onClick={() => toggleFaq(i)} className="w-full px-5 md:px-7 py-5 md:py-6 flex items-center justify-between text-right gap-4">
@@ -1004,25 +843,6 @@ const AppA = () => {
         </div>
       </section>
 
-      {/* EMOTIONAL CLOSE */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="container mx-auto px-5 md:px-12 max-w-4xl text-center">
-          <h2 className="font-display font-bold text-brand-navy leading-[1.05] mb-3" style={{ fontSize: 'clamp(2.4rem, 5.5vw, 6rem)' }}>
-            הגעתם עד כאן<br />
-            <span className="text-brand-orange">ועדיין מתלבטים?</span>
-          </h2>
-          <p className="text-2xl md:text-3xl text-brand-muted italic mb-10">עם יד על הלב.</p>
-
-          <div className="space-y-5 text-xl md:text-3xl text-brand-ink leading-relaxed">
-            <p>כמה עוד סופי חודש אתם מוכנים לעבור בתחושה שצפוף, למרות ששתי משכורות נכנסות?</p>
-            <p>כמה זמן הידע שלכם, ששווה זהב, ימשיך להכניס לכם משכורת אחת בלבד?</p>
-            <p className="font-display font-bold text-brand-navy pt-4 leading-tight" style={{ fontSize: 'clamp(2rem, 4vw, 4rem)' }}>
-              עוד שנה של אותו דבר.<br />
-              <span className="text-brand-orange">או 4 ערבים שמשנים את משוואת ההכנסה של המשפחה.</span>
-            </p>
-          </div>
-        </div>
-      </section>
 
       {/* FINAL CTA — dark */}
       <section className="relative bg-brand-navyDark text-white py-20 md:py-28 clip-diagonal-top overflow-hidden">
@@ -1053,7 +873,7 @@ const AppA = () => {
         <div className="container mx-auto px-5">
           <p className="mb-1 font-display font-bold text-base text-white/80">ביזנס אקספרס</p>
           <p className="mb-1">מיני קורס "עסק לכולם" · אפרת קולברג + ארזית נחום</p>
-          <p className="mb-3">© 2026 כל הזכויות שמורות לביזנס אקספרס</p>
+          <p className="mb-3">© עסק לכולם · כל הזכויות שמורות · פרטיותכם נשמרת</p>
           <p className="text-xs"><a href="/privacy.html" className="hover:text-white underline">מדיניות פרטיות</a> · <a href="/accessibility.html" className="hover:text-white underline">הצהרת נגישות</a></p>
         </div>
       </footer>
