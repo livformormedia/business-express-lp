@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>עסק לכולם | מיני קורס חינם בן 4 ימים | אפרת קולברג וארזית נחום</title>
+    <meta name="description" content="מיני קורס ללא עלות בן 4 ימים בלייב, לשכירים ומשפחות שמבינות שלייצר הכנסה נוספת זו לא המלצה אלא חובה ב-2026. 28–31.6 בשעה 20:00, בזום." />
+    <meta property="og:title" content="עסק לכולם | מיני קורס חינם בן 4 ימים" />
+    <meta property="og:description" content="איך להגדיל הכנסה למשפחה בלי לסכן שקל, ללמוד מקצוע חדש או להתפטר מהעבודה. בהנחיית אפרת קולברג וארזית נחום." />
+    <meta property="og:locale" content="he_IL" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23E05726'/%3E%3Ctext x='50' y='72' font-family='Arial' font-size='72' font-weight='bold' fill='white' text-anchor='middle'%3E%E2%82%AA%3C/text%3E%3C/svg%3E" />
+    <link rel="preload" as="image" href="/images/hero-banner.webp" type="image/webp" media="(min-width: 769px)">
+    <link rel="preload" as="image" href="/images/hero-banner-900.webp" type="image/webp" media="(max-width: 768px)">
+    <link rel="preload" href="/fonts/philosof-bold.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="/fonts/philosof-regular.ttf" as="font" type="font/ttf" crossorigin>
+    <!-- Tailwind now compiled at build-time (no CDN runtime, no FOUC) -->
+
+    <style>
+      @font-face {
+        font-family: 'Philosof';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url('/fonts/philosof-regular.ttf') format('truetype');
+      }
+      @font-face {
+        font-family: 'Philosof';
+        font-style: normal;
+        font-weight: 700;
+        font-display: swap;
+        src: url('/fonts/philosof-bold.ttf') format('truetype');
+      }
+      @font-face {
+        font-family: 'Almoni';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url('/fonts/almoni-regular.woff2') format('woff2');
+      }
+      @font-face {
+        font-family: 'Almoni Tzar';
+        font-style: normal;
+        font-weight: 600;
+        font-display: swap;
+        src: url('/fonts/almoni-tzar-demibold.woff2') format('woff2');
+      }
+      body {
+        font-family: 'Philosof', 'Almoni', 'Heebo', system-ui, sans-serif;
+        background-color: #fafaf5;
+        color: #1a1a2e;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-size: 1.125rem; /* scales with root 130% */
+        line-height: 1.55;
+      }
+      h1, h2, h3, h4, .font-display {
+        font-family: 'Philosof', sans-serif;
+        font-weight: 700;
+        letter-spacing: -0.005em;
+      }
+      /* 30% global font bump (Efrat 25/5 — older audience). Scales all rem-based Tailwind utilities. */
+      html { scroll-behavior: smooth; font-size: 130%; }
+      .scroll-smooth { scroll-behavior: smooth; }
+      ::-webkit-scrollbar { width: 10px; }
+      ::-webkit-scrollbar-track { background: #f1ede2; }
+      ::-webkit-scrollbar-thumb { background: #E05726; border-radius: 5px; }
+      ::-webkit-scrollbar-thumb:hover { background: #b8451f; }
+      ::selection { background: #E05726; color: #fff; }
+
+      .clip-diagonal-top { clip-path: polygon(0 60px, 100% 0, 100% 100%, 0 100%); }
+      .clip-diagonal-bottom { clip-path: polygon(0 0, 100% 0, 100% calc(100% - 60px), 0 100%); }
+      .clip-diagonal-both { clip-path: polygon(0 60px, 100% 0, 100% calc(100% - 60px), 0 100%); }
+
+      .triangles-bg {
+        background-image:
+          linear-gradient(45deg, rgba(224,87,38,0.04) 25%, transparent 25%),
+          linear-gradient(-45deg, rgba(224,87,38,0.04) 25%, transparent 25%);
+        background-size: 60px 60px;
+        background-position: 0 0, 30px 30px;
+      }
+
+      .cta-pill {
+        box-shadow: 0 4px 0 #b8451f, 0 12px 30px rgba(224,87,38,0.35);
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+      }
+      .cta-pill:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #b8451f, 0 16px 36px rgba(224,87,38,0.45); }
+      .cta-pill:active { transform: translateY(2px); box-shadow: 0 2px 0 #b8451f, 0 8px 20px rgba(224,87,38,0.35); }
+    </style>
+    <!-- Meta Pixel — deferred until after page load (perf) -->
+    <script>
+      // Stub fbq so calls before load are queued
+      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[]}(window,document,'script');
+      // Load actual pixel script after first paint / idle
+      function _loadFbPixel(){
+        if (window.__fbLoaded) return; window.__fbLoaded = true;
+        var s=document.createElement('script'); s.async=true; s.src='https://connect.facebook.net/en_US/fbevents.js';
+        document.head.appendChild(s);
+        fbq('init', '690130594441765');
+      }
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(_loadFbPixel, { timeout: 3000 });
+      } else {
+        window.addEventListener('load', function(){ setTimeout(_loadFbPixel, 1500); });
+      }
+    </script>
+  </head>
+  <body class="scroll-smooth">
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=690130594441765&ev=PageView&noscript=1"/></noscript>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+    <!-- Accessibility widget (self-hosted, Hebrew). IL Equality of Rights Law compliance -->
+    <script src="/a11y.js" defer></script>
+    <!-- Cookie consent banner (one-time per visitor) -->
+    <script src="/cookies.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>BEX Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --bg: #0b0d13;
+      --card: #151824;
+      --card-hover: #1c2030;
+      --border: #262b3a;
+      --text: #f4f4f8;
+      --text-muted: #8a92a8;
+      --accent: #ff8048;
+      --accent-2: #6e8aff;
+      --green: #4ade80;
+      --red: #f87171;
+    }
+    * { font-family: 'Heebo', system-ui, -apple-system, sans-serif; }
+    body { background: var(--bg); color: var(--text); }
+    .card { background: var(--card); border: 1px solid var(--border); }
+    .card:hover { background: var(--card-hover); }
+    .badge { font-variant-numeric: tabular-nums; }
+    .glow-orange { box-shadow: 0 0 40px -10px rgba(255, 128, 72, 0.3); }
+    .glow-blue { box-shadow: 0 0 40px -10px rgba(110, 138, 255, 0.3); }
+    .glow-green { box-shadow: 0 0 40px -10px rgba(74, 222, 128, 0.3); }
+    table tbody tr:hover { background: var(--card-hover); }
+    .scroll-fade { mask-image: linear-gradient(to bottom, black 90%, transparent 100%); }
+    .pulse-dot { animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(0.9); } }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="min-h-screen">
+  <div id="app" class="max-w-7xl mx-auto p-6">
+    <header class="flex items-center justify-between mb-8">
+      <div>
+        <h1 class="text-3xl font-bold tracking-tight">ביזנס אקספרס · דשבורד</h1>
+        <p class="text-sm text-[var(--text-muted)] mt-1" id="generated-at">טוען...</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2 text-xs text-[var(--text-muted)]">
+          <span class="w-2 h-2 rounded-full bg-[var(--green)] pulse-dot"></span>
+          <span>בזמן אמת</span>
+        </div>
+        <button id="refresh-btn" class="px-3 py-2 text-sm rounded-lg card hover:border-[var(--accent)] transition">רענן</button>
+        <button id="export-btn" class="px-3 py-2 text-sm rounded-lg bg-[var(--accent)] text-black font-medium hover:bg-orange-400 transition">CSV</button>
+      </div>
+    </header>
+
+    <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
+      <div class="card rounded-xl p-4">
+        <div class="text-xs text-[var(--text-muted)] uppercase tracking-wider">לידים היום</div>
+        <div class="text-3xl font-bold badge mt-1" id="kpi-leads-today">·</div>
+      </div>
+      <div class="card rounded-xl p-4">
+        <div class="text-xs text-[var(--text-muted)] uppercase tracking-wider">לידים סה"כ</div>
+        <div class="text-3xl font-bold badge mt-1" id="kpi-leads-total">·</div>
+      </div>
+      <div class="card rounded-xl p-4 glow-green">
+        <div class="text-xs text-[var(--text-muted)] uppercase tracking-wider">רכישות היום</div>
+        <div class="text-3xl font-bold badge mt-1 text-[var(--green)]" id="kpi-purchases-today">·</div>
+      </div>
+      <div class="card rounded-xl p-4 glow-green">
+        <div class="text-xs text-[var(--text-muted)] uppercase tracking-wider">רכישות סה"כ</div>
+        <div class="text-3xl font-bold badge mt-1 text-[var(--green)]" id="kpi-purchases-total">·</div>
+      </div>
+      <div class="card rounded-xl p-4 glow-orange">
+        <div class="text-xs text-[var(--text-muted)] uppercase tracking-wider">הכנסות</div>
+        <div class="text-3xl font-bold badge mt-1 text-[var(--accent)]" id="kpi-revenue">·</div>
+      </div>
+      <div class="card rounded-xl p-4 glow-blue">
+        <div class="text-xs text-[var(--text-muted)] uppercase tracking-wider">המרה</div>
+        <div class="text-3xl font-bold badge mt-1 text-[var(--accent-2)]" id="kpi-conv">·</div>
+      </div>
+    </section>
+
+    <section class="mb-8">
+      <h2 class="text-lg font-semibold mb-3">השוואת וריאנטים</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="variants"></div>
+    </section>
+
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+      <div>
+        <h2 class="text-lg font-semibold mb-3">מקורות תנועה</h2>
+        <div class="card rounded-xl overflow-hidden">
+          <table class="w-full text-sm">
+            <thead class="text-xs text-[var(--text-muted)] uppercase tracking-wider">
+              <tr>
+                <th class="text-right p-3">מקור</th>
+                <th class="text-right p-3 w-16">לידים</th>
+                <th class="text-right p-3 w-16">רכש</th>
+                <th class="text-right p-3 w-20">המרה</th>
+                <th class="text-right p-3 w-24">הכנסות</th>
+              </tr>
+            </thead>
+            <tbody id="sources-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div>
+        <h2 class="text-lg font-semibold mb-3">קמפיינים</h2>
+        <div class="card rounded-xl overflow-hidden">
+          <table class="w-full text-sm">
+            <thead class="text-xs text-[var(--text-muted)] uppercase tracking-wider">
+              <tr>
+                <th class="text-right p-3">קמפיין</th>
+                <th class="text-right p-3 w-16">לידים</th>
+                <th class="text-right p-3 w-16">רכש</th>
+                <th class="text-right p-3 w-20">המרה</th>
+                <th class="text-right p-3 w-24">הכנסות</th>
+              </tr>
+            </thead>
+            <tbody id="campaigns-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-8">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-lg font-semibold">לידים אחרונים</h2>
+        <input id="search" type="search" placeholder="חיפוש שם / טלפון / מייל / מקור..." class="px-3 py-2 text-sm rounded-lg card border-[var(--border)] focus:outline-none focus:border-[var(--accent)] w-64" />
+      </div>
+      <div class="card rounded-xl overflow-hidden">
+        <div class="max-h-[600px] overflow-y-auto scroll-fade">
+          <table class="w-full text-sm">
+            <thead class="text-xs text-[var(--text-muted)] uppercase tracking-wider sticky top-0 bg-[var(--card)] z-10">
+              <tr>
+                <th class="text-right p-3">זמן</th>
+                <th class="text-right p-3">שם</th>
+                <th class="text-right p-3">טלפון</th>
+                <th class="text-right p-3">מייל</th>
+                <th class="text-right p-3">וריאנט</th>
+                <th class="text-right p-3">סטטוס</th>
+                <th class="text-right p-3">סכום</th>
+                <th class="text-right p-3">מקור</th>
+                <th class="text-right p-3">קמפיין</th>
+              </tr>
+            </thead>
+            <tbody id="leads-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <footer class="text-center text-xs text-[var(--text-muted)] mt-12 pb-8">
+      LivForMor Media · רענון אוטומטי כל 30 שניות
+    </footer>
+  </div>
+
+  <script>
+    let DATA = null;
+
+    const fmt = (n) => new Intl.NumberFormat('he-IL').format(Math.round(n || 0));
+    const fmtMoney = (n) => '₪' + fmt(n);
+    const fmtPct = (n) => (n || 0).toFixed(1) + '%';
+    const fmtTime = (iso) => {
+      const d = new Date(iso);
+      const today = new Date();
+      const isToday = d.toDateString() === today.toDateString();
+      const time = d.toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' });
+      if (isToday) return time;
+      const date = d.toLocaleDateString('he-IL', { day: '2-digit', month: '2-digit' });
+      return date + ' ' + time;
+    };
+
+    // Safe DOM builder: el(tag, {class, dir, ...}, [...children]) where children are strings or nodes
+    function el(tag, attrs, children) {
+      const node = document.createElement(tag);
+      if (attrs) {
+        for (const k in attrs) {
+          if (attrs[k] == null) continue;
+          if (k === 'class') node.className = attrs[k];
+          else node.setAttribute(k, attrs[k]);
+        }
+      }
+      if (children) {
+        for (const c of children) {
+          if (c == null) continue;
+          if (typeof c === 'string' || typeof c === 'number') node.appendChild(document.createTextNode(String(c)));
+          else node.appendChild(c);
+        }
+      }
+      return node;
+    }
+
+    function setText(id, text) {
+      document.getElementById(id).textContent = text;
+    }
+
+    function clearChildren(node) {
+      while (node.firstChild) node.removeChild(node.firstChild);
+    }
+
+    async function load() {
+      try {
+        const res = await fetch('/api/admin', { credentials: 'include' });
+        if (res.status === 401) {
+          const appEl = document.getElementById('app');
+          clearChildren(appEl);
+          appEl.appendChild(el('div', { class: 'text-center py-20' }, [
+            el('p', { class: 'text-2xl mb-4' }, ['חסומה']),
+            el('p', { class: 'text-[var(--text-muted)]' }, ['רענן את הדף ותכניס סיסמה.']),
+          ]));
+          return;
+        }
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        DATA = await res.json();
+        render();
+      } catch (e) {
+        console.error(e);
+        setText('generated-at', 'שגיאה: ' + e.message);
+      }
+    }
+
+    function render() {
+      if (!DATA) return;
+
+      setText('generated-at', 'עודכן: ' + new Date(DATA.generated_at).toLocaleString('he-IL'));
+
+      const k = DATA.kpis;
+      setText('kpi-leads-today', fmt(k.leads_today));
+      setText('kpi-leads-total', fmt(k.leads_total));
+      setText('kpi-purchases-today', fmt(k.purchases_today));
+      setText('kpi-purchases-total', fmt(k.purchases_total));
+      setText('kpi-revenue', fmtMoney(k.revenue));
+      setText('kpi-conv', fmtPct(k.conversion_pct));
+
+      // Variants
+      const vWrap = document.getElementById('variants');
+      clearChildren(vWrap);
+      const variantLabels = { a: 'A · ארוך', b: 'B · קצר', c: 'C · אפרת' };
+      const variantBorder = { a: 'border-gray-600', b: 'border-[var(--accent)]', c: 'border-[var(--accent-2)]' };
+      for (const v of ['a', 'b', 'c']) {
+        const vd = DATA.variants[v];
+        const card = el('div', { class: 'card rounded-xl p-5 border-r-4 ' + variantBorder[v] }, [
+          el('div', { class: 'flex items-center justify-between mb-3' }, [
+            el('div', { class: 'text-base font-semibold' }, [variantLabels[v]]),
+            el('div', { class: 'text-xs text-[var(--text-muted)] uppercase' }, [fmtPct(vd.conv)]),
+          ]),
+          el('div', { class: 'grid grid-cols-3 gap-2 text-center' }, [
+            el('div', null, [
+              el('div', { class: 'text-xs text-[var(--text-muted)]' }, ['לידים']),
+              el('div', { class: 'text-2xl font-bold badge' }, [fmt(vd.leads)]),
+            ]),
+            el('div', null, [
+              el('div', { class: 'text-xs text-[var(--text-muted)]' }, ['רכש']),
+              el('div', { class: 'text-2xl font-bold badge text-[var(--green)]' }, [fmt(vd.purchases)]),
+            ]),
+            el('div', null, [
+              el('div', { class: 'text-xs text-[var(--text-muted)]' }, ['הכנסה']),
+              el('div', { class: 'text-2xl font-bold badge text-[var(--accent)]' }, [fmtMoney(vd.revenue)]),
+            ]),
+          ]),
+        ]);
+        vWrap.appendChild(card);
+      }
+
+      // Sources
+      const srcBody = document.getElementById('sources-tbody');
+      clearChildren(srcBody);
+      if (DATA.sources.length === 0) {
+        srcBody.appendChild(el('tr', null, [el('td', { colspan: '5', class: 'p-6 text-center text-[var(--text-muted)]' }, ['אין נתונים'])]));
+      } else {
+        for (const s of DATA.sources.slice(0, 20)) {
+          srcBody.appendChild(el('tr', { class: 'border-t border-[var(--border)]' }, [
+            el('td', { class: 'p-3 font-medium' }, [s.source]),
+            el('td', { class: 'p-3 badge' }, [fmt(s.leads)]),
+            el('td', { class: 'p-3 badge text-[var(--green)]' }, [fmt(s.purchases)]),
+            el('td', { class: 'p-3 badge text-[var(--text-muted)]' }, [fmtPct(s.conv)]),
+            el('td', { class: 'p-3 badge text-[var(--accent)]' }, [fmtMoney(s.revenue)]),
+          ]));
+        }
+      }
+
+      // Campaigns
+      const cmpBody = document.getElementById('campaigns-tbody');
+      clearChildren(cmpBody);
+      if (DATA.campaigns.length === 0) {
+        cmpBody.appendChild(el('tr', null, [el('td', { colspan: '5', class: 'p-6 text-center text-[var(--text-muted)]' }, ['אין נתונים'])]));
+      } else {
+        for (const c of DATA.campaigns.slice(0, 20)) {
+          cmpBody.appendChild(el('tr', { class: 'border-t border-[var(--border)]' }, [
+            el('td', { class: 'p-3 font-medium' }, [c.campaign]),
+            el('td', { class: 'p-3 badge' }, [fmt(c.leads)]),
+            el('td', { class: 'p-3 badge text-[var(--green)]' }, [fmt(c.purchases)]),
+            el('td', { class: 'p-3 badge text-[var(--text-muted)]' }, [fmtPct(c.conv)]),
+            el('td', { class: 'p-3 badge text-[var(--accent)]' }, [fmtMoney(c.revenue)]),
+          ]));
+        }
+      }
+
+      renderLeads(DATA.leads);
+    }
+
+    function renderLeads(leads) {
+      const tbody = document.getElementById('leads-tbody');
+      clearChildren(tbody);
+      if (!leads || leads.length === 0) {
+        tbody.appendChild(el('tr', null, [el('td', { colspan: '9', class: 'p-6 text-center text-[var(--text-muted)]' }, ['אין לידים עדיין'])]));
+        return;
+      }
+      for (const l of leads) {
+        let statusBadge;
+        if (l.paid) {
+          statusBadge = el('span', { class: 'px-2 py-0.5 rounded text-xs bg-green-900/40 text-[var(--green)] border border-green-700/50' }, ['שולם']);
+        } else if (l.status === 'failed') {
+          statusBadge = el('span', { class: 'px-2 py-0.5 rounded text-xs bg-red-900/40 text-[var(--red)] border border-red-700/50' }, ['נכשל']);
+        } else {
+          statusBadge = el('span', { class: 'px-2 py-0.5 rounded text-xs bg-gray-700/40 text-[var(--text-muted)] border border-gray-600/50' }, ['ממתין']);
+        }
+        const variantBadge = el('span', { class: 'px-2 py-0.5 rounded text-xs bg-[var(--bg)] border border-[var(--border)]' }, [(l.variant || '?').toUpperCase()]);
+        const amount = l.paid_amount ? fmtMoney(l.paid_amount) : (l.amount ? fmtMoney(l.amount) : '·');
+        tbody.appendChild(el('tr', { class: 'border-t border-[var(--border)]' }, [
+          el('td', { class: 'p-3 text-[var(--text-muted)] whitespace-nowrap' }, [fmtTime(l.created_at)]),
+          el('td', { class: 'p-3 font-medium' }, [l.name || '·']),
+          el('td', { class: 'p-3 badge', dir: 'ltr' }, [l.phone || '·']),
+          el('td', { class: 'p-3 text-[var(--text-muted)] truncate max-w-[200px]', dir: 'ltr' }, [l.email || '·']),
+          el('td', { class: 'p-3' }, [variantBadge]),
+          el('td', { class: 'p-3' }, [statusBadge]),
+          el('td', { class: 'p-3 badge text-[var(--accent)]' }, [amount]),
+          el('td', { class: 'p-3 text-[var(--text-muted)]' }, [l.utm_source || '·']),
+          el('td', { class: 'p-3 text-[var(--text-muted)] truncate max-w-[150px]' }, [l.utm_campaign || '·']),
+        ]));
+      }
+    }
+
+    function toCSV(rows) {
+      if (!rows || rows.length === 0) return '';
+      const cols = ['created_at', 'name', 'phone', 'email', 'variant', 'status', 'paid', 'paid_amount', 'amount', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid', 'referrer', 'tx_id'];
+      const header = cols.join(',');
+      const lines = rows.map(r => cols.map(c => {
+        const v = r[c];
+        if (v == null) return '';
+        const s = String(v).replace(/"/g, '""');
+        return /[",\n]/.test(s) ? '"' + s + '"' : s;
+      }).join(','));
+      return [header].concat(lines).join('\n');
+    }
+
+    document.getElementById('refresh-btn').addEventListener('click', load);
+    document.getElementById('export-btn').addEventListener('click', () => {
+      if (!DATA) return;
+      const csv = toCSV(DATA.leads);
+      const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'bex-leads-' + new Date().toISOString().slice(0, 10) + '.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+    document.getElementById('search').addEventListener('input', (e) => {
+      if (!DATA) return;
+      const q = e.target.value.toLowerCase().trim();
+      if (!q) return renderLeads(DATA.leads);
+      const filtered = DATA.leads.filter(l =>
+        (l.name || '').toLowerCase().includes(q) ||
+        (l.phone || '').toLowerCase().includes(q) ||
+        (l.email || '').toLowerCase().includes(q) ||
+        (l.utm_source || '').toLowerCase().includes(q) ||
+        (l.utm_campaign || '').toLowerCase().includes(q)
+      );
+      renderLeads(filtered);
+    });
+
+    setInterval(load, 30000);
+    load();
+  </script>
+</body>
+</html>

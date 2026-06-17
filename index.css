@@ -1,0 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Sticky countdown bar is ~134px. Padding ensures anchor target lands below it. */
+html { scroll-padding-top: 150px; }
