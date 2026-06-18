@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
+import { initBexTrack } from './track';
 import './index.css';
 
 // A/B routing: 50/50 split between B and C. Sticky per visitor via localStorage.
@@ -19,6 +20,9 @@ import './index.css';
     window.history.replaceState(null, '', url.toString());
   } catch { /* localStorage may be blocked — fall through to AppA */ }
 })();
+
+// page analytics — runs AFTER the variant is resolved so the session records the right one
+initBexTrack();
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
