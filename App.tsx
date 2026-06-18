@@ -260,7 +260,7 @@ const Hero = () => {
         {/* value bullets — above the CTA */}
         <Reveal delay={0.05}>
           <ul className="mt-11 md:mt-12 grid sm:grid-cols-3 gap-4">
-            {['תגלו איך לייצר הכנסה נוספת מהניסיון והידע שכבר קיים אצלכם, בלי ללמוד מקצוע חדש.', 'תגלו איך לעשות את זה בלי לסכן שקל אחד.', 'ללא עלות, ללא הגבלת מקומות, סה״כ 30 דקות הדרכה ביום, למשך 4 ימים.'].map((t, i) => (
+            {['תגלו איך לייצר הכנסה נוספת מהניסיון והידע שכבר קיים אצלכם, בלי ללמוד מקצוע חדש.', 'תגלו איך לעשות את זה בלי לסכן שקל אחד.', 'ללא עלות, מקומות מוגבלים, סה״כ 30 דקות הדרכה ביום, למשך 4 ימים.'].map((t, i) => (
               <li key={i} className="flex items-start gap-3 rounded-xl bg-brand-orangeSoft/30 p-4">
                 <CheckCircle2 size={22} className="text-brand-orange shrink-0 mt-0.5" strokeWidth={2.5} />
                 <span className="text-brand-navy font-display font-bold leading-snug text-base md:text-lg">{t}</span>
@@ -274,7 +274,7 @@ const Hero = () => {
           <div className="mt-14 md:mt-20 grid lg:grid-cols-2 gap-9 lg:gap-14 items-center max-w-4xl mx-auto">
             <div className="text-center lg:text-right">
               <h3 className="font-display font-bold text-brand-navy leading-tight mb-6" style={{ fontSize: 'clamp(1.55rem, 3vw, 2.3rem)' }}>
-                שריינו מקום ל-4 הערבים שיראו לכם איך להפוך את מה שאתם כבר יודעים <span className="text-brand-orange">ל-5,000–8,000 ש"ח בחודש.</span>
+                שריינו מקום ל-4 הערבים שיראו לכם איך להפוך את מה שאתם כבר יודעים <span className="text-brand-orange">ל-5,000–8,000 ש"ח נוספים בחודש.</span>
               </h3>
               <div className="inline-flex flex-col items-center lg:items-start gap-2.5">
                 <span className="inline-flex items-center gap-1.5 text-brand-orangeDark font-display font-bold text-sm md:text-base"><Radio size={16} /> השידור החי מתחיל בעוד</span>
@@ -359,7 +359,7 @@ const RiskReversal = () => (
             <img src={ILL('success')} alt="" aria-hidden className="absolute -left-3 -bottom-3 w-28 md:w-36 opacity-90" draggable={false} />
             <div className="relative">
               <div className="font-display font-bold text-white/85 text-lg mb-2">במקרה הכי טוב?</div>
-              <p className="text-white text-lg md:text-2xl leading-relaxed font-display font-bold">תבינו איך להשתמש בכישורים והניסיון שכבר יש לכם בכדי לייצר הכנסה של 5,000–8,000 ש"ח שתשמש לכם ולמשפחה שלכם ככרית ביטחון כלכלית בתוך 60 יום.</p>
+              <p className="text-white text-lg md:text-2xl leading-relaxed font-display font-bold">תבינו איך להשתמש בכישורים והניסיון שכבר יש לכם בכדי לייצר הכנסה נוספת של 5,000–8,000 ש"ח שתשמש לכם ולמשפחה שלכם ככרית ביטחון כלכלית בתוך 60 יום.</p>
             </div>
           </div>
         </Reveal>
@@ -426,12 +426,12 @@ const Founders = () => (
           <div>
             <h2 className="font-display font-bold leading-[1.05] mb-5 text-white" style={{ fontSize: 'clamp(1.9rem, 4vw, 3.2rem)' }}>מי <span className="text-brand-orange">אנחנו?</span></h2>
             <div className="text-white/75 text-lg leading-relaxed space-y-4">
-              <p>אנחנו אפרת קולברג וארזית נחום, ושתינו היינו שכירות. ארזית ניהלה את השיווק בחברת DHL תמורת <strong className="text-white">12,000 ש"ח בחודש</strong>, עד שפיטרו אותה, ואותו ידע בדיוק התחיל להכניס לה <strong className="text-white">950 ש"ח על שעת ייעוץ אחת</strong>. והיום יש לנו עסק שמכניס <strong className="text-brand-orange">4-6 מיליון ש"ח בשנה</strong> (לא פתחנו סטארט אפ, זה מאותו תחום בדיוק של ייעוץ עסקי).</p>
+              <p>אנחנו אפרת קולברג וארזית נחום, ושתינו היינו שכירות. ארזית ניהלה את השיווק בחברת DHL תמורת <strong className="text-white">12,000 ש"ח בחודש</strong>, עד שפיטרו אותה, ואותו ידע בדיוק התחיל להכניס לה <strong className="text-white">950 ש"ח על שעת ייעוץ אחת</strong>. והיום יש לנו עסק שמכניס <strong className="text-brand-orange">4.6 מיליון ש"ח בשנה</strong> (לא פתחנו סטארט אפ, זה מאותו תחום בדיוק של ייעוץ עסקי).</p>
               <p>בשנה האחרונה ליווינו מאות אנשים. עכשיו אנחנו לוקחות את כל מה שלמדנו, ומלמדות אתכם איך לעשות בדיוק את אותו הדבר, צעד אחר צעד.</p>
             </div>
             {/* journey stat strip */}
             <div className="mt-7 flex items-stretch gap-2 md:gap-3" dir="rtl">
-              {[{ k: 'כשכירה', v: '12,000', s: 'לחודש' }, { k: 'כיועצת', v: '950', s: 'לשעה' }, { k: 'היום', v: '4-6 מ׳', s: 'בשנה', hot: true }].map((st, i) => (
+              {[{ k: 'כשכירה', v: '12,000', s: 'לחודש' }, { k: 'כיועצת', v: '950', s: 'לשעה' }, { k: 'היום', v: '4.6', s: 'מיליון בשנה', hot: true }].map((st, i) => (
                 <React.Fragment key={i}>
                   <div className={`flex-1 rounded-2xl px-3 py-3 text-center ${st.hot ? 'bg-brand-orange' : 'bg-white/10'}`}>
                     <div className={`text-[11px] font-display font-bold ${st.hot ? 'text-white/85' : 'text-white/55'}`}>{st.k}</div>
@@ -451,7 +451,7 @@ const Founders = () => (
 
 const FAQS = [
   { q: 'מתי?', a: '28 ביוני עד 1 ביולי, כל ערב ב-20:00.' }, { q: 'כמה זמן?', a: '30 דקות ביום, 4 ימים.' },
-  { q: 'איפה?', a: 'בלייב מהבית, דרך זום.' }, { q: 'כמה זה עולה?', a: 'ללא עלות, וללא הגבלת מקומות.' },
+  { q: 'איפה?', a: 'בלייב מהבית, דרך זום.' }, { q: 'כמה זה עולה?', a: 'ללא עלות. שימו לב שהמקומות מוגבלים.' },
   { q: 'תהיה הקלטה?', a: 'המפגשים משודרים בלייב כדי שתוכלו לשאול שאלות ולקבל מענה אישי בזמן אמת. שווה לשריין את כל 4 הערבים מראש.' },
 ];
 const FAQ = () => {
