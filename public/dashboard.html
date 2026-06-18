@@ -63,6 +63,8 @@
     .legend i{ display:inline-block; width:11px; height:11px; border-radius:3px; margin-left:5px; vertical-align:-1px; }
     .muted{ color:var(--muted); } .empty{ text-align:center; color:var(--muted); padding:26px; }
     .note{ background:var(--orangeSoft); color:#8a3a1c; border-radius:12px; padding:12px 16px; font-size:13px; margin-top:14px; }
+    .topnote{ background:var(--navy); color:#fff; border-radius:16px; padding:16px 20px; font-size:14px; line-height:1.6; margin-bottom:24px; }
+    .topnote b{ color:#ffb98c; }
     @media(max-width:680px){ .kpis{grid-template-columns:1fr 1fr} .funnel .lab{width:96px} .funnel .pct{width:92px} .srow .lab{width:110px} .srow .val{width:96px} th,td{padding:10px 5px;font-size:13px} }
   </style>
 </head>
@@ -73,9 +75,10 @@
   </div></header>
 
   <div class="wrap">
+    <div class="topnote" id="topnote" style="display:none"></div>
     <div class="kpis">
-      <div class="kpi"><div class="n" id="k-land">—</div><div class="l">נחיתות בדף</div><div class="sub" id="k-land-today">—</div></div>
-      <div class="kpi hot"><div class="n" id="k-conv">—</div><div class="l">נרשמים</div><div class="sub" id="k-conv-rec">—</div></div>
+      <div class="kpi"><div class="n" id="k-land">—</div><div class="l">נחיתות (מעקב)</div><div class="sub" id="k-land-today">—</div></div>
+      <div class="kpi hot"><div class="n" id="k-conv">—</div><div class="l">נרשמו לאתגר</div><div class="sub" id="k-conv-rec">—</div></div>
       <div class="kpi cr"><div class="n" id="k-cr">—</div><div class="l">אחוז המרה</div><div class="sub">ממעקב חדש · מהיום</div></div>
       <div class="kpi"><div class="n" id="k-time">—</div><div class="l">זמן ממוצע בדף</div><div class="sub" id="k-scroll">—</div></div>
     </div>
@@ -116,6 +119,12 @@
       document.getElementById('k-cr').textContent = cr + '%';
       document.getElementById('k-time').textContent = fmtTime(a.avg_engaged);
       document.getElementById('k-scroll').textContent = 'גלילה ממוצעת ' + (a.avg_scroll||0) + '%';
+
+      var tn = document.getElementById('topnote');
+      if(sess < (d.leads_recorded||0)){
+        tn.style.display='block';
+        tn.innerHTML = '<b>'+(d.leads_recorded||0)+' אנשים נרשמו לאתגר</b> — זה המספר האמיתי, כולם אצלך ב-CRM. מעקב ההתנהגות הותקן היום, ולכן עד כה הוא ראה רק <b>'+sess+' נחיתות</b> ו-<b>'+conv+' הרשמות</b>. שאר הנרשמים נכנסו לפני שהמעקב הופעל. כל תנועה חדשה מכאן והלאה נמדדת במלואה, והמספרים יתכנסו.';
+      } else { tn.style.display='none'; }
 
       // variants table
       var V = (a.variants||[]).filter(function(v){return v.sessions>0;});
@@ -163,11 +172,7 @@
       }).join('');
 
       // reconciliation note
-      var rec = document.getElementById('recon');
-      if((a.sessions||0) < (d.leads_recorded||0)){
-        rec.style.display='block';
-        rec.textContent = 'מעקב ההתנהגות בדף עלה היום. ' + (d.leads_recorded||0) + ' הלידים הקיימים נרשמו לפניו, ולכן המשפך ואחוז ההמרה נמדדים על התנועה החדשה בלבד (מהיום והלאה).';
-      } else { rec.style.display='none'; }
+      document.getElementById('recon').style.display='none';
     }
     function load(){
       fetch('/api/stats',{cache:'no-store'}).then(function(r){return r.json();}).then(render).catch(function(){
