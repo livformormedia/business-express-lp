@@ -12,7 +12,7 @@ import {
    ============================================================ */
 
 const WORKSHOP_DATE_ISO = '2026-06-28T20:00:00+03:00';
-const MAKE_WEBHOOK_URL = 'https://hook.eu2.make.com/5glwvheb1iyca9vp947qvrva274g18vw';
+const MAKE_WEBHOOK_URL = 'https://hook.us1.make.com/552ozhww547sk3qnzp7klg0rprp5dg10';
 const ILL = (n: string) => `/images/ill-${n}.svg`;
 
 const useCountdown = (target: string) => {
