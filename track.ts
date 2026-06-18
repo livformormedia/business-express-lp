@@ -21,13 +21,14 @@ export function initBexTrack() {
       device: window.matchMedia('(max-width: 767px)').matches ? 'mobile' : 'desktop',
     };
 
-    let maxScroll = 0, engaged = 0, reachedForm = false, converted = false, dirty = true;
+    let maxScroll = 0, engaged = 0, reachedForm = false, converted = false;
+    let lastScroll = -1, lastEngaged = 0, lastRF = false, lastConv = false, sentFinal = false;
 
     function scrollPct(): number {
       const h = document.documentElement;
       const denom = h.scrollHeight - h.clientHeight;
       if (denom <= 0) return 100;
-      return Math.round((((window.scrollY || h.scrollTop) + h.clientHeight) / h.scrollHeight) * 100);
+      return Math.round(((window.scrollY || h.scrollTop) / denom) * 100); // true scroll depth (0 at top)
     }
     function send(beacon: boolean) {
       const payload = JSON.stringify(Object.assign({}, meta, { scroll_pct: maxScroll, engaged_seconds: engaged, reached_form: reachedForm, converted }));
@@ -35,30 +36,32 @@ export function initBexTrack() {
         if (beacon && navigator.sendBeacon) navigator.sendBeacon('/api/track', new Blob([payload], { type: 'application/json' }));
         else fetch('/api/track', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: payload, keepalive: true }).catch(function () {});
       } catch { /* ignore */ }
-      dirty = false;
+      lastScroll = maxScroll; lastEngaged = engaged; lastRF = reachedForm; lastConv = converted;
     }
-    function markForm() { if (!reachedForm) { reachedForm = true; dirty = true; send(true); } }
+    function changed() { return maxScroll > lastScroll || reachedForm !== lastRF || converted !== lastConv || (engaged - lastEngaged) >= 30; }
+    function sendFinal() { if (sentFinal) return; sentFinal = true; send(true); }
+    function markForm() { if (!reachedForm) { reachedForm = true; send(true); } }
 
     let t: any;
     function onScroll() {
       clearTimeout(t);
       t = setTimeout(function () {
         const pc = Math.max(0, Math.min(100, scrollPct()));
-        if (pc > maxScroll) { maxScroll = pc; dirty = true; }
+        if (pc > maxScroll) maxScroll = pc;
       }, 150);
     }
 
     send(false);                                                  // landing
-    setInterval(function () { if (document.visibilityState === 'visible') { engaged += 1; dirty = true; } }, 1000);
-    setInterval(function () { if (dirty) send(false); }, 15000);  // periodic flush
+    setInterval(function () { if (document.visibilityState === 'visible') engaged += 1; }, 1000);
+    setInterval(function () { if (changed()) send(false); }, 15000);  // flush only when something meaningful changed
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
     document.addEventListener('focusin', function (e: any) { const tag = e.target && e.target.tagName; if (tag === 'INPUT' || tag === 'TEXTAREA') markForm(); });
-    document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') send(true); });
-    window.addEventListener('pagehide', function () { send(true); });
+    document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') sendFinal(); });
+    window.addEventListener('pagehide', sendFinal);
 
     (window as any).bexTrack = {
-      markConverted: function () { converted = true; reachedForm = true; dirty = true; send(true); },
+      markConverted: function () { converted = true; reachedForm = true; send(true); },
       markReachedForm: markForm,
     };
   } catch { /* analytics must never break the page */ }

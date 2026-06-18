@@ -13,6 +13,13 @@ const FB_PIXEL_ID = '1039518565415330';
 const FB_CAPI_TOKEN = process.env.BE_FB_CAPI_ACCESS_TOKEN || process.env.FB_CAPI_ACCESS_TOKEN || '';
 const FB_API = 'https://graph.facebook.com/v21.0';
 
+const ALLOWED_HOSTS = ['businessexpress.livformor.com'];
+function originOk(req: VercelRequest): boolean {
+  const src = ((req.headers.origin as string) || (req.headers.referer as string) || '').trim();
+  if (!src) return true; // no Origin/Referer (rare legit case) — don't drop a real lead
+  try { const h = new URL(src).hostname; return ALLOWED_HOSTS.indexOf(h) >= 0 || h.endsWith('.vercel.app'); } catch { return false; }
+}
+
 const sha256 = (s: string) => createHash('sha256').update(s).digest('hex');
 const normPhone = (p: string) => { let d = (p || '').replace(/\D/g, ''); if (d.startsWith('0')) d = '972' + d.slice(1); return d; };
 
@@ -20,9 +27,13 @@ async function fireCapiLead(o: {
   eventId: string; email: string; phone: string; name: string; ip: string; ua: string; pageUrl: string; fbp?: string; fbc?: string;
 }): Promise<{ ok: boolean; received?: number; error?: string }> {
   if (!FB_CAPI_TOKEN) return { ok: false, error: 'no_token' };
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((o.email || '').trim());
+  const phoneDigits = (o.phone || '').replace(/\D/g, '');
+  const phoneOk = phoneDigits.length >= 9 && phoneDigits.length <= 15;
+  if (!emailOk && !phoneOk) return { ok: false, error: 'no_valid_pii' }; // never send junk to Meta
   const user_data: Record<string, any> = {};
-  if (o.email) user_data.em = [sha256(o.email.trim().toLowerCase())];
-  if (o.phone) { const ph = normPhone(o.phone); if (ph) user_data.ph = [sha256(ph)]; }
+  if (emailOk) user_data.em = [sha256(o.email.trim().toLowerCase())];
+  if (phoneOk) { const ph = normPhone(o.phone); if (ph) user_data.ph = [sha256(ph)]; }
   if (o.name) { const parts = o.name.trim().toLowerCase().split(/\s+/); if (parts[0]) user_data.fn = [sha256(parts[0])]; if (parts.length > 1) user_data.ln = [sha256(parts[parts.length - 1])]; }
   if (o.ip) user_data.client_ip_address = o.ip;
   if (o.ua) user_data.client_user_agent = o.ua;
@@ -40,8 +51,8 @@ async function fireCapiLead(o: {
     }],
   };
   try {
-    const r = await fetch(`${FB_API}/${FB_PIXEL_ID}/events?access_token=${FB_CAPI_TOKEN}`, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload),
+    const r = await fetch(`${FB_API}/${FB_PIXEL_ID}/events`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...payload, access_token: FB_CAPI_TOKEN }),
     });
     const j: any = await r.json().catch(() => ({}));
     if (!r.ok) return { ok: false, error: j?.error?.message || `http_${r.status}` };
@@ -57,6 +68,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'method_not_allowed' });
+  if (!originOk(req)) return res.status(403).json({ ok: false, error: 'forbidden_origin' });
 
   const body = (typeof req.body === 'object' ? req.body : {}) as Record<string, any>;
   const tx_id = String(body.fb_event_id || body.tx_id || `lead-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`);

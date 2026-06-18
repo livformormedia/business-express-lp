@@ -76,7 +76,7 @@
     <div class="kpis">
       <div class="kpi"><div class="n" id="k-land">—</div><div class="l">נחיתות בדף</div><div class="sub" id="k-land-today">—</div></div>
       <div class="kpi hot"><div class="n" id="k-conv">—</div><div class="l">נרשמים</div><div class="sub" id="k-conv-rec">—</div></div>
-      <div class="kpi cr"><div class="n" id="k-cr">—</div><div class="l">אחוז המרה</div><div class="sub">נחיתה ← הרשמה</div></div>
+      <div class="kpi cr"><div class="n" id="k-cr">—</div><div class="l">אחוז המרה</div><div class="sub">ממעקב חדש · מהיום</div></div>
       <div class="kpi"><div class="n" id="k-time">—</div><div class="l">זמן ממוצע בדף</div><div class="sub" id="k-scroll">—</div></div>
     </div>
 
@@ -111,8 +111,8 @@
       document.getElementById('updated').textContent = 'עודכן ' + new Date(d.generated_at).toLocaleTimeString('he-IL');
       document.getElementById('k-land').textContent = sess.toLocaleString('en-US');
       document.getElementById('k-land-today').textContent = (a.today||0) + ' היום';
-      document.getElementById('k-conv').textContent = conv.toLocaleString('en-US');
-      document.getElementById('k-conv-rec').textContent = (d.leads_recorded!=null ? d.leads_recorded+' לידים ב-CRM' : '');
+      document.getElementById('k-conv').textContent = (d.leads_recorded!=null ? d.leads_recorded : conv).toLocaleString('en-US');
+      document.getElementById('k-conv-rec').textContent = 'סה״כ לידים בקמפיין';
       document.getElementById('k-cr').textContent = cr + '%';
       document.getElementById('k-time').textContent = fmtTime(a.avg_engaged);
       document.getElementById('k-scroll').textContent = 'גלילה ממוצעת ' + (a.avg_scroll||0) + '%';
@@ -164,9 +164,9 @@
 
       // reconciliation note
       var rec = document.getElementById('recon');
-      if(d.leads_recorded!=null && Math.abs((d.leads_recorded||0)-conv) > Math.max(2, conv*0.15)){
+      if((a.sessions||0) < (d.leads_recorded||0)){
         rec.style.display='block';
-        rec.textContent = 'שים לב: '+d.leads_recorded+' לידים נרשמו ב-CRM אבל '+conv+' הומרות נמדדו בדף. פער כזה נובע בד"כ מחוסמי-עוגיות/גלישה פרטית.';
+        rec.textContent = 'מעקב ההתנהגות בדף עלה היום. ' + (d.leads_recorded||0) + ' הלידים הקיימים נרשמו לפניו, ולכן המשפך ואחוז ההמרה נמדדים על התנועה החדשה בלבד (מהיום והלאה).';
       } else { rec.style.display='none'; }
     }
     function load(){

@@ -8,6 +8,13 @@ const supabase = createClient(process.env.SUPABASE_URL || '', process.env.SUPABA
   auth: { persistSession: false, autoRefreshToken: false },
 });
 
+const ALLOWED_HOSTS = ['businessexpress.livformor.com'];
+function originOk(req: VercelRequest): boolean {
+  const src = ((req.headers.origin as string) || (req.headers.referer as string) || '').trim();
+  if (!src) return true;
+  try { const h = new URL(src).hostname; return ALLOWED_HOSTS.indexOf(h) >= 0 || h.endsWith('.vercel.app'); } catch { return false; }
+}
+
 const pct = (n: any) => Math.max(0, Math.min(100, parseInt(n, 10) || 0));
 const secs = (n: any) => Math.max(0, Math.min(86400, parseInt(n, 10) || 0));
 const str = (v: any, max: number) => (v == null ? null : String(v).slice(0, max) || null);
@@ -18,6 +25,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'method_not_allowed' });
+  if (!originOk(req)) return res.status(403).json({ ok: false, error: 'forbidden_origin' });
   if (!READY) return res.status(200).json({ ok: false });
 
   // body can arrive as parsed object (fetch json) or string (sendBeacon)
