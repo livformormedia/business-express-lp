@@ -29,13 +29,6 @@ export function initBexTrack() {
       if (denom <= 0) return 100;
       return Math.round((((window.scrollY || h.scrollTop) + h.clientHeight) / h.scrollHeight) * 100);
     }
-    function registerVisible(): boolean {
-      const el = document.getElementById('register-top') || document.getElementById('register-mid') ||
-        document.getElementById('register-bottom') || document.getElementById('register');
-      if (!el) return false;
-      const r = el.getBoundingClientRect();
-      return r.top < window.innerHeight && r.bottom > 0;
-    }
     function send(beacon: boolean) {
       const payload = JSON.stringify(Object.assign({}, meta, { scroll_pct: maxScroll, engaged_seconds: engaged, reached_form: reachedForm, converted }));
       try {
@@ -52,7 +45,6 @@ export function initBexTrack() {
       t = setTimeout(function () {
         const pc = Math.max(0, Math.min(100, scrollPct()));
         if (pc > maxScroll) { maxScroll = pc; dirty = true; }
-        if (!reachedForm && registerVisible()) markForm();
       }, 150);
     }
 

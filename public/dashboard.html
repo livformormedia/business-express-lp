@@ -4,117 +4,173 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex" />
-  <title>עסק לכולם · דשבורד מבחני פיצול</title>
+  <title>עסק לכולם · דשבורד קמפיין</title>
   <style>
     @font-face { font-family:'Philosof'; font-weight:700; font-display:swap; src:url('/fonts/philosof-bold.ttf') format('truetype'); }
     @font-face { font-family:'Philosof'; font-weight:400; font-display:swap; src:url('/fonts/philosof-regular.ttf') format('truetype'); }
-    :root{ --orange:#E05726; --orangeSoft:#fde3d6; --navy:#1a1a2e; --navyDark:#0a0a14; --cream:#fafaf5; --creamDark:#f1ede2; --muted:#5d6470; }
+    :root{ --orange:#E05726; --orangeSoft:#fde3d6; --navy:#1a1a2e; --navyDark:#0a0a14; --cream:#fafaf5; --creamDark:#f1ede2; --muted:#5d6470; --green:#1f9d57; }
     *{ box-sizing:border-box; margin:0; }
-    body{ font-family:'Philosof','Heebo',system-ui,sans-serif; background:var(--cream); color:var(--navy); -webkit-font-smoothing:antialiased; padding:0 0 60px; }
-    .wrap{ max-width:1080px; margin:0 auto; padding:0 20px; }
-    header{ background:var(--navyDark); color:#fff; padding:22px 0; margin-bottom:28px; }
+    body{ font-family:'Philosof','Heebo',system-ui,sans-serif; background:var(--cream); color:var(--navy); -webkit-font-smoothing:antialiased; padding:0 0 70px; }
+    .wrap{ max-width:1120px; margin:0 auto; padding:0 20px; }
+    header{ background:var(--navyDark); color:#fff; padding:22px 0; margin-bottom:26px; }
     header .wrap{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
     .brand{ font-weight:700; font-size:22px; display:flex; align-items:center; gap:10px; }
-    .dot{ width:9px; height:9px; border-radius:50%; background:#2ecc71; box-shadow:0 0 0 0 rgba(46,204,113,.6); animation:pulse 2s infinite; }
+    .dot{ width:9px; height:9px; border-radius:50%; background:#2ecc71; animation:pulse 2s infinite; }
     @keyframes pulse{ 0%{box-shadow:0 0 0 0 rgba(46,204,113,.5)} 70%{box-shadow:0 0 0 8px rgba(46,204,113,0)} 100%{box-shadow:0 0 0 0 rgba(46,204,113,0)} }
     .updated{ color:rgba(255,255,255,.55); font-size:13px; }
-    h2{ font-size:15px; color:var(--muted); font-weight:700; margin:30px 0 12px; letter-spacing:.02em; }
-    .kpis{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
-    .kpi{ background:#fff; border:1px solid var(--creamDark); border-radius:18px; padding:20px 22px; }
-    .kpi .n{ font-size:42px; font-weight:700; line-height:1; color:var(--navy); }
-    .kpi .l{ color:var(--muted); font-size:14px; margin-top:6px; }
-    .kpi.hot{ background:var(--orange); border-color:var(--orange); color:#fff; }
-    .kpi.hot .n,.kpi.hot .l{ color:#fff; }
-    .card{ background:#fff; border:1px solid var(--creamDark); border-radius:20px; padding:22px; }
-    .row{ display:flex; align-items:center; gap:14px; margin-bottom:14px; }
-    .row:last-child{ margin-bottom:0; }
-    .row .lab{ width:200px; flex-shrink:0; font-weight:700; font-size:15px; }
-    .row .lab small{ display:block; color:var(--muted); font-weight:400; font-size:12px; }
-    .bar{ flex:1; height:30px; background:var(--cream); border-radius:8px; overflow:hidden; position:relative; }
-    .bar > span{ display:block; height:100%; background:var(--orange); border-radius:8px; transition:width .6s cubic-bezier(.16,1,.3,1); min-width:2px; }
-    .row .val{ width:120px; text-align:left; font-weight:700; font-variant-numeric:tabular-nums; }
-    .row .val small{ color:var(--muted); font-weight:400; }
-    .winner{ display:inline-block; background:var(--orangeSoft); color:var(--orange); font-size:11px; font-weight:700; padding:2px 8px; border-radius:99px; margin-right:6px; }
-    .trend{ display:flex; align-items:flex-end; gap:6px; height:140px; padding-top:8px; }
-    .trend .d{ flex:1; display:flex; flex-direction:column; align-items:center; gap:6px; height:100%; justify-content:flex-end; }
-    .trend .d .b{ width:100%; background:var(--orange); border-radius:6px 6px 0 0; min-height:3px; transition:height .6s ease; }
+    h2{ font-size:15px; color:var(--muted); font-weight:700; margin:32px 0 13px; letter-spacing:.02em; }
+    h2 small{ font-weight:400; color:#9aa0ac; }
+    .kpis{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+    .kpi{ background:#fff; border:1px solid var(--creamDark); border-radius:18px; padding:18px 20px; }
+    .kpi .n{ font-size:38px; font-weight:700; line-height:1; color:var(--navy); }
+    .kpi .l{ color:var(--muted); font-size:13px; margin-top:7px; }
+    .kpi .sub{ color:#9aa0ac; font-size:12px; margin-top:3px; }
+    .kpi.hot{ background:var(--orange); border-color:var(--orange); }
+    .kpi.hot .n,.kpi.hot .l{ color:#fff; } .kpi.hot .sub{ color:rgba(255,255,255,.75); }
+    .kpi.cr{ background:var(--navy); border-color:var(--navy); }
+    .kpi.cr .n,.kpi.cr .l{ color:#fff; } .kpi.cr .sub{ color:rgba(255,255,255,.6); }
+    .card{ background:#fff; border:1px solid var(--creamDark); border-radius:20px; padding:20px 22px; }
+    table{ width:100%; border-collapse:collapse; }
+    th,td{ text-align:right; padding:12px 8px; font-size:14px; border-bottom:1px solid var(--creamDark); }
+    th{ color:var(--muted); font-weight:700; font-size:12px; }
+    td.num,th.num{ text-align:center; font-variant-numeric:tabular-nums; }
+    tr:last-child td{ border-bottom:none; }
+    .vlab{ font-weight:700; } .vlab small{ display:block; color:var(--muted); font-weight:400; font-size:12px; }
+    .crpill{ display:inline-block; font-weight:700; padding:3px 10px; border-radius:99px; font-variant-numeric:tabular-nums; }
+    .win{ display:inline-block; background:var(--orangeSoft); color:var(--orange); font-size:11px; font-weight:700; padding:2px 8px; border-radius:99px; margin-right:6px; }
+    .funnel .row{ display:flex; align-items:center; gap:14px; margin-bottom:11px; }
+    .funnel .row:last-child{ margin-bottom:0; }
+    .funnel .lab{ width:150px; flex-shrink:0; font-weight:700; font-size:14px; }
+    .funnel .bar{ flex:1; height:34px; background:var(--cream); border-radius:9px; overflow:hidden; }
+    .funnel .bar > span{ display:flex; align-items:center; justify-content:flex-start; padding:0 12px; height:100%; background:linear-gradient(90deg,var(--orange),#f0834f); color:#fff; font-weight:700; font-size:13px; border-radius:9px; transition:width .7s cubic-bezier(.16,1,.3,1); min-width:38px; white-space:nowrap; }
+    .funnel .pct{ width:118px; text-align:left; font-weight:700; font-variant-numeric:tabular-nums; }
+    .funnel .pct small{ color:var(--muted); font-weight:400; }
+    .srow{ display:flex; align-items:center; gap:14px; margin-bottom:13px; }
+    .srow:last-child{ margin-bottom:0; }
+    .srow .lab{ width:170px; flex-shrink:0; font-weight:700; font-size:14px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .srow .bar{ flex:1; height:28px; background:var(--cream); border-radius:8px; overflow:hidden; }
+    .srow .bar > span{ display:block; height:100%; background:var(--orange); border-radius:8px; min-width:2px; transition:width .6s ease; }
+    .srow .val{ width:150px; text-align:left; font-weight:700; font-variant-numeric:tabular-nums; font-size:13px; }
+    .srow .val small{ color:var(--muted); font-weight:400; }
+    .trend{ display:flex; align-items:flex-end; gap:5px; height:150px; padding-top:8px; }
+    .trend .d{ flex:1; display:flex; flex-direction:column; align-items:center; gap:5px; height:100%; justify-content:flex-end; }
+    .trend .d .stack{ width:100%; display:flex; flex-direction:column; justify-content:flex-end; flex:1; }
+    .trend .d .s{ width:100%; background:#d9d2c4; border-radius:6px 6px 0 0; min-height:2px; }
+    .trend .d .c{ width:100%; background:var(--orange); border-radius:0 0 6px 6px; }
     .trend .d .t{ font-size:10px; color:var(--muted); }
-    .trend .d .c{ font-size:11px; font-weight:700; }
-    .muted{ color:var(--muted); }
-    .empty{ text-align:center; color:var(--muted); padding:30px; }
-    @media(max-width:640px){ .kpis{grid-template-columns:1fr 1fr} .row .lab{width:120px} .row .val{width:80px} }
+    .trend .d .v{ font-size:10px; font-weight:700; }
+    .legend{ display:flex; gap:16px; justify-content:center; margin-top:12px; font-size:12px; color:var(--muted); }
+    .legend i{ display:inline-block; width:11px; height:11px; border-radius:3px; margin-left:5px; vertical-align:-1px; }
+    .muted{ color:var(--muted); } .empty{ text-align:center; color:var(--muted); padding:26px; }
+    .note{ background:var(--orangeSoft); color:#8a3a1c; border-radius:12px; padding:12px 16px; font-size:13px; margin-top:14px; }
+    @media(max-width:680px){ .kpis{grid-template-columns:1fr 1fr} .funnel .lab{width:96px} .funnel .pct{width:92px} .srow .lab{width:110px} .srow .val{width:96px} th,td{padding:10px 5px;font-size:13px} }
   </style>
 </head>
 <body>
   <header><div class="wrap">
-    <div class="brand"><span class="dot"></span> עסק לכולם · דשבורד מבחני פיצול</div>
+    <div class="brand"><span class="dot"></span> עסק לכולם · דשבורד קמפיין</div>
     <div class="updated" id="updated">טוען…</div>
   </div></header>
 
   <div class="wrap">
     <div class="kpis">
-      <div class="kpi hot"><div class="n" id="k-total">—</div><div class="l">סה״כ נרשמים</div></div>
-      <div class="kpi"><div class="n" id="k-today">—</div><div class="l">נרשמו היום</div></div>
-      <div class="kpi"><div class="n" id="k-7">—</div><div class="l">7 ימים אחרונים</div></div>
+      <div class="kpi"><div class="n" id="k-land">—</div><div class="l">נחיתות בדף</div><div class="sub" id="k-land-today">—</div></div>
+      <div class="kpi hot"><div class="n" id="k-conv">—</div><div class="l">נרשמים</div><div class="sub" id="k-conv-rec">—</div></div>
+      <div class="kpi cr"><div class="n" id="k-cr">—</div><div class="l">אחוז המרה</div><div class="sub">נחיתה ← הרשמה</div></div>
+      <div class="kpi"><div class="n" id="k-time">—</div><div class="l">זמן ממוצע בדף</div><div class="sub" id="k-scroll">—</div></div>
     </div>
 
-    <h2>מבחן פיצול — נרשמים לפי גרסת כותרת</h2>
+    <h2>מבחן פיצול לפי כותרת <small>· מי מנצח באחוז המרה</small></h2>
     <div class="card" id="variants"><div class="empty">טוען…</div></div>
 
-    <h2>מאיפה הגיעו — מקור תנועה</h2>
+    <h2>משפך המרה <small>· איפה אנשים נושרים</small></h2>
+    <div class="card funnel" id="funnel"><div class="empty">טוען…</div></div>
+
+    <h2>מקורות תנועה <small>· נחיתות והמרות</small></h2>
     <div class="card" id="sources"><div class="empty">טוען…</div></div>
 
-    <h2>נרשמים ב-14 הימים האחרונים</h2>
-    <div class="card"><div class="trend" id="trend"></div></div>
+    <h2>14 הימים האחרונים</h2>
+    <div class="card"><div class="trend" id="trend"></div>
+      <div class="legend"><span><i style="background:#d9d2c4"></i> נחיתות</span><span><i style="background:#E05726"></i> נרשמים</span></div>
+    </div>
 
-    <p class="muted" style="text-align:center;margin-top:24px;font-size:13px">מתעדכן אוטומטית כל 30 שניות · נתונים מצטברים, ללא פרטים אישיים</p>
+    <div class="note" id="recon"></div>
+    <p class="muted" style="text-align:center;margin-top:18px;font-size:13px">מתעדכן אוטומטית כל 30 שניות · נתונים מצטברים, ללא פרטים אישיים</p>
   </div>
 
   <script>
-    var VLABEL = {
-      a: { t:'גרסה A', s:'הגדלת הכנסה למשפחה' },
-      b: { t:'גרסה B', s:'לפתוח עסק מהצד' },
-      c: { t:'גרסה C', s:'משכורת נוספת' },
-      d: { t:'גרסה D', s:'משכורת אקסטרה' },
-    };
-    function pct(n,total){ return total ? Math.round((n/total)*100) : 0; }
-    function row(lab, sub, val, w, hot, badge){
-      return '<div class="row"><div class="lab">'+(badge?'<span class="winner">'+badge+'</span>':'')+lab+(sub?'<small>'+sub+'</small>':'')+'</div>'+
-        '<div class="bar"><span style="width:'+w+'%;'+(hot?'':'background:#c9c2b4')+'"></span></div>'+
-        '<div class="val">'+val+'</div></div>';
-    }
-    function render(d){
-      document.getElementById('k-total').textContent = d.total;
-      document.getElementById('k-today').textContent = d.today;
-      document.getElementById('k-7').textContent = d.last7;
-      document.getElementById('updated').textContent = 'עודכן ' + new Date(d.generated_at).toLocaleTimeString('he-IL');
+    var VLABEL = { a:'הכנסה למשפחה', b:'עסק מהצד', c:'משכורת נוספת', d:'משכורת אקסטרה' };
+    function pct(n,d){ return d>0 ? Math.round((n/d)*1000)/10 : 0; }
+    function crColor(v){ if(v>=8) return 'background:#d6f0e0;color:#1f9d57'; if(v>=4) return 'background:#fde3d6;color:#E05726'; return 'background:#f1ede2;color:#5d6470'; }
+    function fmtTime(s){ s=s||0; if(s<60) return s+' ש׳'; var m=Math.floor(s/60), r=s%60; return m+':'+(r<10?'0':'')+r+' דק׳'; }
 
-      // variants
-      var vkeys = ['a','b','c','d'];
-      var vmax = Math.max(1, ...vkeys.map(function(k){return d.variants[k]||0;}));
-      var lead = vkeys.slice().sort(function(a,b){return (d.variants[b]||0)-(d.variants[a]||0);})[0];
-      var anyV = vkeys.some(function(k){return (d.variants[k]||0)>0;});
-      document.getElementById('variants').innerHTML = anyV ? vkeys.map(function(k){
-        var n = d.variants[k]||0;
-        return row(VLABEL[k].t, VLABEL[k].s, n+' <small>('+pct(n,d.total)+'%)</small>', (n/vmax)*100, true, (k===lead && n>0)?'מוביל':'');
-      }).join('') : '<div class="empty">עדיין אין נרשמים. ברגע שתעלה קמפיין, הנתונים יופיעו כאן.</div>';
+    function render(d){
+      var a = d.analytics || {};
+      var sess = a.sessions||0, conv = a.converted||0, cr = pct(conv,sess);
+      document.getElementById('updated').textContent = 'עודכן ' + new Date(d.generated_at).toLocaleTimeString('he-IL');
+      document.getElementById('k-land').textContent = sess.toLocaleString('en-US');
+      document.getElementById('k-land-today').textContent = (a.today||0) + ' היום';
+      document.getElementById('k-conv').textContent = conv.toLocaleString('en-US');
+      document.getElementById('k-conv-rec').textContent = (d.leads_recorded!=null ? d.leads_recorded+' לידים ב-CRM' : '');
+      document.getElementById('k-cr').textContent = cr + '%';
+      document.getElementById('k-time').textContent = fmtTime(a.avg_engaged);
+      document.getElementById('k-scroll').textContent = 'גלילה ממוצעת ' + (a.avg_scroll||0) + '%';
+
+      // variants table
+      var V = (a.variants||[]).filter(function(v){return v.sessions>0;});
+      var lead = null, leadCr = -1;
+      V.forEach(function(v){ var c=pct(v.conversions,v.sessions); if(v.sessions>=10 && c>leadCr){leadCr=c; lead=v.variant;} });
+      document.getElementById('variants').innerHTML = V.length ? (
+        '<table><thead><tr><th>גרסה</th><th class="num">נחיתות</th><th class="num">התחילו טופס</th><th class="num">נרשמו</th><th class="num">המרה</th></tr></thead><tbody>' +
+        V.sort(function(x,y){return pct(y.conversions,y.sessions)-pct(x.conversions,x.sessions);}).map(function(v){
+          var c = pct(v.conversions,v.sessions);
+          return '<tr><td class="vlab">'+(v.variant===lead?'<span class="win">מוביל</span>':'')+'גרסה '+v.variant.toUpperCase()+'<small>'+(VLABEL[v.variant]||'')+'</small></td>'+
+            '<td class="num">'+v.sessions+'</td><td class="num">'+v.form_starts+'</td><td class="num">'+v.conversions+'</td>'+
+            '<td class="num"><span class="crpill" style="'+crColor(c)+'">'+c+'%</span></td></tr>';
+        }).join('') + '</tbody></table>'
+      ) : '<div class="empty">עדיין אין תנועה. ברגע שיכנסו אנשים לדף, הנתונים יופיעו כאן.</div>';
+
+      // funnel
+      var sc = a.scroll||{};
+      var stages = [
+        ['נחתו בדף', sess], ['גללו 25%+', sc.s25||0], ['גללו 50%+', sc.s50||0],
+        ['גללו 75%+', sc.s75||0], ['ראו את הסוף', sc.s100||0], ['התחילו טופס', a.reached_form||0], ['נרשמו', conv]
+      ];
+      document.getElementById('funnel').innerHTML = sess ? stages.map(function(s){
+        var p = pct(s[1],sess);
+        return '<div class="row"><div class="lab">'+s[0]+'</div><div class="bar"><span style="width:'+Math.max(p,3)+'%">'+s[1]+'</span></div>'+
+          '<div class="pct">'+p+'% <small>מהנחיתות</small></div></div>';
+      }).join('') : '<div class="empty">אין נתונים עדיין.</div>';
 
       // sources
-      var smax = Math.max(1, ...d.sources.map(function(s){return s.leads;}));
-      document.getElementById('sources').innerHTML = d.sources.length ? d.sources.slice(0,10).map(function(s){
-        return row(s.source, '', s.leads+' <small>('+pct(s.leads,d.total)+'%)</small>', (s.leads/smax)*100, true, '');
+      var S = a.sources||[]; var smax = Math.max.apply(null,[1].concat(S.map(function(x){return x.sessions;})));
+      document.getElementById('sources').innerHTML = S.length ? S.map(function(s){
+        var c = pct(s.conversions,s.sessions);
+        return '<div class="srow"><div class="lab">'+s.source+'</div><div class="bar"><span style="width:'+(s.sessions/smax*100)+'%"></span></div>'+
+          '<div class="val">'+s.sessions+' נחיתות<br><small>'+s.conversions+' נרשמו · '+c+'%</small></div></div>';
       }).join('') : '<div class="empty">אין נתוני מקור עדיין.</div>';
 
-      // trend
-      var tmax = Math.max(1, ...d.days.map(function(x){return x.leads;}));
-      document.getElementById('trend').innerHTML = d.days.map(function(x){
-        var dd = x.date.slice(8,10)+'/'+x.date.slice(5,7);
-        return '<div class="d"><div class="c">'+(x.leads||'')+'</div><div class="b" style="height:'+(x.leads/tmax*100)+'%"></div><div class="t">'+dd+'</div></div>';
+      // trend (sessions stacked with conversions)
+      var days = a.days||[]; var byDate = {}; days.forEach(function(x){ byDate[x.date]=x; });
+      var out=[]; var today=new Date(d.generated_at);
+      for(var i=13;i>=0;i--){ var dt=new Date(today.getTime()-i*86400000); var key=dt.toISOString().slice(0,10); var row=byDate[key]||{sessions:0,conversions:0}; out.push({date:key,sessions:row.sessions,conversions:row.conversions}); }
+      var tmax = Math.max.apply(null,[1].concat(out.map(function(x){return x.sessions;})));
+      document.getElementById('trend').innerHTML = out.map(function(x){
+        var dd=x.date.slice(8,10)+'/'+x.date.slice(5,7);
+        var sh=(x.sessions/tmax*100), ch=(x.conversions/tmax*100);
+        return '<div class="d"><div class="v">'+(x.sessions||'')+'</div><div class="stack"><div class="s" style="height:'+Math.max(sh-ch,0)+'%"></div><div class="c" style="height:'+ch+'%"></div></div><div class="t">'+dd+'</div></div>';
       }).join('');
+
+      // reconciliation note
+      var rec = document.getElementById('recon');
+      if(d.leads_recorded!=null && Math.abs((d.leads_recorded||0)-conv) > Math.max(2, conv*0.15)){
+        rec.style.display='block';
+        rec.textContent = 'שים לב: '+d.leads_recorded+' לידים נרשמו ב-CRM אבל '+conv+' הומרות נמדדו בדף. פער כזה נובע בד"כ מחוסמי-עוגיות/גלישה פרטית.';
+      } else { rec.style.display='none'; }
     }
     function load(){
-      fetch('/api/stats',{cache:'no-store'}).then(function(r){return r.json();}).then(render).catch(function(e){
-        document.getElementById('updated').textContent = 'שגיאת טעינה';
+      fetch('/api/stats',{cache:'no-store'}).then(function(r){return r.json();}).then(render).catch(function(){
+        document.getElementById('updated').textContent='שגיאת טעינה';
       });
     }
     load(); setInterval(load, 30000);
