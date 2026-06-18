@@ -144,7 +144,7 @@ const RegistrationForm: React.FC<{ id: string }> = ({ id }) => {
             ))}
             <label className="flex items-start gap-2.5 cursor-pointer select-none pt-1">
               <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} disabled={submitting} className="mt-0.5 w-5 h-5 accent-brand-orange shrink-0 cursor-pointer" />
-              <span className="text-xs text-brand-navy/70 leading-snug">אני מאשר/ת קבלת תכנים שיווקיים ועדכונים מ"עסק לכולם" בכל ערוצי התקשורת (אימייל, SMS, WhatsApp ושיחה), בהתאם ל<a href="/privacy.html" target="_blank" rel="noopener" className="underline text-brand-orange font-bold">מדיניות הפרטיות</a>. ניתן להסיר רישום בכל עת.</span>
+              <span className="text-xs text-brand-navy/70 leading-snug">אני מאשר/ת קבלת תכנים שיווקיים ועדכונים מאפרת קולברג וארזית נחום בכל ערוצי התקשורת (אימייל, SMS, WhatsApp ושיחה), בהתאם ל<a href="/privacy.html" target="_blank" rel="noopener" className="underline text-brand-orange font-bold">מדיניות הפרטיות</a>. ניתן להסיר רישום בכל עת.</span>
             </label>
             {error && <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-2.5 text-sm font-display font-bold text-center">{error}</div>}
             <button type="submit" disabled={submitting} className="cta-pill w-full flex items-center justify-center gap-2.5 bg-brand-orange text-white rounded-xl font-display font-bold border-2 border-brand-orangeDark px-7 py-4 text-lg disabled:opacity-70 disabled:cursor-wait">
