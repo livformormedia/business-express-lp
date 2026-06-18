@@ -101,6 +101,7 @@
   <script>
     var VLABEL = { a:'הכנסה למשפחה', b:'עסק מהצד', c:'משכורת נוספת', d:'משכורת אקסטרה' };
     function pct(n,d){ return d>0 ? Math.round((n/d)*1000)/10 : 0; }
+    function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];}); }
     function crColor(v){ if(v>=8) return 'background:#d6f0e0;color:#1f9d57'; if(v>=4) return 'background:#fde3d6;color:#E05726'; return 'background:#f1ede2;color:#5d6470'; }
     function fmtTime(s){ s=s||0; if(s<60) return s+' ש׳'; var m=Math.floor(s/60), r=s%60; return m+':'+(r<10?'0':'')+r+' דק׳'; }
 
@@ -124,7 +125,7 @@
         '<table><thead><tr><th>גרסה</th><th class="num">נחיתות</th><th class="num">התחילו טופס</th><th class="num">נרשמו</th><th class="num">המרה</th></tr></thead><tbody>' +
         V.sort(function(x,y){return pct(y.conversions,y.sessions)-pct(x.conversions,x.sessions);}).map(function(v){
           var c = pct(v.conversions,v.sessions);
-          return '<tr><td class="vlab">'+(v.variant===lead?'<span class="win">מוביל</span>':'')+'גרסה '+v.variant.toUpperCase()+'<small>'+(VLABEL[v.variant]||'')+'</small></td>'+
+          return '<tr><td class="vlab">'+(v.variant===lead?'<span class="win">מוביל</span>':'')+'גרסה '+esc(v.variant.toUpperCase())+'<small>'+(VLABEL[v.variant]||'')+'</small></td>'+
             '<td class="num">'+v.sessions+'</td><td class="num">'+v.form_starts+'</td><td class="num">'+v.conversions+'</td>'+
             '<td class="num"><span class="crpill" style="'+crColor(c)+'">'+c+'%</span></td></tr>';
         }).join('') + '</tbody></table>'
@@ -146,7 +147,7 @@
       var S = a.sources||[]; var smax = Math.max.apply(null,[1].concat(S.map(function(x){return x.sessions;})));
       document.getElementById('sources').innerHTML = S.length ? S.map(function(s){
         var c = pct(s.conversions,s.sessions);
-        return '<div class="srow"><div class="lab">'+s.source+'</div><div class="bar"><span style="width:'+(s.sessions/smax*100)+'%"></span></div>'+
+        return '<div class="srow"><div class="lab">'+esc(s.source)+'</div><div class="bar"><span style="width:'+(s.sessions/smax*100)+'%"></span></div>'+
           '<div class="val">'+s.sessions+' נחיתות<br><small>'+s.conversions+' נרשמו · '+c+'%</small></div></div>';
       }).join('') : '<div class="empty">אין נתוני מקור עדיין.</div>';
 
